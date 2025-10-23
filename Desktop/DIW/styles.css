@@ -1,0 +1,6 @@
+#p1 {
+  color: darkmagenta;
+}
+body > p.c1 {
+  color: yellow !important;
+}
