@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node generar-usuarios.js:*)",
+      "Bash(node:*)",
+      "Bash(mysql:*)",
+      "Bash(python:*)",
+      "Bash(grep:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
