@@ -1,0 +1,48 @@
+{% extends 'base.html' %} {% block content %}
+<div class="flex justify-center items-center min-h-[60vh]">
+  <div
+    class="w-full max-w-md bg-slate-800 p-8 rounded-xl shadow-2xl border border-slate-700"
+  >
+    <h2 class="text-3xl font-bold mb-6 text-center text-white">
+      Iniciar Sesión
+    </h2>
+
+    <form method="post" class="space-y-6">
+      {% csrf_token %} {% if form.errors %}
+      <div
+        class="bg-red-500/10 border border-red-500/20 text-red-200 p-3 rounded text-sm"
+      >
+        Usuario o contraseña incorrectos.
+      </div>
+      {% endif %}
+
+      <div>
+        <label class="block text-slate-400 mb-2">Usuario</label>
+        <input
+          type="text"
+          name="username"
+          class="w-full bg-slate-900 border border-slate-700 rounded px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition"
+          required
+        />
+      </div>
+
+      <div>
+        <label class="block text-slate-400 mb-2">Contraseña</label>
+        <input
+          type="password"
+          name="password"
+          class="w-full bg-slate-900 border border-slate-700 rounded px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition"
+          required
+        />
+      </div>
+
+      <button
+        type="submit"
+        class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold py-3 rounded transition shadow-lg"
+      >
+        Entrar
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}
