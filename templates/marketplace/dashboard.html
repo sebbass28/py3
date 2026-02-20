@@ -1,0 +1,212 @@
+{% extends 'base.html' %} {% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Welcome Section -->
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">Hola, {{ user.username }}</h1>
+    <p class="text-gray-500">
+      {% if user.role == 'clinic' %} Bienvenido a tu panel de clínica. {% else
+      %} Bienvenido a tu panel de laboratorio. {% endif %}
+    </p>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 mb-8">
+    {% for key, value in stats.items %}
+    <div class="bg-white overflow-hidden shadow rounded-lg glass">
+      <div class="px-4 py-5 sm:p-6">
+        <dt class="text-sm font-medium text-gray-500 truncate capitalize">
+          {{ key|title }}
+        </dt>
+        <dd class="mt-1 text-3xl font-semibold text-gray-900">{{ value }}</dd>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <!-- Recent/Incoming Orders -->
+    <div class="bg-white shadow rounded-lg p-6">
+      <h2 class="text-xl font-bold text-gray-800 mb-4">
+        {% if user.role == 'clinic' %} Pedidos Recientes {% else %} Pedidos
+        Entrantes {% endif %}
+      </h2>
+
+      {% if user.role == 'clinic' and recent_orders %}
+      <ul class="divide-y divide-gray-200">
+        {% for order in recent_orders %}
+        <li class="py-4 flex justify-between items-center">
+          <div>
+            <p class="text-sm font-medium text-gray-900">
+              {{ order.product.name }}
+            </p>
+            <p class="text-sm text-gray-500">
+              Paciente: {{ order.patient_name }}
+            </p>
+          </div>
+          <span
+            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {% if order.status == 'pending' %}bg-yellow-100 text-yellow-800{% endif %} {% if order.status == 'accepted' %}bg-blue-100 text-blue-800{% endif %} {% if order.status == 'completed' %}bg-green-100 text-green-800{% endif %}"
+          >
+            {{ order.get_status_display }}
+          </span>
+        </li>
+        {% endfor %}
+      </ul>
+      {% elif user.role == 'lab' and incoming_orders %}
+      <ul class="divide-y divide-gray-200">
+        {% for order in incoming_orders %}
+        <li class="py-4 flex justify-between items-center">
+          <div>
+            <p class="text-sm font-medium text-gray-900">
+              {{ order.product.name }}
+            </p>
+            <p class="text-sm text-gray-500">
+              Clínica: {{ order.clinic.username }}
+            </p>
+          </div>
+          <form
+            action="{% url 'update_order_status' order.id %}"
+            method="post"
+            class="flex items-center space-x-2"
+          >
+            {% csrf_token %}
+            <select
+              name="status"
+              class="text-xs rounded-md border border-gray-300 shadow-sm focus:border-medical-500 focus:ring-medical-500 p-1"
+              onchange="this.form.submit()"
+            >
+              <option
+                value="pending"
+                {%
+                if
+                order.status=""
+                ="pending"
+                %}selected{%
+                endif
+                %}
+              >
+                Pendiente
+              </option>
+              <option
+                value="accepted"
+                {%
+                if
+                order.status=""
+                ="accepted"
+                %}selected{%
+                endif
+                %}
+              >
+                Aceptado
+              </option>
+              <option
+                value="in_process"
+                {%
+                if
+                order.status=""
+                ="in_process"
+                %}selected{%
+                endif
+                %}
+              >
+                En Proceso
+              </option>
+              <option
+                value="shipped"
+                {%
+                if
+                order.status=""
+                ="shipped"
+                %}selected{%
+                endif
+                %}
+              >
+                Enviado
+              </option>
+              <option
+                value="completed"
+                {%
+                if
+                order.status=""
+                ="completed"
+                %}selected{%
+                endif
+                %}
+              >
+                Completado
+              </option>
+              <option
+                value="cancelled"
+                {%
+                if
+                order.status=""
+                ="cancelled"
+                %}selected{%
+                endif
+                %}
+              >
+                Cancelado
+              </option>
+            </select>
+          </form>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="text-gray-500 text-sm">No hay pedidos recientes.</p>
+      {% endif %}
+
+      <div class="mt-4">
+        <a
+          href="#"
+          class="text-medical-600 hover:text-medical-800 text-sm font-medium"
+          >Ver todos &rarr;</a
+        >
+      </div>
+    </div>
+
+    <!-- Quick Actions / Marketplace Preview -->
+    <div class="bg-white shadow rounded-lg p-6">
+      <h2 class="text-xl font-bold text-gray-800 mb-4">Acciones Rápidas</h2>
+      <div class="grid grid-cols-1 gap-4">
+        {% if user.role == 'clinic' %}
+        <a
+          href="{% url 'product_list' %}"
+          class="block p-4 border border-gray-200 rounded-lg hover:shadow-md transition"
+        >
+          <h3 class="font-bold text-medical-600">Nuevo Pedido</h3>
+          <p class="text-sm text-gray-500">
+            Explora el catálogo y solicita una prótesis.
+          </p>
+        </a>
+        <div
+          class="block p-4 border border-gray-200 rounded-lg hover:shadow-md transition cursor-pointer"
+        >
+          <h3 class="font-bold text-gray-800">Ver Facturas</h3>
+          <p class="text-sm text-gray-500">
+            Revisa tus pagos y facturas pendientes.
+          </p>
+        </div>
+        {% else %}
+        <a
+          href="{% url 'add_product' %}"
+          class="block p-4 border border-gray-200 rounded-lg hover:shadow-md transition cursor-pointer"
+        >
+          <h3 class="font-bold text-medical-600">Añadir Producto</h3>
+          <p class="text-sm text-gray-500">
+            Publica un nuevo servicio en el catálogo.
+          </p>
+        </a>
+        <div
+          class="block p-4 border border-gray-200 rounded-lg hover:shadow-md transition cursor-pointer"
+        >
+          <h3 class="font-bold text-gray-800">Gestionar Pedidos</h3>
+          <p class="text-sm text-gray-500">
+            Actualiza el estado de tus trabajos.
+          </p>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
