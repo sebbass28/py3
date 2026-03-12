@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}DentalLink{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .glass {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              medical: {
+                50: "#f0f9ff",
+                100: "#e0f2fe",
+                500: "#0ea5e9",
+                600: "#0284c7",
+                900: "#0c4a6e",
+              },
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body class="bg-gray-50 text-gray-800 antialiased min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 glass shadow-sm" x-data="{ open: false }">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          <div class="flex">
+            <div class="flex-shrink-0 flex items-center">
+              <span
+                class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-medical-600 to-cyan-500"
+              >
+                DentalLink
+              </span>
+            </div>
+          </div>
+          <div class="hidden sm:flex sm:items-center sm:ml-6 space-x-8">
+            <a
+              href="/"
+              class="text-gray-500 hover:text-medical-600 px-3 py-2 rounded-md text-sm font-medium transition"
+              >Inicio</a
+            >
+            <a
+              href="{% url 'product_list' %}"
+              class="text-gray-500 hover:text-medical-600 px-3 py-2 rounded-md text-sm font-medium transition"
+              >Marketplace</a
+            >
+            {% if user.is_authenticated %}
+            <a
+              href="{% url 'dashboard' %}"
+              class="text-gray-500 hover:text-medical-600 px-3 py-2 rounded-md text-sm font-medium transition"
+              >Dashboard</a
+            >
+            <form method="post" action="{% url 'logout' %}" class="inline">
+              {% csrf_token %}
+              <button
+                type="submit"
+                class="bg-medical-50 text-medical-700 hover:bg-medical-100 px-4 py-2 rounded-full text-sm font-medium transition shadow-sm border border-medical-200"
+              >
+                Salir
+              </button>
+            </form>
+            {% else %}
+            <a
+              href="{% url 'login' %}"
+              class="text-gray-500 hover:text-medical-600 px-3 py-2 rounded-md text-sm font-medium transition"
+              >Iniciar Sesión</a
+            >
+            <a
+              href="{% url 'signup' %}"
+              class="bg-gradient-to-r from-medical-500 to-cyan-500 text-white hover:shadow-lg hover:shadow-cyan-500/30 px-5 py-2 rounded-full text-sm font-medium transition transform hover:-translate-y-0.5"
+            >
+              Registrarse
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow">{% block content %}{% endblock %}</main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 mt-auto">
+      <div
+        class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center text-gray-400 text-sm"
+      >
+        &copy; 2026 DentalLink. Conectando sonrisas.
+      </div>
+    </footer>
+  </body>
+</html>
