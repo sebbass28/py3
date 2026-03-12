@@ -1,119 +1,110 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.db.models import Count, Q
-from django.contrib import messages
-from .models import Skill, Profile, MatchRequest
+from rest_framework import viewsets, permissions, generics
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login
+from django.db.models import Q
+from .models import Skill, Profile, MatchRequest
+from .serializers import SkillSerializer, ProfileSerializer, UserSerializer, UserCreateSerializer, MatchRequestSerializer
 
-def home(request):
-    if request.user.is_authenticated:
-        return redirect('dashboard')
-    
-    top_skills = Skill.objects.annotate(
-        mentor_count=Count('mentors'),
-        learner_count=Count('learners')
-    ).order_by('-mentor_count')[:10]
-    
-    return render(request, 'core/landing.html', {'top_skills': top_skills})
+class UserCreate(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserCreateSerializer
+    permission_classes = [permissions.AllowAny]
 
-def signup(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('dashboard')
-    else:
-        form = UserCreationForm()
-    return render(request, 'core/signup.html', {'form': form})
+class SkillViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows skills to be viewed or edited.
+    """
+    queryset = Skill.objects.all().order_by('name')
+    serializer_class = SkillSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-@login_required
-def dashboard(request):
-    profile = request.user.profile
-    # Simple matching algorithm
-    # People who want what I offer
-    learners = Profile.objects.filter(skills_wanted__in=profile.skills_offered.all()).distinct().exclude(user=request.user)
-    
-    # People who offer what I want
-    mentors = Profile.objects.filter(skills_offered__in=profile.skills_wanted.all()).distinct().exclude(user=request.user)
-    
-    # Calculate matches with scores
-    suggested_mentors = []
-    for p in mentors:
-        match_data = profile.get_matching_score(p)
-        if match_data['score'] > 0:
-            suggested_mentors.append({
-                'profile': p,
-                'score': match_data['score'],
-                'skills': match_data['teach'] # Skills they teach me
-            })
-    
-    suggested_mentors.sort(key=lambda x: x['score'], reverse=True)
-    
-    # Incoming requests
-    received_requests = request.user.received_requests.filter(status='PENDING')
-    
-    context = {
-        'suggested_mentors': suggested_mentors[:5],
-        'learners_count': learners.count(),
-        'mentors_count': mentors.count(),
-        'received_requests': received_requests,
-        'my_skills_count': profile.skills_offered.count(),
-    }
-    return render(request, 'core/dashboard.html', context)
+from rest_framework import viewsets, permissions, generics, filters
 
-@login_required
-def profile_edit(request):
-    profile = request.user.profile
-    
-    if request.method == 'POST':
-        # Update basic info
-        profile.bio = request.POST.get('bio', '')
-        profile.department = request.POST.get('department', '')
-        profile.position = request.POST.get('position', '')
-        profile.save()
+class ProfileViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows profiles to be viewed or edited.
+    """
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['user__username', 'department', 'skills_offered__name']
+
+    @action(detail=False, methods=['get', 'put', 'patch'], url_path='me')
+    def me(self, request):
+        profile = request.user.profile
+        if request.method == 'GET':
+            serializer = self.get_serializer(profile)
+            return Response(serializer.data)
+        elif request.method in ['PUT', 'PATCH']:
+            serializer = self.get_serializer(profile, data=request.data, partial=(request.method == 'PATCH'))
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data)
+
+class UserViewSet(viewsets.ReadOnlyModelViewSet):
+    """
+    API endpoint that allows users to be viewed.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    @action(detail=False, methods=['get'], url_path='me')
+    def me(self, request):
+        serializer = self.get_serializer(request.user)
+        return Response(serializer.data)
+
+from rest_framework.views import APIView
+
+class DashboardData(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, format=None):
+        profile = request.user.profile
+        # People who want what I offer
+        learners = Profile.objects.filter(skills_wanted__in=profile.skills_offered.all()).distinct().exclude(user=request.user)
+        # People who offer what I want
+        mentors = Profile.objects.filter(skills_offered__in=profile.skills_wanted.all()).distinct().exclude(user=request.user)
         
-        # Update skills (simplified for MVP: comma separated or multiple select)
-        # Using a select multiple in frontend, we get lists of IDs
-        offered_ids = request.POST.getlist('skills_offered')
-        wanted_ids = request.POST.getlist('skills_wanted')
+        suggested_mentors_data = []
+        for p in mentors:
+            match_data = profile.get_matching_score(p)
+            if match_data['score'] > 0:
+                suggested_mentors_data.append({
+                    'profile': ProfileSerializer(p).data,
+                    'score': match_data['score'],
+                    'skills': SkillSerializer(match_data['teach'], many=True).data
+                })
         
-        profile.skills_offered.set(offered_ids)
-        profile.skills_wanted.set(wanted_ids)
+        suggested_mentors_data.sort(key=lambda x: x['score'], reverse=True)
         
-        messages.success(request, 'Perfil actualizado correctamente.')
-        return redirect('profile')
+        received_requests = request.user.received_requests.filter(status='PENDING')
         
-    all_skills = Skill.objects.all()
-    return render(request, 'core/profile_form.html', {
-        'profile': profile,
-        'all_skills': all_skills
-    })
+        data = {
+            'suggested_mentors': suggested_mentors_data[:5],
+            'learners_count': learners.count(),
+            'mentors_count': mentors.count(),
+            'received_requests': MatchRequestSerializer(received_requests, many=True).data,
+            'my_skills_count': profile.skills_offered.count(),
+        }
+        return Response(data)
 
-@login_required
-def network(request):
-    query = request.GET.get('q')
-    profiles = Profile.objects.exclude(user=request.user)
-    
-    if query:
-        profiles = profiles.filter(
-            Q(user__username__icontains=query) |
-            Q(department__icontains=query) |
-            Q(skills_offered__name__icontains=query)
-        ).distinct()
-        
-    return render(request, 'core/network.html', {'profiles': profiles})
+class MatchRequestViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows match requests to be viewed or edited.
+    """
+    serializer_class = MatchRequestSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
-@login_required
-def send_request(request, user_id):
-    receiver = get_object_or_404(User, id=user_id)
-    if request.method == 'POST':
-        MatchRequest.objects.create(
-            sender=request.user,
-            receiver=receiver,
-            message=request.POST.get('message', 'Hola, me gustaría conectar para aprender.')
-        )
-        messages.success(request, f'Solicitud enviada a {receiver.username}')
-    return redirect('network')
+    def get_queryset(self):
+        """
+        This view should return a list of all the match requests
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        return MatchRequest.objects.filter(models.Q(sender=user) | models.Q(receiver=user))
+
+    def perform_create(self, serializer):
+        serializer.save(sender=self.request.user)

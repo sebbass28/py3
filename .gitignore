@@ -22,3 +22,10 @@ venv.bak/
 # IDEs
 .vscode/
 .idea/
+
+# Build artifacts
+staticfiles/
+frontend/build/
+
+# Dependencies
+frontend/node_modules/

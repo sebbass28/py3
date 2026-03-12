@@ -1,16 +1,17 @@
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 from . import views
-from django.contrib.auth import views as auth_views
 
+# Create a router and register our viewsets with it.
+router = DefaultRouter()
+router.register(r'skills', views.SkillViewSet)
+router.register(r'profiles', views.ProfileViewSet)
+router.register(r'users', views.UserViewSet)
+router.register(r'match-requests', views.MatchRequestViewSet)
+
+# The API URLs are now determined automatically by the router.
 urlpatterns = [
-    path('', views.home, name='home'),
-    path('dashboard/', views.dashboard, name='dashboard'),
-    path('profile/', views.profile_edit, name='profile'),
-    path('network/', views.network, name='network'),
-    path('request/<int:user_id>/', views.send_request, name='send_request'),
-    
-    # Auth views
-    path('signup/', views.signup, name='signup'),
-    path('login/', auth_views.LoginView.as_view(template_name='core/login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
+    path('', include(router.urls)),
+    path('register/', views.UserCreate.as_view(), name='user-register'),
+    path('dashboard-data/', views.DashboardData.as_view(), name='dashboard-data'),
 ]
