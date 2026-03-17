@@ -95,6 +95,8 @@ class MatchRequestViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows match requests to be viewed or edited.
     """
+    queryset = MatchRequest.objects.none()
+    
     serializer_class = MatchRequestSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -104,7 +106,7 @@ class MatchRequestViewSet(viewsets.ModelViewSet):
         for the currently authenticated user.
         """
         user = self.request.user
-        return MatchRequest.objects.filter(models.Q(sender=user) | models.Q(receiver=user))
+        return MatchRequest.objects.filter(Q(sender=user) | Q(receiver=user))
 
     def perform_create(self, serializer):
         serializer.save(sender=self.request.user)

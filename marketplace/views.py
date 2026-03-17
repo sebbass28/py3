@@ -1,98 +1,94 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
-from .models import Product, Order, Category
+from rest_framework import viewsets, permissions, filters, status
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from .models import Category, Product, Order, Patient
+from .serializers import CategorySerializer, ProductSerializer, OrderSerializer, PatientSerializer
 
-@login_required
-def dashboard(request):
-    user = request.user
-    context = {}
-    
-    if user.role == 'clinic':
-        # Clinic logic
-        recent_orders = Order.objects.filter(clinic=user).order_by('-created_at')[:5]
-        context['recent_orders'] = recent_orders
-        context['stats'] = {
-            'total_orders': Order.objects.filter(clinic=user).count(),
-            'active_orders': Order.objects.filter(clinic=user, status__in=['pending', 'accepted', 'in_process']).count(),
-        }
-    else:
-        # Lab logic
-        incoming_orders = Order.objects.filter(lab=user).order_by('-created_at')[:5]
-        my_products_count = Product.objects.filter(lab=user).count()
-        context['incoming_orders'] = incoming_orders
-        context['stats'] = {
-            'total_orders': Order.objects.filter(lab=user).count(),
-            'pending_orders': Order.objects.filter(lab=user, status='pending').count(),
-            'products_count': my_products_count
-        }
-        
-    return render(request, 'marketplace/dashboard.html', context)
+class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-def product_list(request):
-    products = Product.objects.all()
-    categories = Category.objects.all()
-    
-    category_slug = request.GET.get('category')
-    if category_slug:
-        products = products.filter(category__slug=category_slug)
-        
-    return render(request, 'marketplace/product_list.html', {'products': products, 'categories': categories})
+class PatientViewSet(viewsets.ModelViewSet):
+    serializer_class = PatientSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
-def product_detail(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    return render(request, 'marketplace/product_detail.html', {'product': product})
+    def get_queryset(self):
+        # Clinics see their own patients, Labs see patients assigned to their orders
+        user = self.request.user
+        if user.role == 'clinic':
+            return Patient.objects.filter(clinic=user)
+        return Patient.objects.filter(cases__lab=user).distinct()
 
-from .forms import ProductForm, OrderStatusForm
+    def perform_create(self, serializer):
+        serializer.save(clinic=self.request.user)
 
-@login_required
-def create_order(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    if request.method == 'POST':
-        # Simple order creation logic for MVP
-        patient_name = request.POST.get('patient_name')
-        instructions = request.POST.get('instructions')
-        
-        Order.objects.create(
-            clinic=request.user,
-            lab=product.lab,
-            product=product,
-            patient_name=patient_name,
-            instructions=instructions,
-            status='pending'
-        )
-        return redirect('dashboard')
-        
-    return render(request, 'marketplace/order_form.html', {'product': product})
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.filter(is_active=True)
+    serializer_class = ProductSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['name', 'description', 'material']
+    ordering_fields = ['price', 'delivery_days']
 
-@login_required
-def add_product(request):
-    if request.user.role != 'lab':
-        return redirect('dashboard')
-        
-    if request.method == 'POST':
-        form = ProductForm(request.POST)
-        if form.is_valid():
-            product = form.save(commit=False)
-            product.lab = request.user
-            product.save()
-            return redirect('dashboard')
-    else:
-        form = ProductForm()
-        
-    return render(request, 'marketplace/product_form.html', {'form': form})
+    def perform_create(self, serializer):
+        serializer.save(lab=self.request.user)
 
-@login_required
-def update_order_status(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
-    
-    # Ensure only the lab that received the order (or admin) can update it
-    if request.user != order.lab:
-        return redirect('dashboard')
+    @action(detail=False, methods=['post'], permission_classes=[permissions.IsAuthenticated])
+    def sync_external_store(self, request):
+        if request.user.role != 'lab':
+            return Response({"error": "Solo los laboratorios pueden sincronizar tiendas externas"}, status=status.HTTP_403_FORBIDDEN)
         
-    if request.method == 'POST':
-        new_status = request.POST.get('status')
+        source_url = request.data.get('source_url')
+        source_type = request.data.get('source_type', 'General')
+        
+        if not source_url:
+            return Response({"error": "Falta la URL de la tienda"}, status=status.HTTP_400_BAD_REQUEST)
+            
+        from .services import import_external_products
+        count = import_external_products(request.user, source_url, source_type)
+        
+        return Response({"message": f"Sincronización completada. {count} productos nuevos importados."})
+
+    @action(detail=False, methods=['get'])
+    def compare(self, request):
+        category_id = request.query_params.get('category')
+        product_type = request.query_params.get('type')
+        
+        queryset = self.get_queryset()
+        if category_id:
+            queryset = queryset.filter(category_id=category_id)
+        if product_type:
+            queryset = queryset.filter(type=product_type)
+            
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+class OrderViewSet(viewsets.ModelViewSet):
+    serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.role == 'clinic':
+            return Order.objects.filter(clinic=user).order_by('-created_at')
+        return Order.objects.filter(lab=user).order_by('-created_at')
+
+    def perform_create(self, serializer):
+        # Clinics can create orders
+        if self.request.user.role != 'clinic':
+            return Response({"error": "Only clinics can place orders"}, status=status.HTTP_403_FORBIDDEN)
+        serializer.save(clinic=self.request.user)
+
+    @action(detail=True, methods=['post'])
+    def update_status(self, request, pk=None):
+        order = self.get_object()
+        if request.user != order.lab and not request.user.is_staff:
+            return Response({"error": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+            
+        new_status = request.data.get('status')
         if new_status in dict(Order.STATUS_CHOICES):
             order.status = new_status
             order.save()
-            
-    return redirect('dashboard')
+            return Response({'status': 'updated'})
+        return Response({'error': 'Invalid status'}, status=status.HTTP_400_BAD_MODULE)
