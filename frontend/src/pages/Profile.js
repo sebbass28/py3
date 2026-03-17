@@ -1,145 +1,91 @@
 import React, { useState, useEffect, useContext } from 'react';
-import AuthContext from '../../context/AuthContext';
-import apiClient from '../../api';
+import AuthContext from '../context/AuthContext';
+import apiClient from '../api';
 
 function Profile() {
   const { user } = useContext(AuthContext);
   const [profile, setProfile] = useState(null);
-  const [allSkills, setAllSkills] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.all([
-      apiClient.get('profiles/me/'),
-      apiClient.get('skills/')
-    ]).then(([profileResponse, skillsResponse]) => {
-      setProfile(profileResponse.data);
-      setAllSkills(skillsResponse.data);
-      setLoading(false);
-    }).catch(error => {
-      console.error('Error fetching profile data:', error);
-      setLoading(false);
-    });
+    const fetchProfile = async () => {
+      try {
+        const response = await apiClient.get('users/me/');
+        setProfile(response.data);
+      } catch (err) {
+        console.error("Error fetching profile", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProfile();
   }, []);
 
-  const handleProfileUpdate = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
-    data.skills_offered = formData.getAll('skills_offered');
-    data.skills_wanted = formData.getAll('skills_wanted');
-
-    apiClient.put('profiles/me/', data)
-      .then(response => {
-        setProfile(response.data);
-        alert('Perfil actualizado correctamente!');
-      })
-      .catch(error => {
-        console.error('Error updating profile:', error);
-        alert('Error al actualizar el perfil.');
-      });
+    
+    try {
+      await apiClient.patch('users/me/', data);
+      alert("Perfil actualizado correctamente");
+    } catch (err) {
+      alert("Error al actualizar perfil");
+    }
   };
 
-  if (loading || !profile) {
-    return <div>Cargando...</div>;
-  }
+  if (loading || !profile) return (
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-medical-500"></div>
+    </div>
+  );
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="glass p-8 rounded-xl border border-slate-700">
-        <h2 className="text-3xl font-bold mb-6">Editar Tu Perfil</h2>
-        <form onSubmit={handleProfileUpdate} className="space-y-8">
+    <div className="max-w-4xl mx-auto px-4 py-12">
+      <div className="bg-white rounded-[32px] shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-medical-900 px-10 py-12 text-white relative">
+          <h2 className="text-3xl font-extrabold tracking-tight italic">Configuración de Perfil</h2>
+          <p className="text-blue-100/60 mt-2 text-sm font-bold uppercase tracking-widest">Panel de Control DentaLink</p>
+          <div className="absolute -bottom-10 right-10 w-24 h-24 bg-medical-500 rounded-3xl flex items-center justify-center text-3xl font-bold shadow-2xl border-4 border-white">
+            {profile.username.slice(0, 2).toUpperCase()}
+          </div>
+        </div>
+
+        <form onSubmit={handleSubmit} className="px-10 pt-20 pb-12 space-y-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Basic Info */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold border-b border-slate-700 pb-2">
-                Información Profesional
-              </h3>
-              <div>
-                <label className="block text-slate-400 mb-1">
-                  Departamento
-                </label>
-                <input
-                  type="text"
-                  name="department"
-                  defaultValue={profile.department}
-                  className="w-full bg-slate-900 border border-slate-700 rounded px-4 py-2 text-white focus:outline-none focus:border-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-slate-400 mb-1">
-                  Cargo / Rol
-                </label>
-                <input
-                  type="text"
-                  name="position"
-                  defaultValue={profile.position}
-                  className="w-full bg-slate-900 border border-slate-700 rounded px-4 py-2 text-white focus:outline-none focus:border-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-slate-400 mb-1">
-                  Biografía Corta
-                </label>
-                <textarea
-                  name="bio"
-                  rows="4"
-                  defaultValue={profile.bio}
-                  className="w-full bg-slate-900 border border-slate-700 rounded px-4 py-2 text-white focus:outline-none focus:border-blue-500"
-                ></textarea>
-              </div>
+            <div className="space-y-2">
+              <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest ml-1">Nombre de la Empresa</label>
+              <input 
+                name="company_name"
+                defaultValue={profile.company_name}
+                className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-5 py-4 text-sm font-bold text-gray-900 focus:outline-none focus:border-medical-500 transition shadow-sm"
+              />
             </div>
-            {/* Skills */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold border-b border-slate-700 pb-2">
-                Tus Habilidades
-              </h3>
-              <div>
-                <label className="block text-slate-400 mb-1">
-                  ¿Qué puedes enseñar? (Skills Offered)
-                </label>
-                <select
-                  name="skills_offered"
-                  multiple
-                  defaultValue={profile.skills_offered.map(s => s.id)}
-                  className="w-full h-40 bg-slate-900 border border-slate-700 rounded px-4 py-2 text-white focus:outline-none focus:border-blue-500"
-                >
-                  {allSkills.map(skill => (
-                    <option key={skill.id} value={skill.id}>
-                      {skill.name} ({skill.category})
-                    </option>
-                  ))}
-                </select>
-                <p className="text-xs text-slate-500 mt-1">
-                  Mantén presionado Ctrl (Windows) o Cmd (Mac) para seleccionar varias.
-                </p>
-              </div>
-              <div className="mt-4">
-                <label className="block text-slate-400 mb-1">
-                  ¿Qué quieres aprender? (Skills Wanted)
-                </label>
-                <select
-                  name="skills_wanted"
-                  multiple
-                  defaultValue={profile.skills_wanted.map(s => s.id)}
-                  className="w-full h-40 bg-slate-900 border border-slate-700 rounded px-4 py-2 text-white focus:outline-none focus:border-purple-500"
-                >
-                  {allSkills.map(skill => (
-                    <option key={skill.id} value={skill.id}>
-                      {skill.name} ({skill.category})
-                    </option>
-                  ))}
-                </select>
-                <p className="text-xs text-slate-500 mt-1">
-                  Selecciona las habilidades que te interesa desarrollar.
-                </p>
-              </div>
+            <div className="space-y-2">
+              <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest ml-1">Email de Contacto</label>
+              <input 
+                name="email"
+                defaultValue={profile.email}
+                className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-5 py-4 text-sm font-bold text-gray-900 focus:outline-none focus:border-medical-500 transition shadow-sm"
+              />
+            </div>
+            <div className="col-span-full space-y-2">
+              <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest ml-1">Dirección Física</label>
+              <input 
+                name="address"
+                defaultValue={profile.address}
+                className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-5 py-4 text-sm font-bold text-gray-900 focus:outline-none focus:border-medical-500 transition shadow-sm"
+              />
             </div>
           </div>
-          <div className="flex justify-end pt-6 border-t border-slate-700">
-            <button
+
+          <div className="flex justify-between items-center pt-8 border-t border-gray-50">
+            <div className="text-[10px] text-gray-400 font-medium italic">
+              ID de Usuario: <span className="font-bold text-gray-500">#{profile.id}</span> • Rol: <span className="font-bold text-medical-600 uppercase">{profile.role}</span>
+            </div>
+            <button 
               type="submit"
-              className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 rounded-full font-bold shadow-lg transition transform hover:-translate-y-0.5"
+              className="px-10 py-4 bg-medical-500 hover:bg-medical-600 text-white rounded-2xl font-extrabold text-xs shadow-xl shadow-medical-500/10 transition transform hover:-translate-y-0.5 uppercase tracking-widest"
             >
               Guardar Cambios
             </button>

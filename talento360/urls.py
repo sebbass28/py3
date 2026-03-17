@@ -24,9 +24,19 @@ from rest_framework_simplejwt.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('core.urls')),
+    
+    # Auth API
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    
+    # Unified Backend APIs
+    path('api/', include('marketplace.urls')),
+    path('api/users/', include('users.urls')),
+    path('api/core/', include('core.urls')), # skills/profiles etc
+
+    # DRF Browser Auth
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+
+    # React Catch-all
     re_path(r'^.*', TemplateView.as_view(template_name='index.html')),
 ]

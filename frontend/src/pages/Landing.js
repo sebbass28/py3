@@ -1,96 +1,82 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const topSkills = [
-  { name: 'Python', category: 'Tecnología', mentors: 8, learners: 12 },
-  { name: 'Liderazgo', category: 'Habilidades Blandas', mentors: 10, learners: 15 },
-  { name: 'Data Science', category: 'Tecnología', mentors: 6, learners: 10 },
-  { name: 'Inglés', category: 'Idiomas', mentors: 12, learners: 20 },
-  { name: 'Project Management', category: 'Gestión', mentors: 7, learners: 14 },
-  { name: 'React', category: 'Tecnología', mentors: 9, learners: 18 },
-];
-
 function Landing() {
   return (
-    <div>
-      <div className="relative overflow-hidden">
-        <div className="container mx-auto px-4 py-16 md:py-32 flex flex-col items-center text-center relative z-10">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 animate-pulse">
-            Conecta tu Talento
-          </h1>
-          <p className="text-xl md:text-2xl text-slate-300 max-w-2xl mb-10 leading-relaxed">
-            Elimina los silos. Descubre mentores dentro de tu organización y comparte lo que sabes. La red de inteligencia colectiva de tu empresa.
-          </p>
-          <div className="flex flex-col md:flex-row gap-4">
-            <Link to="/signup" className="px-8 py-4 bg-blue-600 hover:bg-blue-700 rounded-full font-bold text-lg shadow-lg hover:shadow-blue-500/50 transition transform hover:-translate-y-1">
-              Unirse Ahora
-            </Link>
-            <Link to="/login" className="px-8 py-4 bg-slate-700 hover:bg-slate-600 rounded-full font-bold text-lg shadow-lg transition">
-              Ya tengo cuenta
-            </Link>
+    <div className="bg-white min-h-screen">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden pt-10 pb-20 lg:pt-20 lg:pb-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="z-10">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-gray-900 leading-[1.1] mb-6">
+              La conexión vital entre <br />
+              <span className="text-medical-500">Clínicas y Laboratorios</span>
+            </h1>
+            <p className="text-lg text-gray-500 max-w-xl mb-10 leading-relaxed">
+              DentalLink unifica el flujo de trabajo de prótesis dentales. 
+              Gestiona pedidos, compara precios y optimiza la comunicación en una 
+              sola plataforma segura y moderna.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link to="/signup" className="px-10 py-4 bg-medical-500 hover:bg-medical-600 text-white rounded-lg font-bold text-lg shadow-sm transition transform hover:-translate-y-0.5 text-center">
+                Empezar ahora
+              </Link>
+              <Link to="/marketplace" className="px-10 py-4 bg-white hover:bg-gray-50 text-gray-900 border border-gray-200 rounded-lg font-bold text-lg shadow-sm transition text-center">
+                Ver Demo
+              </Link>
+            </div>
           </div>
-        </div>
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 opacity-20">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl animate-blob"></div>
-          <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-500 rounded-full filter blur-3xl animate-blob animation-delay-2000"></div>
-          <div className="absolute bottom-1/4 left-1/2 w-96 h-96 bg-pink-500 rounded-full filter blur-3xl animate-blob animation-delay-4000"></div>
-        </div>
-      </div>
-
-      <section className="py-16 bg-slate-800/50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            Habilidades Más Demandadas
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {topSkills.map((skill, index) => (
-              <div key={index} className="glass p-6 rounded-xl hover:bg-slate-700/50 transition duration-300 transform hover:scale-105 border border-slate-700 hover:border-blue-500/30 group">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl font-bold text-white group-hover:text-blue-400 transition">
-                    {skill.name}
-                  </h3>
-                  <span className="text-xs font-mono px-2 py-1 rounded bg-slate-700 text-slate-300">
-                    {skill.category}
-                  </span>
-                </div>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-slate-400">Mentores disponibles</span>
-                    <div className="flex items-center gap-2">
-                      <div className="w-24 h-2 bg-slate-700 rounded-full overflow-hidden">
-                        <div className="h-full bg-green-500" style={{ width: `${skill.mentors}%` }}></div>
-                      </div>
-                      <span className="font-bold text-green-400">{skill.mentors}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-slate-400">Interesados</span>
-                    <div className="flex items-center gap-2">
-                      <div className="w-24 h-2 bg-slate-700 rounded-full overflow-hidden">
-                        <div className="h-full bg-blue-500" style={{ width: `${skill.learners}%` }}></div>
-                      </div>
-                      <span className="font-bold text-blue-400">{skill.learners}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
+          
+          <div className="relative">
+            <div className="rounded-[40px] overflow-hidden shadow-2xl">
+              <img 
+                src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+                alt="Clinic mockup" 
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
         </div>
       </section>
-      <style>
-        {`
-          @keyframes blob {
-            0% { transform: translate(0px, 0px) scale(1); }
-            33% { transform: translate(30px, -50px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-            100% { transform: translate(0px, 0px) scale(1); }
-          }
-          .animate-blob { animation: blob 7s infinite; }
-          .animation-delay-2000 { animation-delay: 2s; }
-          .animation-delay-4000 { animation-delay: 4s; }
-        `}
-      </style>
+
+      {/* Innovation Section */}
+      <section className="py-24 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-16">
+          <h2 className="text-medical-500 font-bold uppercase tracking-widest text-sm mb-4 italic">INNOVACIÓN</h2>
+          <h3 className="text-3xl lg:text-5xl font-extrabold text-gray-900 mb-6">Todo lo que necesitas en un solo lugar</h3>
+          <p className="text-lg text-gray-500 max-w-2xl mx-auto italic font-medium">
+            Olvídate de los cartones y papeles perdidos. Digitaliza tu flujo de trabajo hoy mismo.
+          </p>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Card 1 */}
+          <div className="bg-white p-10 rounded-2xl shadow-card border border-gray-100 flex items-start gap-6 group hover:border-medical-500 transition-all">
+            <div className="w-14 h-14 rounded-xl bg-medical-50 text-medical-600 flex items-center justify-center flex-shrink-0 group-hover:bg-medical-500 group-hover:text-white transition shadow-sm">
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+            </div>
+            <div>
+              <h4 className="text-xl font-bold text-gray-900 mb-2">Base de Datos Global</h4>
+              <p className="text-gray-500 leading-relaxed text-sm font-medium">
+                Accede a un directorio unificado de prótesis y componentes de casas comerciales de todo el mundo.
+              </p>
+            </div>
+          </div>
+
+          {/* Card 2 */}
+          <div className="bg-white p-10 rounded-2xl shadow-card border border-gray-100 flex items-start gap-6 group hover:border-medical-500 transition-all">
+            <div className="w-14 h-14 rounded-xl bg-medical-50 text-medical-600 flex items-center justify-center flex-shrink-0 group-hover:bg-medical-500 group-hover:text-white transition shadow-sm">
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
+            </div>
+            <div>
+              <h4 className="text-xl font-bold text-gray-900 mb-2">Comparador de Precios</h4>
+              <p className="text-gray-500 leading-relaxed text-sm font-medium">
+                Encuentra la mejor oferta para tus materiales sin tener que llamar a diez proveedores distintos.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

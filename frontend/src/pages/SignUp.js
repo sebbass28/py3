@@ -1,104 +1,121 @@
-import React, { useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import AuthContext from '../../context/AuthContext';
-import apiClient from '../../api';
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import apiClient from '../api';
 
 function SignUp() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [password2, setPassword2] = useState('');
-  const [error, setError] = useState(null);
-  const { login } = useContext(AuthContext);
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    role: 'clinic',
+    company_name: '',
+    address: ''
+  });
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(null);
-
-    if (password !== password2) {
-      setError('Las contraseñas no coinciden.');
-      return;
-    }
-
     try {
-      await apiClient.post('register/', { username, password });
-      await login(username, password);
-      navigate('/dashboard');
+      await apiClient.post('users/signup/', formData);
+      alert("Registro exitoso. Ahora puedes iniciar sesión.");
+      navigate('/login');
     } catch (err) {
-      setError('Error al registrar el usuario. Es posible que el usuario ya exista.');
+      alert("Error en el registro. Prueba con otro usuario.");
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-[60vh]">
-      <div className="w-full max-w-md bg-slate-800 p-8 rounded-xl shadow-2xl border border-slate-700">
-        <h2 className="text-3xl font-bold mb-6 text-center text-white">
-          Únete a Talento360
+    <div className="min-h-[80vh] flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gray-50">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 tracking-tight leading-tight italic">
+          Crea tu cuenta gratis
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {error && (
-            <div className="bg-red-500/10 border border-red-500/20 text-red-200 p-3 rounded text-sm">
-              {error}
-            </div>
-          )}
-          <div>
-            <label className="block text-slate-400 mb-1 text-sm">
-              Usuario
-            </label>
-            <div className="bg-slate-900 border border-slate-700 rounded px-4 py-2 text-white focus-within:border-blue-500 transition">
-              <input
-                type="text"
-                name="username"
-                className="w-full bg-transparent outline-none"
-                required
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-          </div>
-          <div>
-            <label className="block text-slate-400 mb-1 text-sm">
-              Contraseña
-            </label>
-            <div className="bg-slate-900 border border-slate-700 rounded px-4 py-2 text-white focus-within:border-blue-500 transition">
-              <input
-                type="password"
-                name="password"
-                className="w-full bg-transparent outline-none"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-          </div>
-          <div>
-            <label className="block text-slate-400 mb-1 text-sm">
-              Confirmar Contraseña
-            </label>
-            <div className="bg-slate-900 border border-slate-700 rounded px-4 py-2 text-white focus-within:border-blue-500 transition">
-              <input
-                type="password"
-                name="password2"
-                className="w-full bg-transparent outline-none"
-                required
-                value={password2}
-                onChange={(e) => setPassword2(e.target.value)}
-              />
-            </div>
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold py-3 rounded mt-4 transition shadow-lg"
-          >
-            Registrarse
-          </button>
-        </form>
-        <p className="text-center text-slate-400 mt-6 text-sm">
+        <p className="mt-2 text-center text-sm text-gray-600 font-bold uppercase tracking-widest">
           ¿Ya tienes cuenta?{' '}
-          <Link to="/login" className="text-blue-400 hover:underline">
-            Inicia Sesión
+          <Link to="/login" className="font-extrabold text-medical-600 hover:text-medical-500 transition">
+            Inicia sesión
           </Link>
         </p>
+      </div>
+
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4">
+        <div className="bg-white py-10 px-6 shadow-card sm:rounded-2xl sm:px-10 border border-gray-100 italic">
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            <div className="grid grid-cols-2 bg-gray-50 p-1.5 rounded-xl border border-gray-100 mb-4 not-italic">
+              <button 
+                type="button" 
+                onClick={() => setFormData({...formData, role: 'clinic'})}
+                className={`py-2 rounded-lg text-xs font-bold uppercase tracking-tighter transition-all ${formData.role === 'clinic' ? 'bg-medical-500 text-white shadow-md' : 'text-gray-400 hover:text-gray-600'}`}
+              >
+                Clínica
+              </button>
+              <button 
+                type="button" 
+                onClick={() => setFormData({...formData, role: 'lab'})}
+                className={`py-2 rounded-lg text-xs font-bold uppercase tracking-tighter transition-all ${formData.role === 'lab' ? 'bg-medical-600 text-white shadow-md' : 'text-gray-400 hover:text-gray-600'}`}
+              >
+                Laboratorio
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-tight ml-1 mb-1">Nombre de la Empresa</label>
+                <input 
+                  type="text" 
+                  placeholder="Ej: Dental Clinic Madrid" 
+                  className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm font-bold text-gray-900 focus:outline-none focus:border-medical-500 transition-all shadow-sm"
+                  value={formData.company_name}
+                  onChange={(e) => setFormData({...formData, company_name: e.target.value})}
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-tight ml-1 mb-1">Usuario</label>
+                <input 
+                  type="text" 
+                  placeholder="Ej: dlink_madrid" 
+                  className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm font-bold text-gray-900 focus:outline-none focus:border-medical-500 transition-all shadow-sm"
+                  value={formData.username}
+                  onChange={(e) => setFormData({...formData, username: e.target.value})}
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-tight ml-1 mb-1">Email corporativo</label>
+                <input 
+                  type="email" 
+                  placeholder="clinica@ejemplo.com" 
+                  className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm font-bold text-gray-900 focus:outline-none focus:border-medical-500 transition-all shadow-sm"
+                  value={formData.email}
+                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-tight ml-1 mb-1">Contraseña</label>
+                <input 
+                  type="password" 
+                  placeholder="••••••••" 
+                  className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm font-bold text-gray-900 focus:outline-none focus:border-medical-500 transition-all shadow-sm"
+                  value={formData.password}
+                  onChange={(e) => setFormData({...formData, password: e.target.value})}
+                  required
+                />
+              </div>
+            </div>
+
+            <button 
+              type="submit" 
+              className="w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg shadow-medical-500/10 text-sm font-extrabold text-white bg-medical-500 hover:bg-medical-600 transition-all transform hover:-translate-y-0.5 uppercase tracking-widest focus:outline-none not-italic"
+            >
+              Registrarse
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

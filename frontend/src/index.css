@@ -1,26 +1,37 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@source "./pages/**/*.{js,jsx}";
+@source "./App.js";
+
+@theme {
+  --color-medical-50: #f0f9ff;
+  --color-medical-100: #e0f2fe;
+  --color-medical-200: #bae6fd;
+  --color-medical-500: #0ea5e9;
+  --color-medical-600: #0284c7;
+  --color-medical-700: #0369a1;
+  --color-medical-800: #075985;
+  --color-medical-900: #0c4a6e;
+}
 
 body {
   margin: 0;
-  font-family: "Outfit", sans-serif;
+  font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  background-color: #f9fafb; /* gray-50 */
 }
 
 .glass {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
-.glass-hover:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
+
+.shadow-card {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-navbar {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }
