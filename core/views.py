@@ -99,6 +99,7 @@ class MatchRequestViewSet(viewsets.ModelViewSet):
     
     serializer_class = MatchRequestSerializer
     permission_classes = [permissions.IsAuthenticated]
+    queryset = MatchRequest.objects.all()
 
     def get_queryset(self):
         """
