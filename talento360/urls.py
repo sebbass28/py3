@@ -17,26 +17,29 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic import TemplateView
+from django.http import JsonResponse
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
 
+def frontend_view(request, path=''):
+    return TemplateView.as_view(template_name='index.html')(request)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     
-    # Auth API
+    # Auth API (JWT)
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     
     # Unified Backend APIs
-    path('api/', include('marketplace.urls')),
-    path('api/users/', include('users.urls')),
-    path('api/core/', include('core.urls')), # skills/profiles etc
+    path('api/', include('talento360.api_urls')),
 
     # DRF Browser Auth
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
-    # React Catch-all
-    re_path(r'^.*', TemplateView.as_view(template_name='index.html')),
+    # React Catch-all (must be at the bottom)
+    path('', frontend_view),
+    re_path(r'^(?P<path>.*)/$', frontend_view),
 ]
