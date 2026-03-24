@@ -25,10 +25,10 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (username, password) => {
-    const response = await apiClient.post('/api/token/', { username, password });
+    const response = await apiClient.post('token/', { username, password });
     const { access: token } = response.data;
     localStorage.setItem('token', token);
-    apiClient.defaults.headers.common['Authorization'] = `JWT ${token}`;
+    apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     const userResponse = await apiClient.get('users/me/');
     setUser(userResponse.data);
   };
