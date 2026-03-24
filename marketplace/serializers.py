@@ -5,9 +5,15 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'role', 'company_name', 'address', 'phone']
+        fields = ['id', 'username', 'email', 'password', 'role', 'company_name', 'address', 'phone']
+
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+        return user
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
