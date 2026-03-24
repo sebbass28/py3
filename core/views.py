@@ -1,10 +1,12 @@
-from rest_framework import viewsets, permissions, generics
+from rest_framework import viewsets, permissions, generics, filters
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.db.models import Q
 from .models import Skill, Profile, MatchRequest
 from .serializers import SkillSerializer, ProfileSerializer, UserSerializer, UserCreateSerializer, MatchRequestSerializer
+
+User = get_user_model()
 
 class UserCreate(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -19,7 +21,7 @@ class SkillViewSet(viewsets.ModelViewSet):
     serializer_class = SkillSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-from rest_framework import viewsets, permissions, generics, filters
+
 
 class ProfileViewSet(viewsets.ModelViewSet):
     """

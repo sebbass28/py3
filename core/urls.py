@@ -5,7 +5,6 @@ from . import views
 router = SimpleRouter()
 router.register(r'skills', views.SkillViewSet)
 router.register(r'profiles', views.ProfileViewSet)
-router.register(r'users', views.UserViewSet)
 router.register(r'match-requests', views.MatchRequestViewSet, basename='match-requests')
 
 urlpatterns = [
