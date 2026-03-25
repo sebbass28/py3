@@ -8,7 +8,7 @@ ENV NODE_OPTIONS="--max-old-space-size=768"
 
 RUN npm install --legacy-peer-deps --no-audit --no-fund
 COPY frontend/ ./
-RUN npm run build
+RUN GENERATE_SOURCEMAP=false npm run build
 
 # Stage 2: Build Django Backend
 FROM python:3.12-slim
