@@ -1,0 +1,17 @@
+.git
+.github
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+db.sqlite3
+.env
+.venv
+venv
+frontend/node_modules
+frontend/build
+node_modules
+staticfiles
+nixpacks.toml
+package.json
+deployment-*.txt
