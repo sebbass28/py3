@@ -1,3 +1,5 @@
+providers = ["python", "node"]
+
 [setup]
 nixPkgs = ["python3", "postgresql_16.dev", "gcc", "nodejs_22"]
 
