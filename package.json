@@ -1,6 +1,0 @@
-{
-  "name": "py3-root",
-  "description": "Root package for Nixpacks detection",
-  "private": true,
-  "dependencies": {}
-}

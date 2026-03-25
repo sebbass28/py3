@@ -1,7 +1,6 @@
-providers = ["python", "node"]
-
+# Forzamos una sola fase de setup para evitar descargar múltiples Nixpkgs
 [setup]
-nixPkgs = ["python3", "postgresql_16.dev", "gcc", "nodejs_22"]
+nixPkgs = ["python3", "nodejs_22", "postgresql_16.dev", "gcc", "curl", "wget"]
 
 [install]
 cmds = [
