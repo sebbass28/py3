@@ -30,7 +30,7 @@ function Landing() {
           
           <div className="relative">
             <div className="h-[500px] w-full">
-              <Viewer3D stlUrl="/models/demo_dental.stl" />
+              <Viewer3D stlUrl="/models/Crown.stl" />
             </div>
           </div>
         </div>
