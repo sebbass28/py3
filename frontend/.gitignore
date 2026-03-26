@@ -9,7 +9,7 @@
 /coverage
 
 # production
-/build
+# /build (Habilitado para despliegue híbrido)
 
 # misc
 .DS_Store
