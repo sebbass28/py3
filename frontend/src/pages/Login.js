@@ -2,19 +2,31 @@ import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 
+// Componente para el inicio de sesión de usuarios
 function Login() {
+  // Manejamos el estado local del formulario de forma controlada por React
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(''); // Estado para mostrar feedback si los datos son incorrectos
+  
+  // Consumimos el contexto global de autenticación que creamos antes
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  // Función que se ejecuta al enviar el formulario
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await login(username, password);
+    e.preventDefault(); // Evitamos que la página se recargue (petición síncrona)
+    setError(''); // Limpiamos errores previos
+    
+    // Llamamos a la función de login del contexto
+    const result = await login(username, password);
+    
+    if (result.success) {
+      // Si el login es correcto, enviamos al usuario al Dashboard privado
       navigate('/dashboard');
-    } catch (err) {
-      alert("Credenciales incorrectas");
+    } else {
+      // Si falla, mostramos el mensaje de error que viene del backend
+      setError(result.error);
     }
   };
 
@@ -33,6 +45,11 @@ function Login() {
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4">
+        {error && (
+          <div className="mb-4 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 text-sm font-bold rounded-r-xl shadow-sm animate-pulse">
+            {error}
+          </div>
+        )}
         <div className="bg-white py-10 px-6 shadow-card sm:rounded-2xl sm:px-10 border border-gray-100">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
