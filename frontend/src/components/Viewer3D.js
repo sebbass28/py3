@@ -1,6 +1,16 @@
 import React, { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Center, Environment, ContactShadows } from '@react-three/drei';
+import { OrbitControls, Center, Environment, ContactShadows, useLoader } from '@react-three/drei';
+import { STLLoader } from 'three/examples/jsm/loaders/STLLoader';
+
+function Model({ url }) {
+  const geom = useLoader(STLLoader, url);
+  return (
+    <mesh geometry={geom} castShadow receiveShadow>
+      <meshStandardMaterial color="#f1f5f9" roughness={0.3} metalness={0.2} />
+    </mesh>
+  );
+}
 
 function ModelPlaceholder() {
   return (
@@ -22,8 +32,7 @@ const Viewer3D = ({ stlUrl = null }) => {
         <Suspense fallback={null}>
           <Center>
             {stlUrl ? (
-              // TODO: Implementar carga de STL real usando STLLoader
-              <ModelPlaceholder /> 
+              <Model url={stlUrl} /> 
             ) : (
               <ModelPlaceholder />
             )}
