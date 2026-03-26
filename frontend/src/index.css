@@ -1,8 +1,8 @@
-@import "tailwindcss";
-@source "./pages/**/*.{js,jsx}";
-@source "./App.js";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
+:root {
   --color-medical-50: #f0f9ff;
   --color-medical-100: #e0f2fe;
   --color-medical-200: #bae6fd;
