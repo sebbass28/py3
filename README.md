@@ -21,6 +21,10 @@ Para asegurar la rentabilidad y escalabilidad de la plataforma, se han diseñado
 ### **C. Suscripciones para Laboratorios (SaaS)**
 - Niveles de visibilidad en el marketplace para laboratorios, permitiéndoles destacar sus productos o aparecer en los primeros resultados.
 
+### **D. Logística e Integración de Mensajería**
+- **Sincronización con Transportistas:** Integración con agregadores como **Packlink PRO** o **Sendcloud**, que permiten comparar precios entre MRW, SEUR o Correos Express y generar las etiquetas de envío automáticamente desde el panel de control.
+- **Trazabilidad en Tiempo Real:** Los Webhooks de la mensajería actualizan el estado del pedido en la web (ej: "En reparto", "Entregado"), liberando los fondos del laboratorio sin intervención manual.
+
 ---
 
 ## 💻 3. Stack Tecnológico (Industrial Grade)
