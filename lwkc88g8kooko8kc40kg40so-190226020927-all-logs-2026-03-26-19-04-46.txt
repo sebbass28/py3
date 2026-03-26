@@ -1,0 +1,591 @@
+
+2026-03-26T19:03:18.243749181Z Traceback (most recent call last):
+2026-03-26T19:03:18.243802809Z   File "/app/manage.py", line 22, in <module>
+2026-03-26T19:03:18.244449533Z     main()
+2026-03-26T19:03:18.244460848Z   File "/app/manage.py", line 18, in main
+2026-03-26T19:03:18.244702293Z     execute_from_command_line(sys.argv)
+2026-03-26T19:03:18.244721304Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/__init__.py", line 443, in execute_from_command_line
+2026-03-26T19:03:18.245929728Z     utility.execute()
+2026-03-26T19:03:18.245942519Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/__init__.py", line 437, in execute
+2026-03-26T19:03:18.246145455Z     self.fetch_command(subcommand).run_from_argv(self.argv)
+2026-03-26T19:03:18.246153832Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 420, in run_from_argv
+2026-03-26T19:03:18.246969390Z     self.execute(*args, **cmd_options)
+2026-03-26T19:03:18.246981749Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 461, in execute
+2026-03-26T19:03:18.247178931Z     self.check(**check_kwargs)
+2026-03-26T19:03:18.247186800Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 496, in check
+2026-03-26T19:03:18.247544393Z     all_issues = checks.run_checks(
+2026-03-26T19:03:18.247551881Z                  ^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:18.247555229Z   File "/usr/local/lib/python3.12/site-packages/django/core/checks/registry.py", line 89, in run_checks
+2026-03-26T19:03:18.248391381Z     new_errors = check(app_configs=app_configs, databases=databases)
+2026-03-26T19:03:18.248635806Z                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:18.248645323Z   File "/usr/local/lib/python3.12/site-packages/django/core/checks/urls.py", line 136, in check_custom_error_handlers
+2026-03-26T19:03:18.249535338Z     handler = resolver.resolve_error_handler(status_code)
+2026-03-26T19:03:18.249548027Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:18.249552027Z   File "/usr/local/lib/python3.12/site-packages/django/urls/resolvers.py", line 743, in resolve_error_handler
+2026-03-26T19:03:18.251091187Z     callback = getattr(self.urlconf_module, "handler%s" % view_type, None)
+2026-03-26T19:03:18.251104477Z                        ^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:18.251163875Z   File "/usr/local/lib/python3.12/site-packages/django/utils/functional.py", line 47, in __get__
+2026-03-26T19:03:18.251871059Z     res = instance.__dict__[self.name] = self.func(instance)
+2026-03-26T19:03:18.251957072Z                                          ^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:18.252041070Z   File "/usr/local/lib/python3.12/site-packages/django/urls/resolvers.py", line 722, in urlconf_module
+2026-03-26T19:03:18.252400637Z     return import_module(self.urlconf_name)
+2026-03-26T19:03:18.252615774Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:18.252623545Z   File "/usr/local/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-26T19:03:18.253274074Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-26T19:03:18.253349194Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:18.253355494Z   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-26T19:03:18.253359423Z   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-26T19:03:18.253438988Z   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-26T19:03:18.253447919Z   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-26T19:03:18.253578716Z   File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+2026-03-26T19:03:18.253582232Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-26T19:03:18.253585424Z   File "/app/config/urls.py", line 20, in <module>
+2026-03-26T19:03:18.253590183Z     path('api/users/', include('users.urls')),
+2026-03-26T19:03:18.253593751Z                        ^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:18.253668537Z   File "/usr/local/lib/python3.12/site-packages/django/urls/conf.py", line 39, in include
+2026-03-26T19:03:18.254245537Z     urlconf_module = import_module(urlconf_module)
+2026-03-26T19:03:18.254363807Z                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:18.254416901Z   File "/usr/local/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-26T19:03:18.254476557Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-26T19:03:18.254637212Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:18.254642586Z   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-26T19:03:18.254646899Z   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-26T19:03:18.254676054Z   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-26T19:03:18.254705302Z   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-26T19:03:18.254710271Z   File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+2026-03-26T19:03:18.254713636Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-26T19:03:18.254716891Z   File "/app/users/urls.py", line 6, in <module>
+2026-03-26T19:03:18.254834316Z     router.register(r'', views.UserViewSet, basename='user')
+2026-03-26T19:03:18.254908025Z                          ^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:18.254912539Z AttributeError: module 'users.views' has no attribute 'UserViewSet'
+2026-03-26T19:03:23.163798469Z Traceback (most recent call last):
+2026-03-26T19:03:23.164385784Z   File "/app/manage.py", line 22, in <module>
+2026-03-26T19:03:23.164399050Z     main()
+2026-03-26T19:03:23.164404264Z   File "/app/manage.py", line 18, in main
+2026-03-26T19:03:23.164409067Z     execute_from_command_line(sys.argv)
+2026-03-26T19:03:23.164413378Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/__init__.py", line 443, in execute_from_command_line
+2026-03-26T19:03:23.165273624Z     utility.execute()
+2026-03-26T19:03:23.165289084Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/__init__.py", line 437, in execute
+2026-03-26T19:03:23.165552090Z     self.fetch_command(subcommand).run_from_argv(self.argv)
+2026-03-26T19:03:23.165728706Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 420, in run_from_argv
+2026-03-26T19:03:23.166699356Z     self.execute(*args, **cmd_options)
+2026-03-26T19:03:23.166713157Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 461, in execute
+2026-03-26T19:03:23.166913877Z     self.check(**check_kwargs)
+2026-03-26T19:03:23.166923802Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 496, in check
+2026-03-26T19:03:23.167719251Z     all_issues = checks.run_checks(
+2026-03-26T19:03:23.167732164Z                  ^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:23.167736942Z   File "/usr/local/lib/python3.12/site-packages/django/core/checks/registry.py", line 89, in run_checks
+2026-03-26T19:03:23.168136073Z     new_errors = check(app_configs=app_configs, databases=databases)
+2026-03-26T19:03:23.168268724Z                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:23.168277848Z   File "/usr/local/lib/python3.12/site-packages/django/core/checks/urls.py", line 136, in check_custom_error_handlers
+2026-03-26T19:03:23.169324787Z     handler = resolver.resolve_error_handler(status_code)
+2026-03-26T19:03:23.169366217Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:23.169371429Z   File "/usr/local/lib/python3.12/site-packages/django/urls/resolvers.py", line 743, in resolve_error_handler
+2026-03-26T19:03:23.170743963Z     callback = getattr(self.urlconf_module, "handler%s" % view_type, None)
+2026-03-26T19:03:23.170755558Z                        ^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:23.170759421Z   File "/usr/local/lib/python3.12/site-packages/django/utils/functional.py", line 47, in __get__
+2026-03-26T19:03:23.171508551Z     res = instance.__dict__[self.name] = self.func(instance)
+2026-03-26T19:03:23.171572607Z                                          ^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:23.171580692Z   File "/usr/local/lib/python3.12/site-packages/django/urls/resolvers.py", line 722, in urlconf_module
+2026-03-26T19:03:23.171879896Z     return import_module(self.urlconf_name)
+2026-03-26T19:03:23.171974875Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:23.171981749Z   File "/usr/local/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-26T19:03:23.172771555Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-26T19:03:23.173758568Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:23.173771466Z   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-26T19:03:23.173775927Z   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-26T19:03:23.173779266Z   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-26T19:03:23.173822415Z   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-26T19:03:23.173827520Z   File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+2026-03-26T19:03:23.173830735Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-26T19:03:23.173833645Z   File "/app/config/urls.py", line 20, in <module>
+2026-03-26T19:03:23.173835896Z     path('api/users/', include('users.urls')),
+2026-03-26T19:03:23.173893475Z                        ^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:23.173900117Z   File "/usr/local/lib/python3.12/site-packages/django/urls/conf.py", line 39, in include
+2026-03-26T19:03:23.174109074Z     urlconf_module = import_module(urlconf_module)
+2026-03-26T19:03:23.174224221Z                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:23.174252479Z   File "/usr/local/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-26T19:03:23.174357985Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-26T19:03:23.174536563Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:23.174564475Z   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-26T19:03:23.174569248Z   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-26T19:03:23.174572751Z   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-26T19:03:23.174576025Z   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-26T19:03:23.174591167Z   File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+2026-03-26T19:03:23.174594643Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-26T19:03:23.174641115Z   File "/app/users/urls.py", line 6, in <module>
+2026-03-26T19:03:23.174700697Z     router.register(r'', views.UserViewSet, basename='user')
+2026-03-26T19:03:23.174792776Z                          ^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:23.174814580Z AttributeError: module 'users.views' has no attribute 'UserViewSet'
+2026-03-26T19:03:25.920316530Z Traceback (most recent call last):
+2026-03-26T19:03:25.920357242Z   File "/app/manage.py", line 22, in <module>
+2026-03-26T19:03:25.920949727Z     main()
+2026-03-26T19:03:25.920965296Z   File "/app/manage.py", line 18, in main
+2026-03-26T19:03:25.921113845Z     execute_from_command_line(sys.argv)
+2026-03-26T19:03:25.921129995Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/__init__.py", line 443, in execute_from_command_line
+2026-03-26T19:03:25.922406520Z     utility.execute()
+2026-03-26T19:03:25.922508006Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/__init__.py", line 437, in execute
+2026-03-26T19:03:25.922934389Z     self.fetch_command(subcommand).run_from_argv(self.argv)
+2026-03-26T19:03:25.922942522Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 420, in run_from_argv
+2026-03-26T19:03:25.924406043Z     self.execute(*args, **cmd_options)
+2026-03-26T19:03:25.924425398Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 461, in execute
+2026-03-26T19:03:25.924429634Z     self.check(**check_kwargs)
+2026-03-26T19:03:25.924432387Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 496, in check
+2026-03-26T19:03:25.924435272Z     all_issues = checks.run_checks(
+2026-03-26T19:03:25.924438203Z                  ^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:25.924440894Z   File "/usr/local/lib/python3.12/site-packages/django/core/checks/registry.py", line 89, in run_checks
+2026-03-26T19:03:25.925421394Z     new_errors = check(app_configs=app_configs, databases=databases)
+2026-03-26T19:03:25.925496532Z                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:25.925505276Z   File "/usr/local/lib/python3.12/site-packages/django/core/checks/urls.py", line 136, in check_custom_error_handlers
+2026-03-26T19:03:25.928069286Z     handler = resolver.resolve_error_handler(status_code)
+2026-03-26T19:03:25.928097059Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:25.928103316Z   File "/usr/local/lib/python3.12/site-packages/django/urls/resolvers.py", line 743, in resolve_error_handler
+2026-03-26T19:03:25.928108245Z     callback = getattr(self.urlconf_module, "handler%s" % view_type, None)
+2026-03-26T19:03:25.928112875Z                        ^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:25.928116954Z   File "/usr/local/lib/python3.12/site-packages/django/utils/functional.py", line 47, in __get__
+2026-03-26T19:03:25.928190607Z     res = instance.__dict__[self.name] = self.func(instance)
+2026-03-26T19:03:25.929032665Z                                          ^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:25.929074126Z   File "/usr/local/lib/python3.12/site-packages/django/urls/resolvers.py", line 722, in urlconf_module
+2026-03-26T19:03:25.929091082Z     return import_module(self.urlconf_name)
+2026-03-26T19:03:25.929093619Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:25.929095829Z   File "/usr/local/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-26T19:03:25.929806387Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-26T19:03:25.929999669Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:25.930007145Z   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-26T19:03:25.930010983Z   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-26T19:03:25.930014396Z   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-26T19:03:25.930017457Z   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-26T19:03:25.930074810Z   File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+2026-03-26T19:03:25.930081001Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-26T19:03:25.930084293Z   File "/app/config/urls.py", line 20, in <module>
+2026-03-26T19:03:25.930147697Z     path('api/users/', include('users.urls')),
+2026-03-26T19:03:25.930333227Z                        ^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:25.930356636Z   File "/usr/local/lib/python3.12/site-packages/django/urls/conf.py", line 39, in include
+2026-03-26T19:03:25.931006671Z     urlconf_module = import_module(urlconf_module)
+2026-03-26T19:03:25.931143505Z                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:25.931150474Z   File "/usr/local/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-26T19:03:25.931254323Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-26T19:03:25.932065682Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:25.932077626Z   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-26T19:03:25.932081220Z   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-26T19:03:25.932083551Z   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-26T19:03:25.932085712Z   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-26T19:03:25.932087913Z   File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+2026-03-26T19:03:25.932090147Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-26T19:03:25.932092287Z   File "/app/users/urls.py", line 6, in <module>
+2026-03-26T19:03:25.932094609Z     router.register(r'', views.UserViewSet, basename='user')
+2026-03-26T19:03:25.932096937Z                          ^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:25.933059511Z AttributeError: module 'users.views' has no attribute 'UserViewSet'
+2026-03-26T19:03:28.967104466Z Traceback (most recent call last):
+2026-03-26T19:03:28.967609331Z   File "/app/manage.py", line 22, in <module>
+2026-03-26T19:03:28.967621448Z     main()
+2026-03-26T19:03:28.967625293Z   File "/app/manage.py", line 18, in main
+2026-03-26T19:03:28.967643937Z     execute_from_command_line(sys.argv)
+2026-03-26T19:03:28.967920393Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/__init__.py", line 443, in execute_from_command_line
+2026-03-26T19:03:28.968873523Z     utility.execute()
+2026-03-26T19:03:28.968888643Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/__init__.py", line 437, in execute
+2026-03-26T19:03:28.968894613Z     self.fetch_command(subcommand).run_from_argv(self.argv)
+2026-03-26T19:03:28.968899521Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 420, in run_from_argv
+2026-03-26T19:03:28.970261538Z     self.execute(*args, **cmd_options)
+2026-03-26T19:03:28.970275987Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 461, in execute
+2026-03-26T19:03:28.970281019Z     self.check(**check_kwargs)
+2026-03-26T19:03:28.970314977Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 496, in check
+2026-03-26T19:03:28.970321128Z     all_issues = checks.run_checks(
+2026-03-26T19:03:28.970325069Z                  ^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:28.970329124Z   File "/usr/local/lib/python3.12/site-packages/django/core/checks/registry.py", line 89, in run_checks
+2026-03-26T19:03:28.970934685Z     new_errors = check(app_configs=app_configs, databases=databases)
+2026-03-26T19:03:28.971516134Z                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:28.971528377Z   File "/usr/local/lib/python3.12/site-packages/django/core/checks/urls.py", line 136, in check_custom_error_handlers
+2026-03-26T19:03:28.972361511Z     handler = resolver.resolve_error_handler(status_code)
+2026-03-26T19:03:28.972374954Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:28.972391481Z   File "/usr/local/lib/python3.12/site-packages/django/urls/resolvers.py", line 743, in resolve_error_handler
+2026-03-26T19:03:28.973533090Z     callback = getattr(self.urlconf_module, "handler%s" % view_type, None)
+2026-03-26T19:03:28.973605518Z                        ^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:28.973614872Z   File "/usr/local/lib/python3.12/site-packages/django/utils/functional.py", line 47, in __get__
+2026-03-26T19:03:28.975017128Z     res = instance.__dict__[self.name] = self.func(instance)
+2026-03-26T19:03:28.975056902Z                                          ^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:28.975063399Z   File "/usr/local/lib/python3.12/site-packages/django/urls/resolvers.py", line 722, in urlconf_module
+2026-03-26T19:03:28.975078676Z     return import_module(self.urlconf_name)
+2026-03-26T19:03:28.975082118Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:28.975085108Z   File "/usr/local/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-26T19:03:28.975888010Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-26T19:03:28.976764180Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:28.976816500Z   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-26T19:03:28.976822867Z   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-26T19:03:28.976826613Z   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-26T19:03:28.976870553Z   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-26T19:03:28.976876149Z   File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+2026-03-26T19:03:28.976879531Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-26T19:03:28.976882753Z   File "/app/config/urls.py", line 20, in <module>
+2026-03-26T19:03:28.977207288Z     path('api/users/', include('users.urls')),
+2026-03-26T19:03:28.977215833Z                        ^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:28.977219132Z   File "/usr/local/lib/python3.12/site-packages/django/urls/conf.py", line 39, in include
+2026-03-26T19:03:28.978006780Z     urlconf_module = import_module(urlconf_module)
+2026-03-26T19:03:28.978018796Z                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:28.978063989Z   File "/usr/local/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-26T19:03:28.978726245Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-26T19:03:28.978737464Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:28.978741203Z   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-26T19:03:28.978744625Z   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-26T19:03:28.978747781Z   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-26T19:03:28.978751045Z   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-26T19:03:28.978753788Z   File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+2026-03-26T19:03:28.978756810Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-26T19:03:28.978760063Z   File "/app/users/urls.py", line 6, in <module>
+2026-03-26T19:03:28.978763679Z     router.register(r'', views.UserViewSet, basename='user')
+2026-03-26T19:03:28.978766698Z                          ^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:28.979191401Z AttributeError: module 'users.views' has no attribute 'UserViewSet'
+2026-03-26T19:03:32.221163844Z Traceback (most recent call last):
+2026-03-26T19:03:32.221273136Z   File "/app/manage.py", line 22, in <module>
+2026-03-26T19:03:32.221280029Z     main()
+2026-03-26T19:03:32.221284360Z   File "/app/manage.py", line 18, in main
+2026-03-26T19:03:32.221321974Z     execute_from_command_line(sys.argv)
+2026-03-26T19:03:32.221331091Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/__init__.py", line 443, in execute_from_command_line
+2026-03-26T19:03:32.223248029Z     utility.execute()
+2026-03-26T19:03:32.223268208Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/__init__.py", line 437, in execute
+2026-03-26T19:03:32.223272005Z     self.fetch_command(subcommand).run_from_argv(self.argv)
+2026-03-26T19:03:32.223275179Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 420, in run_from_argv
+2026-03-26T19:03:32.224277866Z     self.execute(*args, **cmd_options)
+2026-03-26T19:03:32.224392080Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 461, in execute
+2026-03-26T19:03:32.225155472Z     self.check(**check_kwargs)
+2026-03-26T19:03:32.225190115Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 496, in check
+2026-03-26T19:03:32.225196229Z     all_issues = checks.run_checks(
+2026-03-26T19:03:32.225200183Z                  ^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:32.225204480Z   File "/usr/local/lib/python3.12/site-packages/django/core/checks/registry.py", line 89, in run_checks
+2026-03-26T19:03:32.225945067Z     new_errors = check(app_configs=app_configs, databases=databases)
+2026-03-26T19:03:32.226485203Z                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:32.226617748Z   File "/usr/local/lib/python3.12/site-packages/django/core/checks/urls.py", line 136, in check_custom_error_handlers
+2026-03-26T19:03:32.227686422Z     handler = resolver.resolve_error_handler(status_code)
+2026-03-26T19:03:32.227699442Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:32.227704458Z   File "/usr/local/lib/python3.12/site-packages/django/urls/resolvers.py", line 743, in resolve_error_handler
+2026-03-26T19:03:32.229251334Z     callback = getattr(self.urlconf_module, "handler%s" % view_type, None)
+2026-03-26T19:03:32.229267967Z                        ^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:32.229273750Z   File "/usr/local/lib/python3.12/site-packages/django/utils/functional.py", line 47, in __get__
+2026-03-26T19:03:32.230141372Z     res = instance.__dict__[self.name] = self.func(instance)
+2026-03-26T19:03:32.230447807Z                                          ^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:32.230458306Z   File "/usr/local/lib/python3.12/site-packages/django/urls/resolvers.py", line 722, in urlconf_module
+2026-03-26T19:03:32.230925614Z     return import_module(self.urlconf_name)
+2026-03-26T19:03:32.230977135Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:32.231025993Z   File "/usr/local/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-26T19:03:32.231681024Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-26T19:03:32.231788051Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:32.231836198Z   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-26T19:03:32.231841482Z   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-26T19:03:32.231859636Z   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-26T19:03:32.231864017Z   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-26T19:03:32.232154757Z   File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+2026-03-26T19:03:32.232163129Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-26T19:03:32.232166260Z   File "/app/config/urls.py", line 20, in <module>
+2026-03-26T19:03:32.232168538Z     path('api/users/', include('users.urls')),
+2026-03-26T19:03:32.232170689Z                        ^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:32.232172780Z   File "/usr/local/lib/python3.12/site-packages/django/urls/conf.py", line 39, in include
+2026-03-26T19:03:32.232797578Z     urlconf_module = import_module(urlconf_module)
+2026-03-26T19:03:32.232949941Z                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:32.233007326Z   File "/usr/local/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-26T19:03:32.233147744Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-26T19:03:32.233733850Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:32.233767024Z   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-26T19:03:32.233772732Z   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-26T19:03:32.233776231Z   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-26T19:03:32.233779761Z   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-26T19:03:32.233782832Z   File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+2026-03-26T19:03:32.233786470Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-26T19:03:32.233789830Z   File "/app/users/urls.py", line 6, in <module>
+2026-03-26T19:03:32.233997027Z     router.register(r'', views.UserViewSet, basename='user')
+2026-03-26T19:03:32.234004345Z                          ^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:32.234623077Z AttributeError: module 'users.views' has no attribute 'UserViewSet'
+2026-03-26T19:03:35.859602482Z Traceback (most recent call last):
+2026-03-26T19:03:35.859669894Z   File "/app/manage.py", line 22, in <module>
+2026-03-26T19:03:35.860243624Z     main()
+2026-03-26T19:03:35.860256594Z   File "/app/manage.py", line 18, in main
+2026-03-26T19:03:35.860363368Z     execute_from_command_line(sys.argv)
+2026-03-26T19:03:35.860615164Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/__init__.py", line 443, in execute_from_command_line
+2026-03-26T19:03:35.861832565Z     utility.execute()
+2026-03-26T19:03:35.861877325Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/__init__.py", line 437, in execute
+2026-03-26T19:03:35.862031548Z     self.fetch_command(subcommand).run_from_argv(self.argv)
+2026-03-26T19:03:35.862041031Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 420, in run_from_argv
+2026-03-26T19:03:35.862816682Z     self.execute(*args, **cmd_options)
+2026-03-26T19:03:35.862877300Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 461, in execute
+2026-03-26T19:03:35.863064880Z     self.check(**check_kwargs)
+2026-03-26T19:03:35.863104757Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 496, in check
+2026-03-26T19:03:35.863411826Z     all_issues = checks.run_checks(
+2026-03-26T19:03:35.863422536Z                  ^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:35.863467514Z   File "/usr/local/lib/python3.12/site-packages/django/core/checks/registry.py", line 89, in run_checks
+2026-03-26T19:03:35.864206065Z     new_errors = check(app_configs=app_configs, databases=databases)
+2026-03-26T19:03:35.864372256Z                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:35.864382138Z   File "/usr/local/lib/python3.12/site-packages/django/core/checks/urls.py", line 136, in check_custom_error_handlers
+2026-03-26T19:03:35.865368798Z     handler = resolver.resolve_error_handler(status_code)
+2026-03-26T19:03:35.865385421Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:35.865390046Z   File "/usr/local/lib/python3.12/site-packages/django/urls/resolvers.py", line 743, in resolve_error_handler
+2026-03-26T19:03:35.866917403Z     callback = getattr(self.urlconf_module, "handler%s" % view_type, None)
+2026-03-26T19:03:35.866932010Z                        ^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:35.866937334Z   File "/usr/local/lib/python3.12/site-packages/django/utils/functional.py", line 47, in __get__
+2026-03-26T19:03:35.867706085Z     res = instance.__dict__[self.name] = self.func(instance)
+2026-03-26T19:03:35.867932044Z                                          ^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:35.867943415Z   File "/usr/local/lib/python3.12/site-packages/django/urls/resolvers.py", line 722, in urlconf_module
+2026-03-26T19:03:35.868230205Z     return import_module(self.urlconf_name)
+2026-03-26T19:03:35.868402608Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:35.868458362Z   File "/usr/local/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-26T19:03:35.869409227Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-26T19:03:35.869425606Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:35.869490905Z   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-26T19:03:35.869497072Z   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-26T19:03:35.869500345Z   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-26T19:03:35.869503881Z   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-26T19:03:35.869507137Z   File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+2026-03-26T19:03:35.869510349Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-26T19:03:35.869513789Z   File "/app/config/urls.py", line 20, in <module>
+2026-03-26T19:03:35.869573659Z     path('api/users/', include('users.urls')),
+2026-03-26T19:03:35.869689724Z                        ^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:35.869699118Z   File "/usr/local/lib/python3.12/site-packages/django/urls/conf.py", line 39, in include
+2026-03-26T19:03:35.870508967Z     urlconf_module = import_module(urlconf_module)
+2026-03-26T19:03:35.870595323Z                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:35.870601758Z   File "/usr/local/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-26T19:03:35.870720294Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-26T19:03:35.870887461Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:35.870909301Z   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-26T19:03:35.870913441Z   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-26T19:03:35.870916924Z   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-26T19:03:35.870920513Z   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-26T19:03:35.870962939Z   File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+2026-03-26T19:03:35.870968509Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-26T19:03:35.871018991Z   File "/app/users/urls.py", line 6, in <module>
+2026-03-26T19:03:35.871026613Z     router.register(r'', views.UserViewSet, basename='user')
+2026-03-26T19:03:35.871096354Z                          ^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:35.871146635Z AttributeError: module 'users.views' has no attribute 'UserViewSet'
+2026-03-26T19:03:41.234623965Z Traceback (most recent call last):
+2026-03-26T19:03:41.235258334Z   File "/app/manage.py", line 22, in <module>
+2026-03-26T19:03:41.235336951Z     main()
+2026-03-26T19:03:41.235345157Z   File "/app/manage.py", line 18, in main
+2026-03-26T19:03:41.235409595Z     execute_from_command_line(sys.argv)
+2026-03-26T19:03:41.235416759Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/__init__.py", line 443, in execute_from_command_line
+2026-03-26T19:03:41.236816070Z     utility.execute()
+2026-03-26T19:03:41.236830302Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/__init__.py", line 437, in execute
+2026-03-26T19:03:41.237007441Z     self.fetch_command(subcommand).run_from_argv(self.argv)
+2026-03-26T19:03:41.237075018Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 420, in run_from_argv
+2026-03-26T19:03:41.237819651Z     self.execute(*args, **cmd_options)
+2026-03-26T19:03:41.237903642Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 461, in execute
+2026-03-26T19:03:41.238056177Z     self.check(**check_kwargs)
+2026-03-26T19:03:41.238139869Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 496, in check
+2026-03-26T19:03:41.238316860Z     all_issues = checks.run_checks(
+2026-03-26T19:03:41.238382286Z                  ^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:41.238390456Z   File "/usr/local/lib/python3.12/site-packages/django/core/checks/registry.py", line 89, in run_checks
+2026-03-26T19:03:41.239113712Z     new_errors = check(app_configs=app_configs, databases=databases)
+2026-03-26T19:03:41.239262918Z                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:41.239271370Z   File "/usr/local/lib/python3.12/site-packages/django/core/checks/urls.py", line 136, in check_custom_error_handlers
+2026-03-26T19:03:41.239998817Z     handler = resolver.resolve_error_handler(status_code)
+2026-03-26T19:03:41.240120573Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:41.240178409Z   File "/usr/local/lib/python3.12/site-packages/django/urls/resolvers.py", line 743, in resolve_error_handler
+2026-03-26T19:03:41.241592570Z     callback = getattr(self.urlconf_module, "handler%s" % view_type, None)
+2026-03-26T19:03:41.241606388Z                        ^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:41.241712890Z   File "/usr/local/lib/python3.12/site-packages/django/utils/functional.py", line 47, in __get__
+2026-03-26T19:03:41.242432367Z     res = instance.__dict__[self.name] = self.func(instance)
+2026-03-26T19:03:41.242594906Z                                          ^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:41.242634264Z   File "/usr/local/lib/python3.12/site-packages/django/urls/resolvers.py", line 722, in urlconf_module
+2026-03-26T19:03:41.242872419Z     return import_module(self.urlconf_name)
+2026-03-26T19:03:41.242990910Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:41.242997217Z   File "/usr/local/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-26T19:03:41.244183176Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-26T19:03:41.244196115Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:41.244198961Z   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-26T19:03:41.244201443Z   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-26T19:03:41.244203758Z   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-26T19:03:41.244205974Z   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-26T19:03:41.244207990Z   File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+2026-03-26T19:03:41.244210155Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-26T19:03:41.244212321Z   File "/app/config/urls.py", line 20, in <module>
+2026-03-26T19:03:41.244214459Z     path('api/users/', include('users.urls')),
+2026-03-26T19:03:41.244216827Z                        ^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:41.244219883Z   File "/usr/local/lib/python3.12/site-packages/django/urls/conf.py", line 39, in include
+2026-03-26T19:03:41.244976343Z     urlconf_module = import_module(urlconf_module)
+2026-03-26T19:03:41.245091800Z                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:41.245098401Z   File "/usr/local/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-26T19:03:41.245222985Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-26T19:03:41.245251697Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:41.245256093Z   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-26T19:03:41.245285279Z   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-26T19:03:41.245319201Z   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-26T19:03:41.245324078Z   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-26T19:03:41.245327480Z   File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+2026-03-26T19:03:41.245331256Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-26T19:03:41.245334886Z   File "/app/users/urls.py", line 6, in <module>
+2026-03-26T19:03:41.245412625Z     router.register(r'', views.UserViewSet, basename='user')
+2026-03-26T19:03:41.245497261Z                          ^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:41.245545442Z AttributeError: module 'users.views' has no attribute 'UserViewSet'
+2026-03-26T19:03:49.934605418Z Traceback (most recent call last):
+2026-03-26T19:03:49.934700707Z   File "/app/manage.py", line 22, in <module>
+2026-03-26T19:03:49.934788572Z     main()
+2026-03-26T19:03:49.934807573Z   File "/app/manage.py", line 18, in main
+2026-03-26T19:03:49.934812561Z     execute_from_command_line(sys.argv)
+2026-03-26T19:03:49.934850088Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/__init__.py", line 443, in execute_from_command_line
+2026-03-26T19:03:49.936162711Z     utility.execute()
+2026-03-26T19:03:49.936321118Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/__init__.py", line 437, in execute
+2026-03-26T19:03:49.936392849Z     self.fetch_command(subcommand).run_from_argv(self.argv)
+2026-03-26T19:03:49.936453054Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 420, in run_from_argv
+2026-03-26T19:03:49.937315353Z     self.execute(*args, **cmd_options)
+2026-03-26T19:03:49.937405645Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 461, in execute
+2026-03-26T19:03:49.937631895Z     self.check(**check_kwargs)
+2026-03-26T19:03:49.937645710Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 496, in check
+2026-03-26T19:03:49.937899685Z     all_issues = checks.run_checks(
+2026-03-26T19:03:49.937908991Z                  ^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:49.937960230Z   File "/usr/local/lib/python3.12/site-packages/django/core/checks/registry.py", line 89, in run_checks
+2026-03-26T19:03:49.938609501Z     new_errors = check(app_configs=app_configs, databases=databases)
+2026-03-26T19:03:49.938740390Z                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:49.938750131Z   File "/usr/local/lib/python3.12/site-packages/django/core/checks/urls.py", line 136, in check_custom_error_handlers
+2026-03-26T19:03:49.939541644Z     handler = resolver.resolve_error_handler(status_code)
+2026-03-26T19:03:49.939691682Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:49.939738106Z   File "/usr/local/lib/python3.12/site-packages/django/urls/resolvers.py", line 743, in resolve_error_handler
+2026-03-26T19:03:49.941177583Z     callback = getattr(self.urlconf_module, "handler%s" % view_type, None)
+2026-03-26T19:03:49.941255732Z                        ^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:49.941264353Z   File "/usr/local/lib/python3.12/site-packages/django/utils/functional.py", line 47, in __get__
+2026-03-26T19:03:49.942009261Z     res = instance.__dict__[self.name] = self.func(instance)
+2026-03-26T19:03:49.942082601Z                                          ^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:49.942129285Z   File "/usr/local/lib/python3.12/site-packages/django/urls/resolvers.py", line 722, in urlconf_module
+2026-03-26T19:03:49.942351773Z     return import_module(self.urlconf_name)
+2026-03-26T19:03:49.942487946Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:49.942494346Z   File "/usr/local/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-26T19:03:49.943391164Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-26T19:03:49.943403450Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:49.943476122Z   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-26T19:03:49.943482625Z   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-26T19:03:49.943486673Z   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-26T19:03:49.943490396Z   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-26T19:03:49.943494178Z   File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+2026-03-26T19:03:49.943497942Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-26T19:03:49.943521943Z   File "/app/config/urls.py", line 20, in <module>
+2026-03-26T19:03:49.943558761Z     path('api/users/', include('users.urls')),
+2026-03-26T19:03:49.943595155Z                        ^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:49.943631372Z   File "/usr/local/lib/python3.12/site-packages/django/urls/conf.py", line 39, in include
+2026-03-26T19:03:49.944355435Z     urlconf_module = import_module(urlconf_module)
+2026-03-26T19:03:49.944451342Z                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:49.944458357Z   File "/usr/local/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-26T19:03:49.944693955Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-26T19:03:49.944837130Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:49.944842538Z   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-26T19:03:49.944846521Z   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-26T19:03:49.944901085Z   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-26T19:03:49.944906274Z   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-26T19:03:49.944909458Z   File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+2026-03-26T19:03:49.944912803Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-26T19:03:49.944916003Z   File "/app/users/urls.py", line 6, in <module>
+2026-03-26T19:03:49.945034054Z     router.register(r'', views.UserViewSet, basename='user')
+2026-03-26T19:03:49.945069002Z                          ^^^^^^^^^^^^^^^^^
+2026-03-26T19:03:49.945083693Z AttributeError: module 'users.views' has no attribute 'UserViewSet'
+2026-03-26T19:04:05.865801012Z Traceback (most recent call last):
+2026-03-26T19:04:05.869208183Z   File "/app/manage.py", line 22, in <module>
+2026-03-26T19:04:05.869227896Z     main()
+2026-03-26T19:04:05.869238305Z   File "/app/manage.py", line 18, in main
+2026-03-26T19:04:05.869241271Z     execute_from_command_line(sys.argv)
+2026-03-26T19:04:05.869244662Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/__init__.py", line 443, in execute_from_command_line
+2026-03-26T19:04:05.869249594Z     utility.execute()
+2026-03-26T19:04:05.869254011Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/__init__.py", line 437, in execute
+2026-03-26T19:04:05.869258551Z     self.fetch_command(subcommand).run_from_argv(self.argv)
+2026-03-26T19:04:05.869262996Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 420, in run_from_argv
+2026-03-26T19:04:05.869383496Z     self.execute(*args, **cmd_options)
+2026-03-26T19:04:05.869462336Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 461, in execute
+2026-03-26T19:04:05.869625878Z     self.check(**check_kwargs)
+2026-03-26T19:04:05.869811787Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 496, in check
+2026-03-26T19:04:05.869983786Z     all_issues = checks.run_checks(
+2026-03-26T19:04:05.870071243Z                  ^^^^^^^^^^^^^^^^^^
+2026-03-26T19:04:05.870079955Z   File "/usr/local/lib/python3.12/site-packages/django/core/checks/registry.py", line 89, in run_checks
+2026-03-26T19:04:05.870811579Z     new_errors = check(app_configs=app_configs, databases=databases)
+2026-03-26T19:04:05.870958604Z                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:04:05.870967843Z   File "/usr/local/lib/python3.12/site-packages/django/core/checks/urls.py", line 136, in check_custom_error_handlers
+2026-03-26T19:04:05.871678366Z     handler = resolver.resolve_error_handler(status_code)
+2026-03-26T19:04:05.871837176Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:04:05.871845869Z   File "/usr/local/lib/python3.12/site-packages/django/urls/resolvers.py", line 743, in resolve_error_handler
+2026-03-26T19:04:05.873435855Z     callback = getattr(self.urlconf_module, "handler%s" % view_type, None)
+2026-03-26T19:04:05.873518936Z                        ^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:04:05.873528167Z   File "/usr/local/lib/python3.12/site-packages/django/utils/functional.py", line 47, in __get__
+2026-03-26T19:04:05.874469140Z     res = instance.__dict__[self.name] = self.func(instance)
+2026-03-26T19:04:05.874482424Z                                          ^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:04:05.874598376Z   File "/usr/local/lib/python3.12/site-packages/django/urls/resolvers.py", line 722, in urlconf_module
+2026-03-26T19:04:05.874862528Z     return import_module(self.urlconf_name)
+2026-03-26T19:04:05.874975845Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:04:05.874982053Z   File "/usr/local/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-26T19:04:05.875902029Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-26T19:04:05.876001008Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:04:05.876008534Z   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-26T19:04:05.876012663Z   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-26T19:04:05.876015865Z   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-26T19:04:05.876019314Z   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-26T19:04:05.876022950Z   File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+2026-03-26T19:04:05.876026354Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-26T19:04:05.876110498Z   File "/app/config/urls.py", line 20, in <module>
+2026-03-26T19:04:05.876232065Z     path('api/users/', include('users.urls')),
+2026-03-26T19:04:05.876237638Z                        ^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:04:05.876285529Z   File "/usr/local/lib/python3.12/site-packages/django/urls/conf.py", line 39, in include
+2026-03-26T19:04:05.877213295Z     urlconf_module = import_module(urlconf_module)
+2026-03-26T19:04:05.877310736Z                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:04:05.877393411Z   File "/usr/local/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-26T19:04:05.877399168Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-26T19:04:05.877563940Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:04:05.877570039Z   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-26T19:04:05.877573600Z   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-26T19:04:05.877576921Z   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-26T19:04:05.877580350Z   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-26T19:04:05.877583725Z   File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+2026-03-26T19:04:05.877587245Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-26T19:04:05.877590511Z   File "/app/users/urls.py", line 6, in <module>
+2026-03-26T19:04:05.877870260Z     router.register(r'', views.UserViewSet, basename='user')
+2026-03-26T19:04:05.877892342Z                          ^^^^^^^^^^^^^^^^^
+2026-03-26T19:04:05.877955185Z AttributeError: module 'users.views' has no attribute 'UserViewSet'
+2026-03-26T19:04:33.785351740Z Traceback (most recent call last):
+2026-03-26T19:04:33.786036838Z   File "/app/manage.py", line 22, in <module>
+2026-03-26T19:04:33.786117411Z     main()
+2026-03-26T19:04:33.786155309Z   File "/app/manage.py", line 18, in main
+2026-03-26T19:04:33.786162176Z     execute_from_command_line(sys.argv)
+2026-03-26T19:04:33.786176413Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/__init__.py", line 443, in execute_from_command_line
+2026-03-26T19:04:33.787466630Z     utility.execute()
+2026-03-26T19:04:33.787533926Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/__init__.py", line 437, in execute
+2026-03-26T19:04:33.787695261Z     self.fetch_command(subcommand).run_from_argv(self.argv)
+2026-03-26T19:04:33.787789572Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 420, in run_from_argv
+2026-03-26T19:04:33.788597180Z     self.execute(*args, **cmd_options)
+2026-03-26T19:04:33.788674458Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 461, in execute
+2026-03-26T19:04:33.788842906Z     self.check(**check_kwargs)
+2026-03-26T19:04:33.788906863Z   File "/usr/local/lib/python3.12/site-packages/django/core/management/base.py", line 496, in check
+2026-03-26T19:04:33.789166610Z     all_issues = checks.run_checks(
+2026-03-26T19:04:33.789176490Z                  ^^^^^^^^^^^^^^^^^^
+2026-03-26T19:04:33.789180633Z   File "/usr/local/lib/python3.12/site-packages/django/core/checks/registry.py", line 89, in run_checks
+2026-03-26T19:04:33.790008795Z     new_errors = check(app_configs=app_configs, databases=databases)
+2026-03-26T19:04:33.790095630Z                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:04:33.790131389Z   File "/usr/local/lib/python3.12/site-packages/django/core/checks/urls.py", line 136, in check_custom_error_handlers
+2026-03-26T19:04:33.790913216Z     handler = resolver.resolve_error_handler(status_code)
+2026-03-26T19:04:33.790925547Z               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:04:33.790993089Z   File "/usr/local/lib/python3.12/site-packages/django/urls/resolvers.py", line 743, in resolve_error_handler
+2026-03-26T19:04:33.792440998Z     callback = getattr(self.urlconf_module, "handler%s" % view_type, None)
+2026-03-26T19:04:33.792453868Z                        ^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:04:33.792674608Z   File "/usr/local/lib/python3.12/site-packages/django/utils/functional.py", line 47, in __get__
+2026-03-26T19:04:33.793254373Z     res = instance.__dict__[self.name] = self.func(instance)
+2026-03-26T19:04:33.793351283Z                                          ^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:04:33.793371303Z   File "/usr/local/lib/python3.12/site-packages/django/urls/resolvers.py", line 722, in urlconf_module
+2026-03-26T19:04:33.793767862Z     return import_module(self.urlconf_name)
+2026-03-26T19:04:33.793866120Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:04:33.793873076Z   File "/usr/local/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-26T19:04:33.794585022Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-26T19:04:33.794713955Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:04:33.794723866Z   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-26T19:04:33.794727872Z   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-26T19:04:33.794731302Z   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-26T19:04:33.794734661Z   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-26T19:04:33.794770244Z   File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+2026-03-26T19:04:33.794775151Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-26T19:04:33.794778863Z   File "/app/config/urls.py", line 20, in <module>
+2026-03-26T19:04:33.794886717Z     path('api/users/', include('users.urls')),
+2026-03-26T19:04:33.794890912Z                        ^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:04:33.794963210Z   File "/usr/local/lib/python3.12/site-packages/django/urls/conf.py", line 39, in include
+2026-03-26T19:04:33.795701857Z     urlconf_module = import_module(urlconf_module)
+2026-03-26T19:04:33.795740883Z                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:04:33.795768121Z   File "/usr/local/lib/python3.12/importlib/__init__.py", line 90, in import_module
+2026-03-26T19:04:33.795861856Z     return _bootstrap._gcd_import(name[level:], package, level)
+2026-03-26T19:04:33.796020409Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-03-26T19:04:33.796025547Z   File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+2026-03-26T19:04:33.796028826Z   File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+2026-03-26T19:04:33.796032661Z   File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+2026-03-26T19:04:33.796036281Z   File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+2026-03-26T19:04:33.796122965Z   File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+2026-03-26T19:04:33.796133974Z   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+2026-03-26T19:04:33.796137949Z   File "/app/users/urls.py", line 6, in <module>
+2026-03-26T19:04:33.796202857Z     router.register(r'', views.UserViewSet, basename='user')
+2026-03-26T19:04:33.796206896Z                          ^^^^^^^^^^^^^^^^^
+2026-03-26T19:04:33.796251183Z AttributeError: module 'users.views' has no attribute 'UserViewSet'
