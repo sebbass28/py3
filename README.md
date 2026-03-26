@@ -6,12 +6,20 @@ DentalLinkLab es una plataforma B2B de vanguardia diseñada para digitalizar la 
 
 ## 🚀 1. Propuesta de Valor y Objetivos
 - **Reducción de Errores:** Validación visual en 3D antes de la fabricación física.
+- **Plataforma Multipestaña:** Dashboard independiente para Clínicas y Laboratorios.
 - **Eficiencia Logística:** Trazabilidad total del pedido mediante códigos QR.
 - **Democratización Tecnológica:** Acceso a herramientas de visualización avanzada para pequeñas clínicas.
 
 ---
 
-## 🛠️ 2. El Enfoque DentalLinkLab: Solución a Problemas Reales
+## 📚 2. Documentación Estratégica y Técnica
+Para profundizar en la lógica del proyecto y su valor de mercado, consulta los siguientes documentos:
+- 📊 **[Análisis del Sector y Soluciones](docs/analisis_problemas_sector.md):** Cómo resolvemos los problemas reales de los dentistas.
+- 🔐 **[Arquitectura de Seguridad y Roles](docs/seguridad_jwt_roles.md):** Explicación técnica de JWT y la distinción Clínica/Lab.
+
+---
+
+## 🛠️ 3. El Enfoque DentalLinkLab: Solución a Problemas Reales
 
 DentalLinkLab no es solo una web de ventas; es una herramienta de ingeniería diseñada para eliminar los 5 mayores "puntos de dolor" del sector:
 
