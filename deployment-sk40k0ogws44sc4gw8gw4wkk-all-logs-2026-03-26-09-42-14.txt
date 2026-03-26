@@ -1,0 +1,268 @@
+2026-Mar-26 09:41:34.722392 Starting deployment of sebbass28/py3:main to localhost.
+2026-Mar-26 09:41:34.937366 Preparing container with helper image: ghcr.io/coollabsio/coolify-helper:1.0.12
+2026-Mar-26 09:41:35.067752 [DEBUG] [CMD]: docker stop -t 30 sk40k0ogws44sc4gw8gw4wkk
+2026-Mar-26 09:41:35.067752 [DEBUG] Error response from daemon: No such container: sk40k0ogws44sc4gw8gw4wkk
+2026-Mar-26 09:41:35.351512 [DEBUG] [CMD]: docker run -d --network coolify --name sk40k0ogws44sc4gw8gw4wkk  --rm -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/coollabsio/coolify-helper:1.0.12
+2026-Mar-26 09:41:35.351512 [DEBUG] 1d6028406b45e47b9d91349bb5a729ec99d1600987722a3112a0b6a14dbe149c
+2026-Mar-26 09:41:37.064804 [DEBUG] [CMD]: docker exec sk40k0ogws44sc4gw8gw4wkk bash -c 'GIT_SSH_COMMAND="ssh -o ConnectTimeout=30 -p 22 -o Port=22 -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git ls-remote https://github.com/sebbass28/py3 refs/heads/main'
+2026-Mar-26 09:41:37.064804 [DEBUG] 4dfb9045bba278db6f6ec66dd82e140c7fa9bab0	refs/heads/main
+2026-Mar-26 09:41:37.087117 ----------------------------------------
+2026-Mar-26 09:41:37.094884 Importing sebbass28/py3:main (commit sha 4dfb9045bba278db6f6ec66dd82e140c7fa9bab0) to /artifacts/sk40k0ogws44sc4gw8gw4wkk.
+2026-Mar-26 09:41:37.288195 [DEBUG] [CMD]: docker exec sk40k0ogws44sc4gw8gw4wkk bash -c 'git clone --depth=1 --recurse-submodules --shallow-submodules -b 'main' 'https://github.com/sebbass28/py3' '/artifacts/sk40k0ogws44sc4gw8gw4wkk' && cd '/artifacts/sk40k0ogws44sc4gw8gw4wkk' && if [ -f .gitmodules ]; then sed -i "s#git@\(.*\):#https://\1/#g" '/artifacts/sk40k0ogws44sc4gw8gw4wkk'/.gitmodules || true && git submodule sync && GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git submodule update --init --recursive --depth=1; fi && cd '/artifacts/sk40k0ogws44sc4gw8gw4wkk' && GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git lfs pull'
+2026-Mar-26 09:41:37.288195 [DEBUG] Cloning into '/artifacts/sk40k0ogws44sc4gw8gw4wkk'...
+2026-Mar-26 09:41:46.116094 [DEBUG] Updating files:  30% (44/143)
+2026-Mar-26 09:41:49.006882 [DEBUG] Updating files:  31% (45/143)
+2026-Mar-26 09:41:50.474247 [DEBUG] Updating files:  32% (46/143)
+2026-Mar-26 09:41:50.528527 [DEBUG] Updating files:  32% (47/143)
+2026-Mar-26 09:41:50.541766 [DEBUG] Updating files:  33% (48/143)Updating files:  34% (49/143)Updating files:  35% (51/143)Updating files:  36% (52/143)Updating files:  37% (53/143)
+2026-Mar-26 09:41:50.576960 [DEBUG] Updating files:  38% (55/143)
+2026-Mar-26 09:41:50.595301 [DEBUG] Updating files:  39% (56/143)Updating files:  40% (58/143)Updating files:  41% (59/143)Updating files:  42% (61/143)Updating files:  43% (62/143)Updating files:  44% (63/143)Updating files:  45% (65/143)Updating files:  46% (66/143)Updating files:  47% (68/143)Updating files:  48% (69/143)Updating files:  49% (71/143)Updating files:  50% (72/143)Updating files:  51% (73/143)Updating files:  52% (75/143)Updating files:  53% (76/143)Updating files:  54% (78/143)Updating files:  55% (79/143)Updating files:  56% (81/143)Updating files:  57% (82/143)Updating files:  58% (83/143)Updating files:  59% (85/143)Updating files:  60% (86/143)Updating files:  61% (88/143)Updating files:  62% (89/143)Updating files:  63% (91/143)Updating files:  64% (92/143)Updating files:  65% (93/143)Updating files:  66% (95/143)Updating files:  67% (96/143)Updating files:  68% (98/143)Updating files:  69% (99/143)Updating files:  70% (101/143)Updating files:  71% (102/143)Updating files:  72% (103/143)Updating files:  73% (105/143)Updating files:  74% (106/143)Updating files:  75% (108/143)Updating files:  76% (109/143)Updating files:  77% (111/143)Updating files:  78% (112/143)Updating files:  79% (113/143)Updating files:  80% (115/143)Updating files:  81% (116/143)Updating files:  82% (118/143)Updating files:  83% (119/143)Updating files:  84% (121/143)Updating files:  85% (122/143)Updating files:  86% (123/143)Updating files:  87% (125/143)Updating files:  88% (126/143)Updating files:  89% (128/143)Updating files:  90% (129/143)Updating files:  91% (131/143)Updating files:  92% (132/143)Updating files:  93% (133/143)Updating files:  94% (135/143)Updating files:  95% (136/143)Updating files:  96% (138/143)Updating files:  97% (139/143)Updating files:  98% (141/143)Updating files:  99% (142/143)Updating files: 100% (143/143)Updating files: 100% (143/143), done.
+2026-Mar-26 09:41:53.004799 [DEBUG] [CMD]: docker exec sk40k0ogws44sc4gw8gw4wkk bash -c 'cd /artifacts/sk40k0ogws44sc4gw8gw4wkk && git log -1 4dfb9045bba278db6f6ec66dd82e140c7fa9bab0 --pretty=%B'
+2026-Mar-26 09:41:53.004799 [DEBUG] feat: Add migration for design_url field in Order model
+2026-Mar-26 09:41:53.371002 Image not found (lwkc88g8kooko8kc40kg40so:4dfb9045bba278db6f6ec66dd82e140c7fa9bab0). Building new image.
+2026-Mar-26 09:41:55.084510 [DEBUG] [CMD]: docker exec sk40k0ogws44sc4gw8gw4wkk bash -c 'cat /artifacts/sk40k0ogws44sc4gw8gw4wkk/Dockerfile'
+2026-Mar-26 09:41:55.084510 [DEBUG] # Dockerfile optimizado para despliegue híbrido (Build local)
+2026-Mar-26 09:41:55.084510 [DEBUG] FROM python:3.12-slim
+2026-Mar-26 09:41:55.084510 [DEBUG] WORKDIR /app
+2026-Mar-26 09:41:55.084510 [DEBUG] 
+2026-Mar-26 09:41:55.084510 [DEBUG] 
+2026-Mar-26 09:41:55.084510 [DEBUG] # Install system dependencies
+2026-Mar-26 09:41:55.084510 [DEBUG] RUN apt-get update && apt-get install -y \
+2026-Mar-26 09:41:55.084510 [DEBUG] postgresql-client \
+2026-Mar-26 09:41:55.084510 [DEBUG] gcc \
+2026-Mar-26 09:41:55.084510 [DEBUG] libpq-dev \
+2026-Mar-26 09:41:55.084510 [DEBUG] && rm -rf /var/lib/apt/lists/*
+2026-Mar-26 09:41:55.084510 [DEBUG] 
+2026-Mar-26 09:41:55.084510 [DEBUG] # Install Python dependencies
+2026-Mar-26 09:41:55.084510 [DEBUG] COPY requirements.txt .
+2026-Mar-26 09:41:55.084510 [DEBUG] RUN pip install --no-cache-dir -r requirements.txt
+2026-Mar-26 09:41:55.084510 [DEBUG] 
+2026-Mar-26 09:41:55.084510 [DEBUG] # Copy project files
+2026-Mar-26 09:41:55.084510 [DEBUG] COPY . .
+2026-Mar-26 09:41:55.084510 [DEBUG] 
+2026-Mar-26 09:41:55.084510 [DEBUG] # Copy frontend build (pre-built locally)
+2026-Mar-26 09:41:55.084510 [DEBUG] COPY frontend/build ./frontend/build
+2026-Mar-26 09:41:55.084510 [DEBUG] 
+2026-Mar-26 09:41:55.084510 [DEBUG] # Environment variables
+2026-Mar-26 09:41:55.084510 [DEBUG] ENV PYTHONDONTWRITEBYTECODE=1 \
+2026-Mar-26 09:41:55.084510 [DEBUG] PYTHONUNBUFFERED=1 \
+2026-Mar-26 09:41:55.084510 [DEBUG] PORT=8000
+2026-Mar-26 09:41:55.084510 [DEBUG] 
+2026-Mar-26 09:41:55.084510 [DEBUG] # Collect static files
+2026-Mar-26 09:41:55.084510 [DEBUG] RUN python manage.py collectstatic --noinput
+2026-Mar-26 09:41:55.084510 [DEBUG] 
+2026-Mar-26 09:41:55.084510 [DEBUG] # Expose port
+2026-Mar-26 09:41:55.084510 [DEBUG] EXPOSE 8000
+2026-Mar-26 09:41:55.084510 [DEBUG] 
+2026-Mar-26 09:41:55.084510 [DEBUG] # Start command with migrations
+2026-Mar-26 09:41:55.084510 [DEBUG] CMD ["sh", "-c", "python manage.py migrate && gunicorn talento360.wsgi:application --bind 0.0.0.0:8000"]
+2026-Mar-26 09:41:55.666933 [DEBUG] Creating build-time .env file in /artifacts (outside Docker context).
+2026-Mar-26 09:41:56.121122 [DEBUG] [CMD]: docker exec sk40k0ogws44sc4gw8gw4wkk bash -c 'cat /artifacts/sk40k0ogws44sc4gw8gw4wkk/Dockerfile'
+2026-Mar-26 09:41:56.121122 [DEBUG] # Dockerfile optimizado para despliegue híbrido (Build local)
+2026-Mar-26 09:41:56.121122 [DEBUG] FROM python:3.12-slim
+2026-Mar-26 09:41:56.121122 [DEBUG] WORKDIR /app
+2026-Mar-26 09:41:56.121122 [DEBUG] 
+2026-Mar-26 09:41:56.121122 [DEBUG] 
+2026-Mar-26 09:41:56.121122 [DEBUG] # Install system dependencies
+2026-Mar-26 09:41:56.121122 [DEBUG] RUN apt-get update && apt-get install -y \
+2026-Mar-26 09:41:56.121122 [DEBUG] postgresql-client \
+2026-Mar-26 09:41:56.121122 [DEBUG] gcc \
+2026-Mar-26 09:41:56.121122 [DEBUG] libpq-dev \
+2026-Mar-26 09:41:56.121122 [DEBUG] && rm -rf /var/lib/apt/lists/*
+2026-Mar-26 09:41:56.121122 [DEBUG] 
+2026-Mar-26 09:41:56.121122 [DEBUG] # Install Python dependencies
+2026-Mar-26 09:41:56.121122 [DEBUG] COPY requirements.txt .
+2026-Mar-26 09:41:56.121122 [DEBUG] RUN pip install --no-cache-dir -r requirements.txt
+2026-Mar-26 09:41:56.121122 [DEBUG] 
+2026-Mar-26 09:41:56.121122 [DEBUG] # Copy project files
+2026-Mar-26 09:41:56.121122 [DEBUG] COPY . .
+2026-Mar-26 09:41:56.121122 [DEBUG] 
+2026-Mar-26 09:41:56.121122 [DEBUG] # Copy frontend build (pre-built locally)
+2026-Mar-26 09:41:56.121122 [DEBUG] COPY frontend/build ./frontend/build
+2026-Mar-26 09:41:56.121122 [DEBUG] 
+2026-Mar-26 09:41:56.121122 [DEBUG] # Environment variables
+2026-Mar-26 09:41:56.121122 [DEBUG] ENV PYTHONDONTWRITEBYTECODE=1 \
+2026-Mar-26 09:41:56.121122 [DEBUG] PYTHONUNBUFFERED=1 \
+2026-Mar-26 09:41:56.121122 [DEBUG] PORT=8000
+2026-Mar-26 09:41:56.121122 [DEBUG] 
+2026-Mar-26 09:41:56.121122 [DEBUG] # Collect static files
+2026-Mar-26 09:41:56.121122 [DEBUG] RUN python manage.py collectstatic --noinput
+2026-Mar-26 09:41:56.121122 [DEBUG] 
+2026-Mar-26 09:41:56.121122 [DEBUG] # Expose port
+2026-Mar-26 09:41:56.121122 [DEBUG] EXPOSE 8000
+2026-Mar-26 09:41:56.121122 [DEBUG] 
+2026-Mar-26 09:41:56.121122 [DEBUG] # Start command with migrations
+2026-Mar-26 09:41:56.121122 [DEBUG] CMD ["sh", "-c", "python manage.py migrate && gunicorn talento360.wsgi:application --bind 0.0.0.0:8000"]
+2026-Mar-26 09:41:56.139711 [DEBUG] Final Dockerfile:
+2026-Mar-26 09:41:56.639036 [DEBUG] [CMD]: docker exec sk40k0ogws44sc4gw8gw4wkk bash -c 'cat /artifacts/sk40k0ogws44sc4gw8gw4wkk/Dockerfile'
+2026-Mar-26 09:41:56.639036 [DEBUG] # Dockerfile optimizado para despliegue híbrido (Build local)
+2026-Mar-26 09:41:56.639036 [DEBUG] FROM python:3.12-slim
+2026-Mar-26 09:41:56.639036 [DEBUG] ARG COOLIFY_URL=http://lwkc88g8kooko8kc40kg40so.13.48.122.24.sslip.io
+2026-Mar-26 09:41:56.639036 [DEBUG] ARG COOLIFY_FQDN=lwkc88g8kooko8kc40kg40so.13.48.122.24.sslip.io
+2026-Mar-26 09:41:56.639036 [DEBUG] ARG COOLIFY_BRANCH=main
+2026-Mar-26 09:41:56.639036 [DEBUG] ARG COOLIFY_RESOURCE_UUID=lwkc88g8kooko8kc40kg40so
+2026-Mar-26 09:41:56.639036 [DEBUG] WORKDIR /app
+2026-Mar-26 09:41:56.639036 [DEBUG] 
+2026-Mar-26 09:41:56.639036 [DEBUG] 
+2026-Mar-26 09:41:56.639036 [DEBUG] # Install system dependencies
+2026-Mar-26 09:41:56.639036 [DEBUG] RUN apt-get update && apt-get install -y \
+2026-Mar-26 09:41:56.639036 [DEBUG] postgresql-client \
+2026-Mar-26 09:41:56.639036 [DEBUG] gcc \
+2026-Mar-26 09:41:56.639036 [DEBUG] libpq-dev \
+2026-Mar-26 09:41:56.639036 [DEBUG] && rm -rf /var/lib/apt/lists/*
+2026-Mar-26 09:41:56.639036 [DEBUG] 
+2026-Mar-26 09:41:56.639036 [DEBUG] # Install Python dependencies
+2026-Mar-26 09:41:56.639036 [DEBUG] COPY requirements.txt .
+2026-Mar-26 09:41:56.639036 [DEBUG] RUN pip install --no-cache-dir -r requirements.txt
+2026-Mar-26 09:41:56.639036 [DEBUG] 
+2026-Mar-26 09:41:56.639036 [DEBUG] # Copy project files
+2026-Mar-26 09:41:56.639036 [DEBUG] COPY . .
+2026-Mar-26 09:41:56.639036 [DEBUG] 
+2026-Mar-26 09:41:56.639036 [DEBUG] # Copy frontend build (pre-built locally)
+2026-Mar-26 09:41:56.639036 [DEBUG] COPY frontend/build ./frontend/build
+2026-Mar-26 09:41:56.639036 [DEBUG] 
+2026-Mar-26 09:41:56.639036 [DEBUG] # Environment variables
+2026-Mar-26 09:41:56.639036 [DEBUG] ENV PYTHONDONTWRITEBYTECODE=1 \
+2026-Mar-26 09:41:56.639036 [DEBUG] PYTHONUNBUFFERED=1 \
+2026-Mar-26 09:41:56.639036 [DEBUG] PORT=8000
+2026-Mar-26 09:41:56.639036 [DEBUG] 
+2026-Mar-26 09:41:56.639036 [DEBUG] # Collect static files
+2026-Mar-26 09:41:56.639036 [DEBUG] RUN python manage.py collectstatic --noinput
+2026-Mar-26 09:41:56.639036 [DEBUG] 
+2026-Mar-26 09:41:56.639036 [DEBUG] # Expose port
+2026-Mar-26 09:41:56.639036 [DEBUG] EXPOSE 8000
+2026-Mar-26 09:41:56.639036 [DEBUG] 
+2026-Mar-26 09:41:56.639036 [DEBUG] # Start command with migrations
+2026-Mar-26 09:41:56.639036 [DEBUG] CMD ["sh", "-c", "python manage.py migrate && gunicorn talento360.wsgi:application --bind 0.0.0.0:8000"]
+2026-Mar-26 09:41:56.653594 ----------------------------------------
+2026-Mar-26 09:41:56.665187 Building docker image started.
+2026-Mar-26 09:41:56.674173 To check the current progress, click on Show Debug Logs.
+2026-Mar-26 09:41:57.195602 [DEBUG] [CMD]: docker exec sk40k0ogws44sc4gw8gw4wkk bash -c 'cat /artifacts/build.sh'
+2026-Mar-26 09:41:57.195602 [DEBUG] cd /artifacts/sk40k0ogws44sc4gw8gw4wkk && set -a && source /artifacts/build-time.env && set +a && docker build  --add-host coolify:10.0.1.3 --add-host coolify-db:10.0.1.10 --add-host coolify-realtime:10.0.1.6 --add-host coolify-redis:10.0.1.2 --add-host poo88w0s8kcc4g44cgo88cso:10.0.1.4 --add-host poo88w0s8kcc4g44cgo88cso-proxy:10.0.1.11 --network host -f /artifacts/sk40k0ogws44sc4gw8gw4wkk/Dockerfile --build-arg COOLIFY_URL --build-arg COOLIFY_FQDN --build-arg COOLIFY_BRANCH --build-arg COOLIFY_RESOURCE_UUID --build-arg COOLIFY_BUILD_SECRETS_HASH=59545593a15dba318018cc0ae2449cdd0c034d7d452b6f87e3f5399446faea5e --build-arg 'COOLIFY_URL' --build-arg 'COOLIFY_FQDN' --build-arg 'COOLIFY_BRANCH' --build-arg 'COOLIFY_RESOURCE_UUID' --progress plain -t lwkc88g8kooko8kc40kg40so:4dfb9045bba278db6f6ec66dd82e140c7fa9bab0 /artifacts/sk40k0ogws44sc4gw8gw4wkk
+2026-Mar-26 09:41:58.868791 [DEBUG] [CMD]: docker exec sk40k0ogws44sc4gw8gw4wkk bash -c 'bash /artifacts/build.sh'
+2026-Mar-26 09:41:58.868791 [DEBUG] #0 building with "default" instance using docker driver
+2026-Mar-26 09:41:58.868791 [DEBUG] 
+2026-Mar-26 09:41:58.868791 [DEBUG] #1 [internal] load build definition from Dockerfile
+2026-Mar-26 09:41:58.868791 [DEBUG] #1 transferring dockerfile:
+2026-Mar-26 09:41:58.985435 [DEBUG] #1 transferring dockerfile: 1.05kB 0.0s done
+2026-Mar-26 09:41:58.985435 [DEBUG] #1 DONE 0.1s
+2026-Mar-26 09:41:58.985435 [DEBUG] 
+2026-Mar-26 09:41:58.985435 [DEBUG] #2 [internal] load metadata for docker.io/library/python:3.12-slim
+2026-Mar-26 09:42:00.648263 [DEBUG] #2 DONE 1.7s
+2026-Mar-26 09:42:00.753891 [DEBUG] #3 [internal] load .dockerignore
+2026-Mar-26 09:42:00.753891 [DEBUG] #3 transferring context: 218B done
+2026-Mar-26 09:42:00.862503 [DEBUG] #3 DONE 0.1s
+2026-Mar-26 09:42:00.862503 [DEBUG] 
+2026-Mar-26 09:42:00.862503 [DEBUG] #4 [1/8] FROM docker.io/library/python:3.12-slim@sha256:3d5ed973e45820f5ba5e46bd065bd88b3a504ff0724d85980dcd05eab361fcf4
+2026-Mar-26 09:42:00.862503 [DEBUG] #4 resolve docker.io/library/python:3.12-slim@sha256:3d5ed973e45820f5ba5e46bd065bd88b3a504ff0724d85980dcd05eab361fcf4
+2026-Mar-26 09:42:00.986882 [DEBUG] #4 resolve docker.io/library/python:3.12-slim@sha256:3d5ed973e45820f5ba5e46bd065bd88b3a504ff0724d85980dcd05eab361fcf4 0.1s done
+2026-Mar-26 09:42:01.099255 [DEBUG] #4 sha256:3d5ed973e45820f5ba5e46bd065bd88b3a504ff0724d85980dcd05eab361fcf4 10.37kB / 10.37kB done
+2026-Mar-26 09:42:01.099255 [DEBUG] #4 sha256:0bbd3d5f3abb2024c1b92ce69e8bdfefa17c248999827c34e2ed52ba0772da1b 1.75kB / 1.75kB done
+2026-Mar-26 09:42:01.099255 [DEBUG] #4 sha256:fb1118f126b507965df3c46fdfc52312dfd5262e7b6652ef510bd9298f69a6bc 5.66kB / 5.66kB done
+2026-Mar-26 09:42:01.420455 [DEBUG] #4 DONE 0.5s
+2026-Mar-26 09:42:01.420455 [DEBUG] 
+2026-Mar-26 09:42:01.420455 [DEBUG] #5 [internal] load build context
+2026-Mar-26 09:42:01.420455 [DEBUG] #5 transferring context: 943.37kB 0.4s done
+2026-Mar-26 09:42:01.420455 [DEBUG] #5 DONE 0.5s
+2026-Mar-26 09:42:01.427453 [DEBUG] #6 [6/8] COPY . .
+2026-Mar-26 09:42:01.427453 [DEBUG] #6 CACHED
+2026-Mar-26 09:42:01.427453 [DEBUG] 
+2026-Mar-26 09:42:01.427453 [DEBUG] #7 [3/8] RUN apt-get update && apt-get install -y     postgresql-client     gcc     libpq-dev     && rm -rf /var/lib/apt/lists/*
+2026-Mar-26 09:42:01.427453 [DEBUG] #7 CACHED
+2026-Mar-26 09:42:01.427453 [DEBUG] 
+2026-Mar-26 09:42:01.427453 [DEBUG] #8 [4/8] COPY requirements.txt .
+2026-Mar-26 09:42:01.427453 [DEBUG] #8 CACHED
+2026-Mar-26 09:42:01.427453 [DEBUG] 
+2026-Mar-26 09:42:01.427453 [DEBUG] #9 [5/8] RUN pip install --no-cache-dir -r requirements.txt
+2026-Mar-26 09:42:01.427453 [DEBUG] #9 CACHED
+2026-Mar-26 09:42:01.427453 [DEBUG] 
+2026-Mar-26 09:42:01.427453 [DEBUG] #10 [7/8] COPY frontend/build ./frontend/build
+2026-Mar-26 09:42:01.427453 [DEBUG] #10 ERROR: failed to calculate checksum of ref 1beef8d0-29cf-40d7-b490-84a659e68948::ack3wkl64ingslf3694bw9xok: "/frontend/build": not found
+2026-Mar-26 09:42:01.427453 [DEBUG] 
+2026-Mar-26 09:42:01.427453 [DEBUG] #11 [2/8] WORKDIR /app
+2026-Mar-26 09:42:01.544891 [DEBUG] #11 DONE 0.2s
+2026-Mar-26 09:42:03.113503 [DEBUG] ------
+2026-Mar-26 09:42:03.113503 [DEBUG] > [7/8] COPY frontend/build ./frontend/build:
+2026-Mar-26 09:42:03.113503 [DEBUG] ------
+2026-Mar-26 09:42:03.619050 [DEBUG] Dockerfile:25
+2026-Mar-26 09:42:03.619050 [DEBUG] --------------------
+2026-Mar-26 09:42:03.619050 [DEBUG] 23 |
+2026-Mar-26 09:42:03.619050 [DEBUG] 24 |     # Copy frontend build (pre-built locally)
+2026-Mar-26 09:42:03.619050 [DEBUG] 25 | >>> COPY frontend/build ./frontend/build
+2026-Mar-26 09:42:03.619050 [DEBUG] 26 |
+2026-Mar-26 09:42:03.619050 [DEBUG] 27 |     # Environment variables
+2026-Mar-26 09:42:03.619050 [DEBUG] --------------------
+2026-Mar-26 09:42:03.619050 [DEBUG] ERROR: failed to build: failed to solve: failed to compute cache key: failed to calculate checksum of ref 1beef8d0-29cf-40d7-b490-84a659e68948::ack3wkl64ingslf3694bw9xok: "/frontend/build": not found
+2026-Mar-26 09:42:03.853565 [DEBUG] exit status 1
+2026-Mar-26 09:42:05.373884 ========================================
+2026-Mar-26 09:42:05.427471 Deployment failed: Command execution failed (exit code 1): docker exec sk40k0ogws44sc4gw8gw4wkk bash -c 'bash /artifacts/build.sh'
+2026-Mar-26 09:42:05.427471 Error: #0 building with "default" instance using docker driver
+2026-Mar-26 09:42:05.427471 
+2026-Mar-26 09:42:05.427471 #1 [internal] load build definition from Dockerfile
+2026-Mar-26 09:42:05.427471 #1 transferring dockerfile:
+2026-Mar-26 09:42:05.427471 #1 transferring dockerfile: 1.05kB 0.0s done
+2026-Mar-26 09:42:05.427471 #1 DONE 0.1s
+2026-Mar-26 09:42:05.427471 
+2026-Mar-26 09:42:05.427471 #2 [internal] load metadata for docker.io/library/python:3.12-slim
+2026-Mar-26 09:42:05.427471 #2 DONE 1.7s
+2026-Mar-26 09:42:05.427471 
+2026-Mar-26 09:42:05.427471 #3 [internal] load .dockerignore
+2026-Mar-26 09:42:05.427471 #3 transferring context: 218B done
+2026-Mar-26 09:42:05.427471 #3 DONE 0.1s
+2026-Mar-26 09:42:05.427471 
+2026-Mar-26 09:42:05.427471 #4 [1/8] FROM docker.io/library/python:3.12-slim@sha256:3d5ed973e45820f5ba5e46bd065bd88b3a504ff0724d85980dcd05eab361fcf4
+2026-Mar-26 09:42:05.427471 #4 resolve docker.io/library/python:3.12-slim@sha256:3d5ed973e45820f5ba5e46bd065bd88b3a504ff0724d85980dcd05eab361fcf4
+2026-Mar-26 09:42:05.427471 #4 resolve docker.io/library/python:3.12-slim@sha256:3d5ed973e45820f5ba5e46bd065bd88b3a504ff0724d85980dcd05eab361fcf4 0.1s done
+2026-Mar-26 09:42:05.427471 #4 sha256:3d5ed973e45820f5ba5e46bd065bd88b3a504ff0724d85980dcd05eab361fcf4 10.37kB / 10.37kB done
+2026-Mar-26 09:42:05.427471 #4 sha256:0bbd3d5f3abb2024c1b92ce69e8bdfefa17c248999827c34e2ed52ba0772da1b 1.75kB / 1.75kB done
+2026-Mar-26 09:42:05.427471 #4 sha256:fb1118f126b507965df3c46fdfc52312dfd5262e7b6652ef510bd9298f69a6bc 5.66kB / 5.66kB done
+2026-Mar-26 09:42:05.427471 #4 DONE 0.5s
+2026-Mar-26 09:42:05.427471 
+2026-Mar-26 09:42:05.427471 #5 [internal] load build context
+2026-Mar-26 09:42:05.427471 #5 transferring context: 943.37kB 0.4s done
+2026-Mar-26 09:42:05.427471 #5 DONE 0.5s
+2026-Mar-26 09:42:05.427471 
+2026-Mar-26 09:42:05.427471 #6 [6/8] COPY . .
+2026-Mar-26 09:42:05.427471 #6 CACHED
+2026-Mar-26 09:42:05.427471 
+2026-Mar-26 09:42:05.427471 #7 [3/8] RUN apt-get update && apt-get install -y     postgresql-client     gcc     libpq-dev     && rm -rf /var/lib/apt/lists/*
+2026-Mar-26 09:42:05.427471 #7 CACHED
+2026-Mar-26 09:42:05.427471 
+2026-Mar-26 09:42:05.427471 #8 [4/8] COPY requirements.txt .
+2026-Mar-26 09:42:05.427471 #8 CACHED
+2026-Mar-26 09:42:05.427471 
+2026-Mar-26 09:42:05.427471 #9 [5/8] RUN pip install --no-cache-dir -r requirements.txt
+2026-Mar-26 09:42:05.427471 #9 CACHED
+2026-Mar-26 09:42:05.427471 
+2026-Mar-26 09:42:05.427471 #10 [7/8] COPY frontend/build ./frontend/build
+2026-Mar-26 09:42:05.427471 #10 ERROR: failed to calculate checksum of ref 1beef8d0-29cf-40d7-b490-84a659e68948::ack3wkl64ingslf3694bw9xok: "/frontend/build": not found
+2026-Mar-26 09:42:05.427471 
+2026-Mar-26 09:42:05.427471 #11 [2/8] WORKDIR /app
+2026-Mar-26 09:42:05.427471 #11 DONE 0.2s
+2026-Mar-26 09:42:05.427471 ------
+2026-Mar-26 09:42:05.427471 > [7/8] COPY frontend/build ./frontend/build:
+2026-Mar-26 09:42:05.427471 ------
+2026-Mar-26 09:42:05.427471 Dockerfile:25
+2026-Mar-26 09:42:05.427471 --------------------
+2026-Mar-26 09:42:05.427471 23 |
+2026-Mar-26 09:42:05.427471 24 |     # Copy frontend build (pre-built locally)
+2026-Mar-26 09:42:05.427471 25 | >>> COPY frontend/build ./frontend/build
+2026-Mar-26 09:42:05.427471 26 |
+2026-Mar-26 09:42:05.427471 27 |     # Environment variables
+2026-Mar-26 09:42:05.427471 --------------------
+2026-Mar-26 09:42:05.427471 ERROR: failed to build: failed to solve: failed to compute cache key: failed to calculate checksum of ref 1beef8d0-29cf-40d7-b490-84a659e68948::ack3wkl64ingslf3694bw9xok: "/frontend/build": not found
+2026-Mar-26 09:42:05.427471 exit status 1
+2026-Mar-26 09:42:05.439040 [DEBUG] Error type: RuntimeException
+2026-Mar-26 09:42:05.466635 [DEBUG] Error code: 0
+2026-Mar-26 09:42:05.496561 [DEBUG] Location: /var/www/html/app/Traits/ExecuteRemoteCommand.php:243
+2026-Mar-26 09:42:05.527360 [DEBUG] Stack trace (first 5 lines):
+2026-Mar-26 09:42:05.551257 [DEBUG] #0 /var/www/html/app/Traits/ExecuteRemoteCommand.php(104): App\Jobs\ApplicationDeploymentJob->executeCommandWithProcess()
+2026-Mar-26 09:42:05.583231 [DEBUG] #1 /var/www/html/vendor/laravel/framework/src/Illuminate/Collections/Traits/EnumeratesValues.php(272): App\Jobs\ApplicationDeploymentJob->{closure:App\Traits\ExecuteRemoteCommand::execute_remote_command():71}()
+2026-Mar-26 09:42:05.614134 [DEBUG] #2 /var/www/html/app/Traits/ExecuteRemoteCommand.php(71): Illuminate\Support\Collection->each()
+2026-Mar-26 09:42:05.638120 [DEBUG] #3 /var/www/html/app/Jobs/ApplicationDeploymentJob.php(3163): App\Jobs\ApplicationDeploymentJob->execute_remote_command()
+2026-Mar-26 09:42:05.663855 [DEBUG] #4 /var/www/html/app/Jobs/ApplicationDeploymentJob.php(854): App\Jobs\ApplicationDeploymentJob->build_image()
+2026-Mar-26 09:42:05.684453 ========================================
+2026-Mar-26 09:42:05.700898 Deployment failed. Removing the new version of your application.
+2026-Mar-26 09:42:09.417427 Gracefully shutting down build container: sk40k0ogws44sc4gw8gw4wkk
+2026-Mar-26 09:42:10.193612 [DEBUG] [CMD]: docker stop -t 30 sk40k0ogws44sc4gw8gw4wkk
+2026-Mar-26 09:42:10.193612 [DEBUG] sk40k0ogws44sc4gw8gw4wkk
