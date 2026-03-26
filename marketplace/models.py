@@ -77,6 +77,7 @@ class Order(models.Model):
     notes = models.TextField(blank=True, help_text="Instrucciones clínicas")
     
     scan_url = models.URLField(blank=True, null=True, help_text="Link al escaneado intraoral (.STL)")
+    design_url = models.URLField(blank=True, null=True, help_text="Link al diseño propuesto por el laboratorio (.STL)")
     due_date = models.DateField(null=True, blank=True)
     
     created_at = models.DateTimeField(auto_now_add=True)
