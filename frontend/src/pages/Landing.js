@@ -30,7 +30,7 @@ function Landing() {
           
           <div className="relative">
             <div className="h-[500px] w-full">
-              <Viewer3D stlUrl="/models/Crown.stl" />
+              <Viewer3D stlUrl="/static/models/Crown.stl" />
             </div>
           </div>
         </div>
