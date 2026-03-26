@@ -70,6 +70,11 @@ Debido a las limitaciones de RAM (1GB) en servidores AWS de bajos recursos, se i
 - Migración del almacenamiento de archivos STL masivos a **AWS S3** usando `django-storages`.
 - Notificaciones en tiempo real mediante **WebSockets** con `Django Channels`.
 
+### **Fase 4: Tecnologías Disruptivas de Excelencia**
+- **Blockchain de Trazabilidad:** Pasaporte de producto inmutable para certificar el origen y calidad de los materiales (Zirconio, Titanio).
+- **IA Generativa Académica:** Modelado automático de anatomías dentales personalizadas.
+- **Economía Circular:** Plataforma de gestión de residuos y reciclaje de materiales de fresado.
+
 ---
 
 ## 🛠️ 6. Guía de Instalación y Librerías
