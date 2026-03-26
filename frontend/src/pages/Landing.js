@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Viewer3D from '../components/Viewer3D';
 
 function Landing() {
   return (
@@ -22,18 +23,14 @@ function Landing() {
                 Empezar ahora
               </Link>
               <Link to="/marketplace" className="px-10 py-4 bg-white hover:bg-gray-50 text-gray-900 border border-gray-200 rounded-lg font-bold text-lg shadow-sm transition text-center">
-                Ver Demo
+                Ver Marketplace
               </Link>
             </div>
           </div>
           
           <div className="relative">
-            <div className="rounded-[40px] overflow-hidden shadow-2xl">
-              <img 
-                src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
-                alt="Clinic mockup" 
-                className="w-full h-full object-cover"
-              />
+            <div className="h-[500px] w-full">
+              <Viewer3D stlUrl="/models/demo_dental.stl" />
             </div>
           </div>
         </div>
