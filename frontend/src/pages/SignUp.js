@@ -1,26 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import apiClient from '../api';
+import AuthContext from '../context/AuthContext';
 
+// Componente para el registro de nuevos perfiles (Clínica o Laboratorio)
 function SignUp() {
+  // Consumimos la función de registro del contexto global
+  const { register } = useContext(AuthContext);
+  const [error, setError] = useState(null); // Estado para feedback de errores (ej: usuario ya existe)
+
+  // Estado unificado para todos los campos del formulario
   const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: '',
-    role: 'clinic',
+    role: 'clinic', // Rol por defecto
     company_name: '',
     address: ''
   });
   const navigate = useNavigate();
 
+  // Función para procesar el envío del registro
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await apiClient.post('users/signup/', formData);
-      alert("Registro exitoso. Ahora puedes iniciar sesión.");
-      navigate('/login');
-    } catch (err) {
-      alert("Error en el registro. Prueba con otro usuario.");
+    setError(null);
+    
+    // Llamamos al registro del AuthContext
+    const result = await register(formData);
+    
+    if (result.success) {
+      // Si el registro y login automático tienen éxito, vamos al Dashboard
+      navigate('/dashboard');
+    } else {
+      // Si falla, procesamos los errores que envía Django (que suelen ser un objeto con listas de errores)
+      const errorMsg = typeof result.error === 'object' 
+        ? Object.values(result.error).flat().join(' ')
+        : result.error;
+      setError(errorMsg);
     }
   };
 
@@ -39,6 +54,11 @@ function SignUp() {
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4">
+        {error && (
+          <div className="mb-4 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 text-sm font-bold rounded-r-xl shadow-sm animate-pulse">
+            {error}
+          </div>
+        )}
         <div className="bg-white py-10 px-6 shadow-card sm:rounded-2xl sm:px-10 border border-gray-100 italic">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="grid grid-cols-2 bg-gray-50 p-1.5 rounded-xl border border-gray-100 mb-4 not-italic">

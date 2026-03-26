@@ -18,10 +18,8 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic import TemplateView
 from django.http import JsonResponse
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
+from rest_framework_simplejwt.views import TokenRefreshView
+from users.views import MyTokenObtainPairView, RegisterView, ProfileView
 
 def frontend_view(request, path=''):
     return TemplateView.as_view(template_name='index.html')(request)
@@ -30,7 +28,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     
     # Auth API (JWT)
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/register/', RegisterView.as_view(), name='auth_register'),
+    path('api/users/me/', ProfileView.as_view(), name='user_profile'),
+    path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     
     # Unified Backend APIs
