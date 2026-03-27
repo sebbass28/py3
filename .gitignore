@@ -29,3 +29,6 @@ staticfiles/
 
 # Dependencies
 frontend/node_modules/
+
+# Local copies
+copia/
