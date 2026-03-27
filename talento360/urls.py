@@ -43,3 +43,10 @@ urlpatterns = [
     path('', frontend_view),
     re_path(r'^(?P<path>.*)/$', frontend_view),
 ]
+
+# Servir archivos multimedia en desarrollo (DEBUG=True)
+from django.conf import settings
+from django.conf.urls.static import static
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

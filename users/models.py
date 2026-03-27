@@ -25,6 +25,7 @@ class User(AbstractUser):
     company_name = models.CharField(max_length=255, blank=True, null=True, verbose_name="Nombre de la Empresa")
     address = models.TextField(blank=True, null=True, verbose_name="Dirección Fiscal/Física")
     phone = models.CharField(max_length=20, blank=True, null=True, verbose_name="Teléfono de contacto")
+    vat_id = models.CharField(max_length=20, blank=True, null=True, verbose_name="CIF/NIF")
     
     # Campos específicos para Laboratorios (Cumplimiento de normativa MDR)
     certifications = models.TextField(

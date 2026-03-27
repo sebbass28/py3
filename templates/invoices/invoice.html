@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Factura {{ invoice.number }}</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            color: #333;
+            font-size: 10pt;
+            line-height: 1.4;
+        }
+        .header {
+            border-bottom: 2px solid #0891b2; /* cyan-600 */
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .header-table {
+            width: 100%;
+        }
+        .logo {
+            font-size: 24pt;
+            font-weight: bold;
+            color: #0891b2;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .invoice-title {
+            text-align: right;
+            font-size: 18pt;
+            font-weight: bold;
+            color: #4b5563;
+        }
+        .details-table {
+            width: 100%;
+            margin-bottom: 40px;
+        }
+        .details-column {
+            width: 50%;
+            vertical-align: top;
+        }
+        .section-label {
+            font-size: 8pt;
+            font-weight: bold;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        .address-box {
+            padding-right: 20px;
+        }
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        .items-table th {
+            background-color: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 10px;
+            text-align: left;
+            font-size: 9pt;
+            color: #6b7280;
+        }
+        .items-table td {
+            padding: 15px 10px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .totals-table {
+            width: 40%;
+            margin-left: 60%;
+        }
+        .total-row td {
+            padding: 5px 0;
+        }
+        .grand-total {
+            font-size: 14pt;
+            font-weight: bold;
+            color: #0891b2;
+            border-top: 2px solid #e5e7eb;
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+        .footer {
+            margin-top: 50px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            font-size: 8pt;
+            color: #999;
+            text-align: center;
+        }
+        .qr-box {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .qr-img {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <table class="header-table">
+            <tr>
+                <td class="logo">DentalLinkLab</td>
+                <td class="invoice-title">FACTURA</td>
+            </tr>
+        </table>
+    </div>
+
+    <table class="details-table">
+        <tr>
+            <td class="details-column">
+                <div class="section-label">Emitido por (Laboratorio)</div>
+                <div class="address-box">
+                    <strong>{{ invoice.lab_info|linebreaksbr }}</strong>
+                </div>
+            </td>
+            <td class="details-column">
+                <div class="section-label">Facturado a (Clínica)</div>
+                <div class="address-box">
+                    <strong>{{ invoice.client_info|linebreaksbr }}</strong>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <table class="details-table" style="margin-bottom: 20px;">
+        <tr>
+            <td>
+                <div class="section-label">Número de Factura</div>
+                <div>{{ invoice.number }}</div>
+            </td>
+            <td>
+                <div class="section-label">Fecha de Emisión</div>
+                <div>{{ invoice.created_at|date:"d/m/Y" }}</div>
+            </td>
+            <td>
+                <div class="section-label">Pedido Relacionado</div>
+                <div>#{{ invoice.order.id }}</div>
+            </td>
+        </tr>
+    </table>
+
+    <table class="items-table">
+        <thead>
+            <tr>
+                <th>Descripción del Servicio Dental</th>
+                <th style="text-align: right;">Base Imponible</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <strong>{{ invoice.product_name }}</strong><br>
+                    <span style="font-size: 8pt; color: #666;">Paciente: {{ invoice.order.patient }}</span><br>
+                    <span style="font-size: 8pt; color: #666;">Piezas: {{ invoice.order.teeth_numbers }}</span>
+                </td>
+                <td style="text-align: right;">{{ invoice.base_price }} €</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="totals-table">
+        <tr class="total-row">
+            <td>Subtotal:</td>
+            <td style="text-align: right;">{{ invoice.base_price }} €</td>
+        </tr>
+        {% if invoice.discount_amount > 0 %}
+        <tr class="total-row" style="color: #dc2626;">
+            <td>Descuento:</td>
+            <td style="text-align: right;">-{{ invoice.discount_amount }} €</td>
+        </tr>
+        {% endif %}
+        <tr class="total-row">
+            <td>IVA ({{ invoice.tax_rate }}%):</td>
+            <td style="text-align: right;">{{ tax_total }} €</td>
+        </tr>
+        <tr class="grand-total">
+            <td>TOTAL:</td>
+            <td style="text-align: right;">{{ invoice.total_amount }} €</td>
+        </tr>
+    </table>
+
+    <div class="qr-box">
+        <div class="section-label">Trazabilidad Electrónica (QR de Caja)</div>
+        {% if invoice.qr_code %}
+            <img src="{{ qr_code_base64 }}" class="qr-img">
+        {% endif %}
+        <p style="font-size: 7pt; color: #9ca3af;">Escanea para verificar la autenticidad del trabajo protésico.</p>
+    </div>
+
+    <div class="footer">
+        DentalLinkLab - Plataforma de Gestión Odontológica 3D B2B<br>
+        Este documento es una factura electrónica generada automáticamente. 🦷🦾
+    </div>
+</body>
+</html>

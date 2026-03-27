@@ -7,7 +7,8 @@ DentalLinkLab es una plataforma B2B de vanguardia diseñada para digitalizar la 
 ## 🚀 1. Propuesta de Valor y Objetivos
 - **Reducción de Errores:** Validación visual en 3D antes de la fabricación física.
 - **Plataforma Multipestaña:** Dashboard independiente para Clínicas y Laboratorios.
-- **Eficiencia Logística:** Trazabilidad total del pedido mediante códigos QR.
+- **Facturación Inmutable:** Captura de snapshots fiscales en tiempo real con generación de PDF legal.
+- **Trazabilidad Física:** Códigos QR únicos por factura para seguimiento logístico de la caja.
 - **Democratización Tecnológica:** Acceso a herramientas de visualización avanzada para pequeñas clínicas.
 
 ---
@@ -58,7 +59,8 @@ Para asegurar la rentabilidad y escalabilidad de la plataforma, se han diseñado
 ### **Backend (Lógica & Seguridad)**
 - **Django 6.0 + DRF:** Framework robusto para el tratamiento de datos y seguridad.
 - **SimpleJWT:** Autenticación basada en JSON Web Tokens para sesiones seguras.
-- **PostgreSQL:** Base de datos relacional para la persistencia masiva de pedidos.
+- **PostgreSQL / SQLite:** Base de datos relacional para la persistencia masiva de pedidos.
+- **xhtml2pdf & qrcode:** Motores para la generación de documentos legales y trazabilidad física.
 - **WhiteNoise:** Servicio de activos estáticos y modelos 3D con optimización de caché.
 
 ---
@@ -85,10 +87,9 @@ Debido a las limitaciones de RAM (1GB) en servidores AWS de bajos recursos, se i
 ### **Fase 2: Realidad Aumentada (AR)**
 - Uso de **WebXR** para permitir al dentista superponer el diseño 3D de la prótesis sobre la boca del paciente en una tablet comercial.
 
-### **Fase 3: Trazabilidad IoT e Infraestructura**
+### **Fase 3: Tecnologías de Excelencia (Implementado)**
 - Generación automática de etiquetas QR para logística física.
-- Migración del almacenamiento de archivos STL masivos a **AWS S3** usando `django-storages`.
-- Notificaciones en tiempo real mediante **WebSockets** con `Django Channels`.
+- Notificaciones de estado e integración de PDFs legales inmutables.
 
 ### **Fase 4: Tecnologías Disruptivas de Excelencia**
 - **Blockchain de Trazabilidad:** Pasaporte de producto inmutable para certificar el origen y calidad de los materiales.
