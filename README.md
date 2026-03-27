@@ -79,23 +79,17 @@ Debido a las limitaciones de RAM (1GB) en servidores AWS de bajos recursos, se i
 
 ---
 
-## 🔮 5. Hoja de Ruta de Innovación (Roadmap)
+---
 
-### **Fase 1: Inteligencia Artificial (IA Dental)**
-- Implementación de algoritmos de visión artificial para validar la calidad de la malla STL subida y detectar inconsistencias automáticamente.
+## 🔮 5. Próximos Pasos (Líneas de Trabajo Futuras)
+Para transformar este prototipo de TFG en un producto comercial real, se proponen las siguientes mejoras:
 
-### **Fase 2: Realidad Aumentada (AR)**
-- Uso de **WebXR** para permitir al dentista superponer el diseño 3D de la prótesis sobre la boca del paciente en una tablet comercial.
+1. **💳 Pasarela de Pagos (Stripe Connect):** Automatización del cobro de facturas y gestión de comisiones del marketplace.
+2. **🔔 Notificaciones en Tiempo Real:** Implementación de WebSockets (Django Channels) para avisar a los usuarios de cambios de estado sin refrescar.
+3. **📧 Comunicación Automatizada:** Envío de facturas PDF y confirmaciones de pedido directamente al email corporativo.
+4. **🥽 Realidad Virtual y Aumentada (WebXR):** Herramientas inmersivas para que el dentista visualice la pieza sobre el paciente real.
 
-### **Fase 3: Tecnologías de Excelencia (Implementado)**
-- Generación automática de etiquetas QR para logística física.
-- Notificaciones de estado e integración de PDFs legales inmutables.
-
-### **Fase 4: Tecnologías Disruptivas de Excelencia**
-- **Blockchain de Trazabilidad:** Pasaporte de producto inmutable para certificar el origen y calidad de los materiales.
-- **Mantenimiento Preventivo (IoT):** Alertas inteligentes para el cambio de fresas en maquinaria CNC basadas en el uso acumulado.
-- **Revisiones en Realidad Virtual (VR):** Entorno inmersivo para la inspección de casos complejos de rehabilitación oral completa.
-- **Inteligencia de Negocio (BI):** Dashboards de rentabilidad neta por clínica para laboratorios.
+---
 
 ---
 
