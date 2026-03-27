@@ -8,6 +8,10 @@ RUN apt-get update && apt-get install -y \
     postgresql-client \
     gcc \
     libpq-dev \
+    libcairo2-dev \
+    pkg-config \
+    python3-dev \
+    libpango1.0-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
