@@ -7,7 +7,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         # Definimos los campos que se enviarán/recibirán desde el frontend
-        fields = ('id', 'username', 'email', 'role', 'company_name', 'address', 'phone', 'password')
+        fields = ('id', 'username', 'email', 'role', 'company_name', 'address', 'phone', 'vat_id', 'password')
         # La contraseña solo se puede escribir (al registrar), nunca se envía de vuelta por seguridad
         extra_kwargs = {'password': {'write_only': True}}
 

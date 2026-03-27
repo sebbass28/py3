@@ -15,7 +15,8 @@ function SignUp() {
     password: '',
     role: 'clinic', // Rol por defecto
     company_name: '',
-    address: ''
+    address: '',
+    vat_id: ''
   });
   const navigate = useNavigate();
 
@@ -87,6 +88,18 @@ function SignUp() {
                   className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm font-bold text-gray-900 focus:outline-none focus:border-medical-500 transition-all shadow-sm"
                   value={formData.company_name}
                   onChange={(e) => setFormData({...formData, company_name: e.target.value})}
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-tight ml-1 mb-1">CIF / NIF</label>
+                <input 
+                  type="text" 
+                  placeholder="Ej: B12345678" 
+                  className="w-full bg-gray-50 border border-gray-100 rounded-xl px-4 py-3 text-sm font-bold text-gray-900 focus:outline-none focus:border-medical-500 transition-all shadow-sm"
+                  value={formData.vat_id}
+                  onChange={(e) => setFormData({...formData, vat_id: e.target.value})}
                   required
                 />
               </div>
