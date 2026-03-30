@@ -1,0 +1,591 @@
+2026-Mar-27 11:57:44.069066 Starting deployment of sebbass28/py3:main to localhost.
+2026-Mar-27 11:57:44.781898 Preparing container with helper image: ghcr.io/coollabsio/coolify-helper:1.0.12
+2026-Mar-27 11:57:45.143294 [DEBUG] [CMD]: docker stop -t 30 q88sw0k4ks8k008kowk40osk
+2026-Mar-27 11:57:45.143294 [DEBUG] Error response from daemon: No such container: q88sw0k4ks8k008kowk40osk
+2026-Mar-27 11:57:45.614424 [DEBUG] [CMD]: docker run -d --network coolify --name q88sw0k4ks8k008kowk40osk  --rm -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/coollabsio/coolify-helper:1.0.12
+2026-Mar-27 11:57:45.614424 [DEBUG] 55f890110adbf282010f0b0541aa143dd8f31c6c9c7ce629eeca2c67e2513986
+2026-Mar-27 11:57:47.543565 [DEBUG] [CMD]: docker exec q88sw0k4ks8k008kowk40osk bash -c 'GIT_SSH_COMMAND="ssh -o ConnectTimeout=30 -p 22 -o Port=22 -o LogLevel=ERROR -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git ls-remote https://github.com/sebbass28/py3 refs/heads/main'
+2026-Mar-27 11:57:47.543565 [DEBUG] 81d7e91301983e815d3dd1c98948eb26c9abf23d	refs/heads/main
+2026-Mar-27 11:57:47.568486 ----------------------------------------
+2026-Mar-27 11:57:47.575204 Importing sebbass28/py3:main (commit sha 81d7e91301983e815d3dd1c98948eb26c9abf23d) to /artifacts/q88sw0k4ks8k008kowk40osk.
+2026-Mar-27 11:57:48.107317 [DEBUG] [CMD]: docker exec q88sw0k4ks8k008kowk40osk bash -c 'git clone --depth=1 --recurse-submodules --shallow-submodules -b 'main' 'https://github.com/sebbass28/py3' '/artifacts/q88sw0k4ks8k008kowk40osk' && cd '/artifacts/q88sw0k4ks8k008kowk40osk' && if [ -f .gitmodules ]; then sed -i "s#git@\(.*\):#https://\1/#g" '/artifacts/q88sw0k4ks8k008kowk40osk'/.gitmodules || true && git submodule sync && GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git submodule update --init --recursive --depth=1; fi && cd '/artifacts/q88sw0k4ks8k008kowk40osk' && GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" git lfs pull'
+2026-Mar-27 11:57:48.107317 [DEBUG] Cloning into '/artifacts/q88sw0k4ks8k008kowk40osk'...
+2026-Mar-27 11:57:52.704619 [DEBUG] [CMD]: docker exec q88sw0k4ks8k008kowk40osk bash -c 'cd /artifacts/q88sw0k4ks8k008kowk40osk && git log -1 81d7e91301983e815d3dd1c98948eb26c9abf23d --pretty=%B'
+2026-Mar-27 11:57:52.704619 [DEBUG] DentalLinkLab: Corregida versión de qrcode en requirements.txt para producción.
+2026-Mar-27 11:57:53.284063 Image not found (lwkc88g8kooko8kc40kg40so:81d7e91301983e815d3dd1c98948eb26c9abf23d). Building new image.
+2026-Mar-27 11:57:55.375352 [DEBUG] [CMD]: docker exec q88sw0k4ks8k008kowk40osk bash -c 'cat /artifacts/q88sw0k4ks8k008kowk40osk/Dockerfile'
+2026-Mar-27 11:57:55.375352 [DEBUG] # Dockerfile optimizado para despliegue híbrido (Build local)
+2026-Mar-27 11:57:55.375352 [DEBUG] FROM python:3.12-slim
+2026-Mar-27 11:57:55.375352 [DEBUG] WORKDIR /app
+2026-Mar-27 11:57:55.375352 [DEBUG] 
+2026-Mar-27 11:57:55.375352 [DEBUG] 
+2026-Mar-27 11:57:55.375352 [DEBUG] # Install system dependencies
+2026-Mar-27 11:57:55.375352 [DEBUG] RUN apt-get update && apt-get install -y \
+2026-Mar-27 11:57:55.375352 [DEBUG] postgresql-client \
+2026-Mar-27 11:57:55.375352 [DEBUG] gcc \
+2026-Mar-27 11:57:55.375352 [DEBUG] libpq-dev \
+2026-Mar-27 11:57:55.375352 [DEBUG] && rm -rf /var/lib/apt/lists/*
+2026-Mar-27 11:57:55.375352 [DEBUG] 
+2026-Mar-27 11:57:55.375352 [DEBUG] # Install Python dependencies
+2026-Mar-27 11:57:55.375352 [DEBUG] COPY requirements.txt .
+2026-Mar-27 11:57:55.375352 [DEBUG] RUN pip install --no-cache-dir -r requirements.txt
+2026-Mar-27 11:57:55.375352 [DEBUG] 
+2026-Mar-27 11:57:55.375352 [DEBUG] # Copy project files
+2026-Mar-27 11:57:55.375352 [DEBUG] COPY . .
+2026-Mar-27 11:57:55.375352 [DEBUG] 
+2026-Mar-27 11:57:55.375352 [DEBUG] # Copy frontend build (pre-built locally)
+2026-Mar-27 11:57:55.375352 [DEBUG] COPY frontend/build ./frontend/build
+2026-Mar-27 11:57:55.375352 [DEBUG] 
+2026-Mar-27 11:57:55.375352 [DEBUG] # Environment variables
+2026-Mar-27 11:57:55.375352 [DEBUG] ENV PYTHONDONTWRITEBYTECODE=1 \
+2026-Mar-27 11:57:55.375352 [DEBUG] PYTHONUNBUFFERED=1 \
+2026-Mar-27 11:57:55.375352 [DEBUG] PORT=8000
+2026-Mar-27 11:57:55.375352 [DEBUG] 
+2026-Mar-27 11:57:55.375352 [DEBUG] # Collect static files
+2026-Mar-27 11:57:55.375352 [DEBUG] RUN python manage.py collectstatic --noinput
+2026-Mar-27 11:57:55.375352 [DEBUG] 
+2026-Mar-27 11:57:55.375352 [DEBUG] # Expose port
+2026-Mar-27 11:57:55.375352 [DEBUG] EXPOSE 8000
+2026-Mar-27 11:57:55.375352 [DEBUG] 
+2026-Mar-27 11:57:55.375352 [DEBUG] # Start command with migrations
+2026-Mar-27 11:57:55.375352 [DEBUG] CMD ["sh", "-c", "python manage.py migrate && gunicorn config.wsgi:application --bind 0.0.0.0:8000"]
+2026-Mar-27 11:57:56.153332 [DEBUG] Creating build-time .env file in /artifacts (outside Docker context).
+2026-Mar-27 11:57:57.599645 [DEBUG] [CMD]: docker exec q88sw0k4ks8k008kowk40osk bash -c 'cat /artifacts/q88sw0k4ks8k008kowk40osk/Dockerfile'
+2026-Mar-27 11:57:57.599645 [DEBUG] # Dockerfile optimizado para despliegue híbrido (Build local)
+2026-Mar-27 11:57:57.599645 [DEBUG] FROM python:3.12-slim
+2026-Mar-27 11:57:57.599645 [DEBUG] WORKDIR /app
+2026-Mar-27 11:57:57.599645 [DEBUG] 
+2026-Mar-27 11:57:57.599645 [DEBUG] 
+2026-Mar-27 11:57:57.599645 [DEBUG] # Install system dependencies
+2026-Mar-27 11:57:57.599645 [DEBUG] RUN apt-get update && apt-get install -y \
+2026-Mar-27 11:57:57.599645 [DEBUG] postgresql-client \
+2026-Mar-27 11:57:57.599645 [DEBUG] gcc \
+2026-Mar-27 11:57:57.599645 [DEBUG] libpq-dev \
+2026-Mar-27 11:57:57.599645 [DEBUG] && rm -rf /var/lib/apt/lists/*
+2026-Mar-27 11:57:57.599645 [DEBUG] 
+2026-Mar-27 11:57:57.599645 [DEBUG] # Install Python dependencies
+2026-Mar-27 11:57:57.599645 [DEBUG] COPY requirements.txt .
+2026-Mar-27 11:57:57.599645 [DEBUG] RUN pip install --no-cache-dir -r requirements.txt
+2026-Mar-27 11:57:57.599645 [DEBUG] 
+2026-Mar-27 11:57:57.599645 [DEBUG] # Copy project files
+2026-Mar-27 11:57:57.599645 [DEBUG] COPY . .
+2026-Mar-27 11:57:57.599645 [DEBUG] 
+2026-Mar-27 11:57:57.599645 [DEBUG] # Copy frontend build (pre-built locally)
+2026-Mar-27 11:57:57.599645 [DEBUG] COPY frontend/build ./frontend/build
+2026-Mar-27 11:57:57.599645 [DEBUG] 
+2026-Mar-27 11:57:57.599645 [DEBUG] # Environment variables
+2026-Mar-27 11:57:57.599645 [DEBUG] ENV PYTHONDONTWRITEBYTECODE=1 \
+2026-Mar-27 11:57:57.599645 [DEBUG] PYTHONUNBUFFERED=1 \
+2026-Mar-27 11:57:57.599645 [DEBUG] PORT=8000
+2026-Mar-27 11:57:57.599645 [DEBUG] 
+2026-Mar-27 11:57:57.599645 [DEBUG] # Collect static files
+2026-Mar-27 11:57:57.599645 [DEBUG] RUN python manage.py collectstatic --noinput
+2026-Mar-27 11:57:57.599645 [DEBUG] 
+2026-Mar-27 11:57:57.599645 [DEBUG] # Expose port
+2026-Mar-27 11:57:57.599645 [DEBUG] EXPOSE 8000
+2026-Mar-27 11:57:57.599645 [DEBUG] 
+2026-Mar-27 11:57:57.599645 [DEBUG] # Start command with migrations
+2026-Mar-27 11:57:57.599645 [DEBUG] CMD ["sh", "-c", "python manage.py migrate && gunicorn config.wsgi:application --bind 0.0.0.0:8000"]
+2026-Mar-27 11:57:57.616348 [DEBUG] Final Dockerfile:
+2026-Mar-27 11:57:58.561820 [DEBUG] [CMD]: docker exec q88sw0k4ks8k008kowk40osk bash -c 'cat /artifacts/q88sw0k4ks8k008kowk40osk/Dockerfile'
+2026-Mar-27 11:57:58.561820 [DEBUG] # Dockerfile optimizado para despliegue híbrido (Build local)
+2026-Mar-27 11:57:58.561820 [DEBUG] FROM python:3.12-slim
+2026-Mar-27 11:57:58.561820 [DEBUG] ARG COOLIFY_URL=http://lwkc88g8kooko8kc40kg40so.13.48.122.24.sslip.io
+2026-Mar-27 11:57:58.561820 [DEBUG] ARG COOLIFY_FQDN=lwkc88g8kooko8kc40kg40so.13.48.122.24.sslip.io
+2026-Mar-27 11:57:58.561820 [DEBUG] ARG COOLIFY_BRANCH=main
+2026-Mar-27 11:57:58.561820 [DEBUG] ARG COOLIFY_RESOURCE_UUID=lwkc88g8kooko8kc40kg40so
+2026-Mar-27 11:57:58.561820 [DEBUG] WORKDIR /app
+2026-Mar-27 11:57:58.561820 [DEBUG] 
+2026-Mar-27 11:57:58.561820 [DEBUG] 
+2026-Mar-27 11:57:58.561820 [DEBUG] # Install system dependencies
+2026-Mar-27 11:57:58.561820 [DEBUG] RUN apt-get update && apt-get install -y \
+2026-Mar-27 11:57:58.561820 [DEBUG] postgresql-client \
+2026-Mar-27 11:57:58.561820 [DEBUG] gcc \
+2026-Mar-27 11:57:58.561820 [DEBUG] libpq-dev \
+2026-Mar-27 11:57:58.561820 [DEBUG] && rm -rf /var/lib/apt/lists/*
+2026-Mar-27 11:57:58.561820 [DEBUG] 
+2026-Mar-27 11:57:58.561820 [DEBUG] # Install Python dependencies
+2026-Mar-27 11:57:58.561820 [DEBUG] COPY requirements.txt .
+2026-Mar-27 11:57:58.561820 [DEBUG] RUN pip install --no-cache-dir -r requirements.txt
+2026-Mar-27 11:57:58.561820 [DEBUG] 
+2026-Mar-27 11:57:58.561820 [DEBUG] # Copy project files
+2026-Mar-27 11:57:58.561820 [DEBUG] COPY . .
+2026-Mar-27 11:57:58.561820 [DEBUG] 
+2026-Mar-27 11:57:58.561820 [DEBUG] # Copy frontend build (pre-built locally)
+2026-Mar-27 11:57:58.561820 [DEBUG] COPY frontend/build ./frontend/build
+2026-Mar-27 11:57:58.561820 [DEBUG] 
+2026-Mar-27 11:57:58.561820 [DEBUG] # Environment variables
+2026-Mar-27 11:57:58.561820 [DEBUG] ENV PYTHONDONTWRITEBYTECODE=1 \
+2026-Mar-27 11:57:58.561820 [DEBUG] PYTHONUNBUFFERED=1 \
+2026-Mar-27 11:57:58.561820 [DEBUG] PORT=8000
+2026-Mar-27 11:57:58.561820 [DEBUG] 
+2026-Mar-27 11:57:58.561820 [DEBUG] # Collect static files
+2026-Mar-27 11:57:58.561820 [DEBUG] RUN python manage.py collectstatic --noinput
+2026-Mar-27 11:57:58.561820 [DEBUG] 
+2026-Mar-27 11:57:58.561820 [DEBUG] # Expose port
+2026-Mar-27 11:57:58.561820 [DEBUG] EXPOSE 8000
+2026-Mar-27 11:57:58.561820 [DEBUG] 
+2026-Mar-27 11:57:58.561820 [DEBUG] # Start command with migrations
+2026-Mar-27 11:57:58.561820 [DEBUG] CMD ["sh", "-c", "python manage.py migrate && gunicorn config.wsgi:application --bind 0.0.0.0:8000"]
+2026-Mar-27 11:57:58.569193 ----------------------------------------
+2026-Mar-27 11:57:58.575965 Building docker image started.
+2026-Mar-27 11:57:58.583062 To check the current progress, click on Show Debug Logs.
+2026-Mar-27 11:57:59.573008 [DEBUG] [CMD]: docker exec q88sw0k4ks8k008kowk40osk bash -c 'cat /artifacts/build.sh'
+2026-Mar-27 11:57:59.573008 [DEBUG] cd /artifacts/q88sw0k4ks8k008kowk40osk && set -a && source /artifacts/build-time.env && set +a && docker build  --add-host coolify:10.0.1.3 --add-host coolify-db:10.0.1.10 --add-host coolify-realtime:10.0.1.8 --add-host coolify-redis:10.0.1.2 --add-host poo88w0s8kcc4g44cgo88cso:10.0.1.4 --add-host poo88w0s8kcc4g44cgo88cso-proxy:10.0.1.11 --network host -f /artifacts/q88sw0k4ks8k008kowk40osk/Dockerfile --build-arg COOLIFY_URL --build-arg COOLIFY_FQDN --build-arg COOLIFY_BRANCH --build-arg COOLIFY_RESOURCE_UUID --build-arg COOLIFY_BUILD_SECRETS_HASH=59545593a15dba318018cc0ae2449cdd0c034d7d452b6f87e3f5399446faea5e --build-arg 'COOLIFY_URL' --build-arg 'COOLIFY_FQDN' --build-arg 'COOLIFY_BRANCH' --build-arg 'COOLIFY_RESOURCE_UUID' --progress plain -t lwkc88g8kooko8kc40kg40so:81d7e91301983e815d3dd1c98948eb26c9abf23d /artifacts/q88sw0k4ks8k008kowk40osk
+2026-Mar-27 11:58:01.321419 [DEBUG] [CMD]: docker exec q88sw0k4ks8k008kowk40osk bash -c 'bash /artifacts/build.sh'
+2026-Mar-27 11:58:01.321419 [DEBUG] #0 building with "default" instance using docker driver
+2026-Mar-27 11:58:01.321419 [DEBUG] 
+2026-Mar-27 11:58:01.321419 [DEBUG] #1 [internal] load build definition from Dockerfile
+2026-Mar-27 11:58:01.321419 [DEBUG] #1 transferring dockerfile: 1.05kB 0.0s done
+2026-Mar-27 11:58:01.321419 [DEBUG] #1 DONE 0.1s
+2026-Mar-27 11:58:01.521619 [DEBUG] #2 [internal] load metadata for docker.io/library/python:3.12-slim
+2026-Mar-27 11:58:02.101243 [DEBUG] #2 DONE 0.7s
+2026-Mar-27 11:58:02.333154 [DEBUG] #3 [internal] load .dockerignore
+2026-Mar-27 11:58:02.333154 [DEBUG] #3 transferring context:
+2026-Mar-27 11:58:02.486936 [DEBUG] #3 transferring context: 265B 0.0s done
+2026-Mar-27 11:58:02.486936 [DEBUG] #3 DONE 0.3s
+2026-Mar-27 11:58:04.385496 [DEBUG] #4 [1/8] FROM docker.io/library/python:3.12-slim@sha256:3d5ed973e45820f5ba5e46bd065bd88b3a504ff0724d85980dcd05eab361fcf4
+2026-Mar-27 11:58:04.385496 [DEBUG] #4 DONE 0.1s
+2026-Mar-27 11:58:04.385496 [DEBUG] 
+2026-Mar-27 11:58:04.385496 [DEBUG] #5 [internal] load build context
+2026-Mar-27 11:58:07.615255 [DEBUG] #5 transferring context: 17.58MB 2.7s
+2026-Mar-27 11:58:10.467988 [DEBUG] #5 transferring context: 113.44MB 5.4s done
+2026-Mar-27 11:58:10.467988 [DEBUG] #5 DONE 6.1s
+2026-Mar-27 11:58:10.467988 [DEBUG] 
+2026-Mar-27 11:58:10.467988 [DEBUG] #6 [2/8] WORKDIR /app
+2026-Mar-27 11:58:10.467988 [DEBUG] #6 CACHED
+2026-Mar-27 11:58:10.467988 [DEBUG] 
+2026-Mar-27 11:58:10.467988 [DEBUG] #7 [3/8] RUN apt-get update && apt-get install -y     postgresql-client     gcc     libpq-dev     && rm -rf /var/lib/apt/lists/*
+2026-Mar-27 11:58:10.467988 [DEBUG] #7 CACHED
+2026-Mar-27 11:58:10.467988 [DEBUG] 
+2026-Mar-27 11:58:10.467988 [DEBUG] #8 [4/8] COPY requirements.txt .
+2026-Mar-27 11:58:10.601822 [DEBUG] #8 DONE 0.3s
+2026-Mar-27 11:58:10.769911 [DEBUG] #9 [5/8] RUN pip install --no-cache-dir -r requirements.txt
+2026-Mar-27 11:58:15.856355 [DEBUG] #9 5.240 Collecting Django>=5.0 (from -r requirements.txt (line 1))
+2026-Mar-27 11:58:15.970345 [DEBUG] #9 5.273   Downloading django-6.0.3-py3-none-any.whl.metadata (3.9 kB)
+2026-Mar-27 11:58:15.970345 [DEBUG] #9 5.306 Collecting gunicorn==21.2.0 (from -r requirements.txt (line 2))
+2026-Mar-27 11:58:15.970345 [DEBUG] #9 5.311   Downloading gunicorn-21.2.0-py3-none-any.whl.metadata (4.1 kB)
+2026-Mar-27 11:58:15.970345 [DEBUG] #9 5.333 Collecting whitenoise==6.6.0 (from -r requirements.txt (line 3))
+2026-Mar-27 11:58:15.970345 [DEBUG] #9 5.338   Downloading whitenoise-6.6.0-py3-none-any.whl.metadata (3.7 kB)
+2026-Mar-27 11:58:15.970345 [DEBUG] #9 5.352 Collecting dj-database-url==2.1.0 (from -r requirements.txt (line 4))
+2026-Mar-27 11:58:16.192998 [DEBUG] #9 5.358   Downloading dj_database_url-2.1.0-py3-none-any.whl.metadata (11 kB)
+2026-Mar-27 11:58:16.192998 [DEBUG] #9 5.421 Collecting psycopg2-binary>=2.9.10 (from -r requirements.txt (line 5))
+2026-Mar-27 11:58:16.192998 [DEBUG] #9 5.426   Downloading psycopg2_binary-2.9.11-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (4.9 kB)
+2026-Mar-27 11:58:16.278866 [DEBUG] #9 5.663 Collecting Pillow>=10.2.0 (from -r requirements.txt (line 6))
+2026-Mar-27 11:58:16.390977 [DEBUG] #9 5.669   Downloading pillow-12.1.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+2026-Mar-27 11:58:16.390977 [DEBUG] #9 5.688 Collecting python-dotenv==1.0.1 (from -r requirements.txt (line 7))
+2026-Mar-27 11:58:16.390977 [DEBUG] #9 5.693   Downloading python_dotenv-1.0.1-py3-none-any.whl.metadata (23 kB)
+2026-Mar-27 11:58:16.390977 [DEBUG] #9 5.721 Collecting djangorestframework==3.15.1 (from -r requirements.txt (line 8))
+2026-Mar-27 11:58:16.390977 [DEBUG] #9 5.727   Downloading djangorestframework-3.15.1-py3-none-any.whl.metadata (11 kB)
+2026-Mar-27 11:58:16.390977 [DEBUG] #9 5.745 Collecting django-cors-headers==4.3.1 (from -r requirements.txt (line 9))
+2026-Mar-27 11:58:16.390977 [DEBUG] #9 5.750   Downloading django_cors_headers-4.3.1-py3-none-any.whl.metadata (16 kB)
+2026-Mar-27 11:58:16.390977 [DEBUG] #9 5.773 Collecting djangorestframework-simplejwt==5.3.1 (from -r requirements.txt (line 10))
+2026-Mar-27 11:58:16.517557 [DEBUG] #9 5.777   Downloading djangorestframework_simplejwt-5.3.1-py3-none-any.whl.metadata (4.3 kB)
+2026-Mar-27 11:58:16.517557 [DEBUG] #9 5.802 Collecting xhtml2pdf>=0.2.17 (from -r requirements.txt (line 11))
+2026-Mar-27 11:58:16.517557 [DEBUG] #9 5.808   Downloading xhtml2pdf-0.2.17-py3-none-any.whl.metadata (22 kB)
+2026-Mar-27 11:58:16.517557 [DEBUG] #9 5.846 Collecting qrcode>=8.0 (from -r requirements.txt (line 12))
+2026-Mar-27 11:58:16.517557 [DEBUG] #9 5.853   Downloading qrcode-8.2-py3-none-any.whl.metadata (17 kB)
+2026-Mar-27 11:58:16.517557 [DEBUG] #9 5.881 Collecting django-rest-passwordreset>=1.5.0 (from -r requirements.txt (line 13))
+2026-Mar-27 11:58:16.720151 [DEBUG] #9 5.890   Downloading django_rest_passwordreset-1.5.0-py3-none-any.whl.metadata (16 kB)
+2026-Mar-27 11:58:16.720151 [DEBUG] #9 5.946 Collecting packaging (from gunicorn==21.2.0->-r requirements.txt (line 2))
+2026-Mar-27 11:58:16.720151 [DEBUG] #9 5.955   Downloading packaging-26.0-py3-none-any.whl.metadata (3.3 kB)
+2026-Mar-27 11:58:16.742180 [DEBUG] #9 6.121 Collecting typing-extensions>=3.10.0.0 (from dj-database-url==2.1.0->-r requirements.txt (line 4))
+2026-Mar-27 11:58:16.922876 [DEBUG] #9 6.142   Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+2026-Mar-27 11:58:16.922876 [DEBUG] #9 6.299 Collecting asgiref>=3.6 (from django-cors-headers==4.3.1->-r requirements.txt (line 9))
+2026-Mar-27 11:58:17.026771 [DEBUG] #9 6.311   Downloading asgiref-3.11.1-py3-none-any.whl.metadata (9.3 kB)
+2026-Mar-27 11:58:17.040971 [DEBUG] #9 6.412 Collecting pyjwt<3,>=1.7.1 (from djangorestframework-simplejwt==5.3.1->-r requirements.txt (line 10))
+2026-Mar-27 11:58:17.151513 [DEBUG] #9 6.421   Downloading pyjwt-2.12.1-py3-none-any.whl.metadata (4.1 kB)
+2026-Mar-27 11:58:17.151513 [DEBUG] #9 6.451 Collecting sqlparse>=0.5.0 (from Django>=5.0->-r requirements.txt (line 1))
+2026-Mar-27 11:58:17.151513 [DEBUG] #9 6.458   Downloading sqlparse-0.5.5-py3-none-any.whl.metadata (4.7 kB)
+2026-Mar-27 11:58:17.151513 [DEBUG] #9 6.477 Collecting arabic-reshaper>=3.0.0 (from xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:17.151513 [DEBUG] #9 6.482   Downloading arabic_reshaper-3.0.0-py3-none-any.whl.metadata (12 kB)
+2026-Mar-27 11:58:17.151513 [DEBUG] #9 6.496 Collecting html5lib>=1.1 (from xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:17.151513 [DEBUG] #9 6.501   Downloading html5lib-1.1-py2.py3-none-any.whl.metadata (16 kB)
+2026-Mar-27 11:58:17.151513 [DEBUG] #9 6.537 Collecting pyHanko>=0.12.1 (from xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:17.324775 [DEBUG] #9 6.542   Downloading pyhanko-0.34.1-py3-none-any.whl.metadata (3.3 kB)
+2026-Mar-27 11:58:17.324775 [DEBUG] #9 6.570 Collecting pyhanko-certvalidator>=0.19.5 (from xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:17.324775 [DEBUG] #9 6.578   Downloading pyhanko_certvalidator-0.30.1-py3-none-any.whl.metadata (4.9 kB)
+2026-Mar-27 11:58:17.324775 [DEBUG] #9 6.617 Collecting pypdf>=3.1.0 (from xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:17.324775 [DEBUG] #9 6.626   Downloading pypdf-6.9.2-py3-none-any.whl.metadata (7.1 kB)
+2026-Mar-27 11:58:17.324775 [DEBUG] #9 6.710 Collecting python-bidi>=0.5.0 (from xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:17.486612 [DEBUG] #9 6.717   Downloading python_bidi-0.6.7-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.9 kB)
+2026-Mar-27 11:58:17.563556 [DEBUG] #9 6.944 Collecting reportlab<5,>=4.0.4 (from xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:17.659802 [DEBUG] #9 6.951   Downloading reportlab-4.4.10-py3-none-any.whl.metadata (1.7 kB)
+2026-Mar-27 11:58:17.659802 [DEBUG] #9 6.976 Collecting svglib>=1.2.1 (from xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:17.659802 [DEBUG] #9 6.983   Downloading svglib-1.6.0-py3-none-any.whl.metadata (11 kB)
+2026-Mar-27 11:58:17.659802 [DEBUG] #9 7.015 Collecting six>=1.9 (from html5lib>=1.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:17.659802 [DEBUG] #9 7.024   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2026-Mar-27 11:58:17.659802 [DEBUG] #9 7.039 Collecting webencodings (from html5lib>=1.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:17.659802 [DEBUG] #9 7.045   Downloading webencodings-0.5.1-py2.py3-none-any.whl.metadata (2.1 kB)
+2026-Mar-27 11:58:17.759135 [DEBUG] #9 7.064 Collecting asn1crypto>=1.5.1 (from pyHanko>=0.12.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:17.759135 [DEBUG] #9 7.069   Downloading asn1crypto-1.5.1-py2.py3-none-any.whl.metadata (13 kB)
+2026-Mar-27 11:58:17.759135 [DEBUG] #9 7.090 Collecting tzlocal>=4.3 (from pyHanko>=0.12.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:17.759135 [DEBUG] #9 7.096   Downloading tzlocal-5.3.1-py3-none-any.whl.metadata (7.6 kB)
+2026-Mar-27 11:58:17.759135 [DEBUG] #9 7.140 Collecting requests>=2.31.0 (from pyHanko>=0.12.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:17.759135 [DEBUG] #9 7.145   Downloading requests-2.33.0-py3-none-any.whl.metadata (5.1 kB)
+2026-Mar-27 11:58:17.954079 [DEBUG] #9 7.183 Collecting pyyaml>=6.0 (from pyHanko>=0.12.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:17.954079 [DEBUG] #9 7.188   Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-Mar-27 11:58:18.039892 [DEBUG] #9 7.425 Collecting cryptography>=43.0.3 (from pyHanko>=0.12.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:18.195060 [DEBUG] #9 7.430   Downloading cryptography-46.0.6-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (5.7 kB)
+2026-Mar-27 11:58:18.280099 [DEBUG] #9 7.666 Collecting lxml>=5.4.0 (from pyHanko>=0.12.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:18.446829 [DEBUG] #9 7.671   Downloading lxml-6.0.2-cp312-cp312-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl.metadata (3.6 kB)
+2026-Mar-27 11:58:18.454017 [DEBUG] #9 7.685 Collecting oscrypto>=1.1.0 (from pyhanko-certvalidator>=0.19.5->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:18.454017 [DEBUG] #9 7.690   Downloading oscrypto-1.3.0-py2.py3-none-any.whl.metadata (15 kB)
+2026-Mar-27 11:58:18.454017 [DEBUG] #9 7.725 Collecting uritools>=3.0.1 (from pyhanko-certvalidator>=0.19.5->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:18.454017 [DEBUG] #9 7.731   Downloading uritools-6.0.1-py3-none-any.whl.metadata (5.1 kB)
+2026-Mar-27 11:58:18.454017 [DEBUG] #9 7.832 Collecting charset-normalizer (from reportlab<5,>=4.0.4->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:18.622468 [DEBUG] #9 7.838   Downloading charset_normalizer-3.4.6-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (40 kB)
+2026-Mar-27 11:58:18.622468 [DEBUG] #9 7.857 Collecting cssselect2>=0.2.0 (from svglib>=1.2.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:18.622468 [DEBUG] #9 7.861   Downloading cssselect2-0.9.0-py3-none-any.whl.metadata (2.9 kB)
+2026-Mar-27 11:58:18.627374 [DEBUG] #9 7.882 Collecting rlpycairo>=0.4.0 (from svglib>=1.2.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:18.627374 [DEBUG] #9 7.888   Downloading rlpycairo-0.4.0-py3-none-any.whl.metadata (4.9 kB)
+2026-Mar-27 11:58:18.627374 [DEBUG] #9 7.899 Collecting tinycss2>=0.6.0 (from svglib>=1.2.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:18.627374 [DEBUG] #9 7.904   Downloading tinycss2-1.5.1-py3-none-any.whl.metadata (3.0 kB)
+2026-Mar-27 11:58:18.627374 [DEBUG] #9 8.007 Collecting cffi>=2.0.0 (from cryptography>=43.0.3->pyHanko>=0.12.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:18.742790 [DEBUG] #9 8.013   Downloading cffi-2.0.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.6 kB)
+2026-Mar-27 11:58:18.746794 [DEBUG] #9 8.041 Collecting idna<4,>=2.5 (from requests>=2.31.0->pyHanko>=0.12.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:18.746794 [DEBUG] #9 8.046   Downloading idna-3.11-py3-none-any.whl.metadata (8.4 kB)
+2026-Mar-27 11:58:18.746794 [DEBUG] #9 8.075 Collecting urllib3<3,>=1.26 (from requests>=2.31.0->pyHanko>=0.12.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:18.746794 [DEBUG] #9 8.080   Downloading urllib3-2.6.3-py3-none-any.whl.metadata (6.9 kB)
+2026-Mar-27 11:58:18.746794 [DEBUG] #9 8.101 Collecting certifi>=2023.5.7 (from requests>=2.31.0->pyHanko>=0.12.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:18.746794 [DEBUG] #9 8.107   Downloading certifi-2026.2.25-py3-none-any.whl.metadata (2.5 kB)
+2026-Mar-27 11:58:18.746794 [DEBUG] #9 8.128 Collecting pycairo>=1.20.0 (from rlpycairo>=0.4.0->svglib>=1.2.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:18.971585 [DEBUG] #9 8.136   Downloading pycairo-1.29.0.tar.gz (665 kB)
+2026-Mar-27 11:58:18.971585 [DEBUG] #9 8.150      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 665.9/665.9 kB 84.9 MB/s eta 0:00:00
+2026-Mar-27 11:58:18.971585 [DEBUG] #9 8.207   Installing build dependencies: started
+2026-Mar-27 11:58:21.017199 [DEBUG] #9 10.40   Installing build dependencies: finished with status 'done'
+2026-Mar-27 11:58:21.164360 [DEBUG] #9 10.40   Getting requirements to build wheel: started
+2026-Mar-27 11:58:21.223158 [DEBUG] #9 10.61   Getting requirements to build wheel: finished with status 'done'
+2026-Mar-27 11:58:21.377819 [DEBUG] #9 10.61   Installing backend dependencies: started
+2026-Mar-27 11:58:22.142814 [DEBUG] #9 11.53   Installing backend dependencies: finished with status 'done'
+2026-Mar-27 11:58:22.142814 [DEBUG] #9 11.53   Preparing metadata (pyproject.toml): started
+2026-Mar-27 11:58:24.210154 [DEBUG] #9 13.60   Preparing metadata (pyproject.toml): finished with status 'error'
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61   error: subprocess-exited-with-error
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61   × Preparing metadata (pyproject.toml) did not run successfully.
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61   │ exit code: 1
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61   ╰─> [49 lines of output]
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       + meson setup /tmp/pip-install-5igh3ngd/pycairo_5223a415c5f34cb4801a832b9612f439 /tmp/pip-install-5igh3ngd/pycairo_5223a415c5f34cb4801a832b9612f439/.mesonpy-sd412rxl -Dbuildtype=release -Db_ndebug=if-release -Db_vscrt=md -Dwheel=true -Dtests=false --native-file=/tmp/pip-install-5igh3ngd/pycairo_5223a415c5f34cb4801a832b9612f439/.mesonpy-sd412rxl/meson-python-native-file.ini
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       The Meson build system
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Version: 1.10.2
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Source dir: /tmp/pip-install-5igh3ngd/pycairo_5223a415c5f34cb4801a832b9612f439
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Build dir: /tmp/pip-install-5igh3ngd/pycairo_5223a415c5f34cb4801a832b9612f439/.mesonpy-sd412rxl
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Build type: native build
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Project name: pycairo
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Project version: 1.29.0
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       C compiler for the host machine: cc (gcc 14.2.0 "cc (Debian 14.2.0-19) 14.2.0")
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       C linker for the host machine: cc ld.bfd 2.44
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Host machine cpu family: x86_64
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Host machine cpu: x86_64
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Program python3 found: YES (/usr/local/bin/python3.12)
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Wall: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Warray-bounds: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Wcast-align: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Wconversion: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Wextra: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Wformat=2: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Wformat-nonliteral: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Wformat-security: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Wimplicit-function-declaration: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Winit-self: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Wmissing-format-attribute: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Wmissing-noreturn: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Wnested-externs: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Wold-style-definition: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Wpacked: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Wpointer-arith: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Wreturn-type: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Wshadow: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Wsign-compare: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Wstrict-aliasing: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Wundef: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Wunused-but-set-variable: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Wswitch-default: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Wno-missing-field-initializers: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -Wno-unused-parameter: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -fno-strict-aliasing: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Compiler for C supports arguments -fvisibility=hidden: YES
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Did not find pkg-config by name 'pkg-config'
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Found pkg-config: NO
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Did not find CMake 'cmake'
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Found CMake: NO
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       Run-time dependency cairo found: NO
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       ../cairo/meson.build:31:12: ERROR: Dependency lookup for cairo with method 'pkgconfig' failed: Pkg-config for machine host machine not found. Giving up.
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       A full log can be found at /tmp/pip-install-5igh3ngd/pycairo_5223a415c5f34cb4801a832b9612f439/.mesonpy-sd412rxl/meson-logs/meson-log.txt
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61       [end of output]
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.61   note: This error originates from a subprocess, and is likely not a problem with pip.
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.70
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.70 [notice] A new release of pip is available: 25.0.1 -> 26.0.1
+2026-Mar-27 11:58:24.322119 [DEBUG] #9 13.70 [notice] To update, run: pip install --upgrade pip
+2026-Mar-27 11:58:24.472229 [DEBUG] #9 13.71 error: metadata-generation-failed
+2026-Mar-27 11:58:24.472229 [DEBUG] #9 13.71
+2026-Mar-27 11:58:24.472229 [DEBUG] #9 13.71 × Encountered error while generating package metadata.
+2026-Mar-27 11:58:24.472229 [DEBUG] #9 13.71 ╰─> See above for output.
+2026-Mar-27 11:58:24.472229 [DEBUG] #9 13.71
+2026-Mar-27 11:58:24.472229 [DEBUG] #9 13.71 note: This is an issue with the package mentioned above, not pip.
+2026-Mar-27 11:58:24.472229 [DEBUG] #9 13.71 hint: See above for details.
+2026-Mar-27 11:58:24.709438 [DEBUG] #9 ERROR: process "/bin/sh -c pip install --no-cache-dir -r requirements.txt" did not complete successfully: exit code: 1
+2026-Mar-27 11:58:24.931065 [DEBUG] ------
+2026-Mar-27 11:58:24.931065 [DEBUG] > [5/8] RUN pip install --no-cache-dir -r requirements.txt:
+2026-Mar-27 11:58:24.939051 [DEBUG] 13.70
+2026-Mar-27 11:58:24.939051 [DEBUG] 13.70 [notice] A new release of pip is available: 25.0.1 -> 26.0.1
+2026-Mar-27 11:58:24.939051 [DEBUG] 13.70 [notice] To update, run: pip install --upgrade pip
+2026-Mar-27 11:58:24.939051 [DEBUG] 13.71 error: metadata-generation-failed
+2026-Mar-27 11:58:24.939051 [DEBUG] 13.71
+2026-Mar-27 11:58:24.939051 [DEBUG] 13.71 × Encountered error while generating package metadata.
+2026-Mar-27 11:58:24.939051 [DEBUG] 13.71 ╰─> See above for output.
+2026-Mar-27 11:58:24.939051 [DEBUG] 13.71
+2026-Mar-27 11:58:24.939051 [DEBUG] 13.71 note: This is an issue with the package mentioned above, not pip.
+2026-Mar-27 11:58:24.939051 [DEBUG] 13.71 hint: See above for details.
+2026-Mar-27 11:58:24.939051 [DEBUG] ------
+2026-Mar-27 11:58:24.965712 [DEBUG] Dockerfile:19
+2026-Mar-27 11:58:24.965712 [DEBUG] --------------------
+2026-Mar-27 11:58:24.965712 [DEBUG] 17 |     # Install Python dependencies
+2026-Mar-27 11:58:24.965712 [DEBUG] 18 |     COPY requirements.txt .
+2026-Mar-27 11:58:24.965712 [DEBUG] 19 | >>> RUN pip install --no-cache-dir -r requirements.txt
+2026-Mar-27 11:58:24.965712 [DEBUG] 20 |
+2026-Mar-27 11:58:24.965712 [DEBUG] 21 |     # Copy project files
+2026-Mar-27 11:58:24.965712 [DEBUG] --------------------
+2026-Mar-27 11:58:24.965712 [DEBUG] ERROR: failed to build: failed to solve: process "/bin/sh -c pip install --no-cache-dir -r requirements.txt" did not complete successfully: exit code: 1
+2026-Mar-27 11:58:25.076981 [DEBUG] exit status 1
+2026-Mar-27 11:58:26.674866 ========================================
+2026-Mar-27 11:58:26.719370 Deployment failed: Command execution failed (exit code 1): docker exec q88sw0k4ks8k008kowk40osk bash -c 'bash /artifacts/build.sh'
+2026-Mar-27 11:58:26.719370 Error: #0 building with "default" instance using docker driver
+2026-Mar-27 11:58:26.719370 
+2026-Mar-27 11:58:26.719370 #1 [internal] load build definition from Dockerfile
+2026-Mar-27 11:58:26.719370 #1 transferring dockerfile: 1.05kB 0.0s done
+2026-Mar-27 11:58:26.719370 #1 DONE 0.1s
+2026-Mar-27 11:58:26.719370 
+2026-Mar-27 11:58:26.719370 #2 [internal] load metadata for docker.io/library/python:3.12-slim
+2026-Mar-27 11:58:26.719370 #2 DONE 0.7s
+2026-Mar-27 11:58:26.719370 
+2026-Mar-27 11:58:26.719370 #3 [internal] load .dockerignore
+2026-Mar-27 11:58:26.719370 #3 transferring context:
+2026-Mar-27 11:58:26.719370 #3 transferring context: 265B 0.0s done
+2026-Mar-27 11:58:26.719370 #3 DONE 0.3s
+2026-Mar-27 11:58:26.719370 
+2026-Mar-27 11:58:26.719370 #4 [1/8] FROM docker.io/library/python:3.12-slim@sha256:3d5ed973e45820f5ba5e46bd065bd88b3a504ff0724d85980dcd05eab361fcf4
+2026-Mar-27 11:58:26.719370 #4 DONE 0.1s
+2026-Mar-27 11:58:26.719370 
+2026-Mar-27 11:58:26.719370 #5 [internal] load build context
+2026-Mar-27 11:58:26.719370 #5 transferring context: 17.58MB 2.7s
+2026-Mar-27 11:58:26.719370 #5 transferring context: 113.44MB 5.4s done
+2026-Mar-27 11:58:26.719370 #5 DONE 6.1s
+2026-Mar-27 11:58:26.719370 
+2026-Mar-27 11:58:26.719370 #6 [2/8] WORKDIR /app
+2026-Mar-27 11:58:26.719370 #6 CACHED
+2026-Mar-27 11:58:26.719370 
+2026-Mar-27 11:58:26.719370 #7 [3/8] RUN apt-get update && apt-get install -y     postgresql-client     gcc     libpq-dev     && rm -rf /var/lib/apt/lists/*
+2026-Mar-27 11:58:26.719370 #7 CACHED
+2026-Mar-27 11:58:26.719370 
+2026-Mar-27 11:58:26.719370 #8 [4/8] COPY requirements.txt .
+2026-Mar-27 11:58:26.719370 #8 DONE 0.3s
+2026-Mar-27 11:58:26.719370 
+2026-Mar-27 11:58:26.719370 #9 [5/8] RUN pip install --no-cache-dir -r requirements.txt
+2026-Mar-27 11:58:26.719370 #9 5.240 Collecting Django>=5.0 (from -r requirements.txt (line 1))
+2026-Mar-27 11:58:26.719370 #9 5.273   Downloading django-6.0.3-py3-none-any.whl.metadata (3.9 kB)
+2026-Mar-27 11:58:26.719370 #9 5.306 Collecting gunicorn==21.2.0 (from -r requirements.txt (line 2))
+2026-Mar-27 11:58:26.719370 #9 5.311   Downloading gunicorn-21.2.0-py3-none-any.whl.metadata (4.1 kB)
+2026-Mar-27 11:58:26.719370 #9 5.333 Collecting whitenoise==6.6.0 (from -r requirements.txt (line 3))
+2026-Mar-27 11:58:26.719370 #9 5.338   Downloading whitenoise-6.6.0-py3-none-any.whl.metadata (3.7 kB)
+2026-Mar-27 11:58:26.719370 #9 5.352 Collecting dj-database-url==2.1.0 (from -r requirements.txt (line 4))
+2026-Mar-27 11:58:26.719370 #9 5.358   Downloading dj_database_url-2.1.0-py3-none-any.whl.metadata (11 kB)
+2026-Mar-27 11:58:26.719370 #9 5.421 Collecting psycopg2-binary>=2.9.10 (from -r requirements.txt (line 5))
+2026-Mar-27 11:58:26.719370 #9 5.426   Downloading psycopg2_binary-2.9.11-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (4.9 kB)
+2026-Mar-27 11:58:26.719370 #9 5.663 Collecting Pillow>=10.2.0 (from -r requirements.txt (line 6))
+2026-Mar-27 11:58:26.719370 #9 5.669   Downloading pillow-12.1.1-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+2026-Mar-27 11:58:26.719370 #9 5.688 Collecting python-dotenv==1.0.1 (from -r requirements.txt (line 7))
+2026-Mar-27 11:58:26.719370 #9 5.693   Downloading python_dotenv-1.0.1-py3-none-any.whl.metadata (23 kB)
+2026-Mar-27 11:58:26.719370 #9 5.721 Collecting djangorestframework==3.15.1 (from -r requirements.txt (line 8))
+2026-Mar-27 11:58:26.719370 #9 5.727   Downloading djangorestframework-3.15.1-py3-none-any.whl.metadata (11 kB)
+2026-Mar-27 11:58:26.719370 #9 5.745 Collecting django-cors-headers==4.3.1 (from -r requirements.txt (line 9))
+2026-Mar-27 11:58:26.719370 #9 5.750   Downloading django_cors_headers-4.3.1-py3-none-any.whl.metadata (16 kB)
+2026-Mar-27 11:58:26.719370 #9 5.773 Collecting djangorestframework-simplejwt==5.3.1 (from -r requirements.txt (line 10))
+2026-Mar-27 11:58:26.719370 #9 5.777   Downloading djangorestframework_simplejwt-5.3.1-py3-none-any.whl.metadata (4.3 kB)
+2026-Mar-27 11:58:26.719370 #9 5.802 Collecting xhtml2pdf>=0.2.17 (from -r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 5.808   Downloading xhtml2pdf-0.2.17-py3-none-any.whl.metadata (22 kB)
+2026-Mar-27 11:58:26.719370 #9 5.846 Collecting qrcode>=8.0 (from -r requirements.txt (line 12))
+2026-Mar-27 11:58:26.719370 #9 5.853   Downloading qrcode-8.2-py3-none-any.whl.metadata (17 kB)
+2026-Mar-27 11:58:26.719370 #9 5.881 Collecting django-rest-passwordreset>=1.5.0 (from -r requirements.txt (line 13))
+2026-Mar-27 11:58:26.719370 #9 5.890   Downloading django_rest_passwordreset-1.5.0-py3-none-any.whl.metadata (16 kB)
+2026-Mar-27 11:58:26.719370 #9 5.946 Collecting packaging (from gunicorn==21.2.0->-r requirements.txt (line 2))
+2026-Mar-27 11:58:26.719370 #9 5.955   Downloading packaging-26.0-py3-none-any.whl.metadata (3.3 kB)
+2026-Mar-27 11:58:26.719370 #9 6.121 Collecting typing-extensions>=3.10.0.0 (from dj-database-url==2.1.0->-r requirements.txt (line 4))
+2026-Mar-27 11:58:26.719370 #9 6.142   Downloading typing_extensions-4.15.0-py3-none-any.whl.metadata (3.3 kB)
+2026-Mar-27 11:58:26.719370 #9 6.299 Collecting asgiref>=3.6 (from django-cors-headers==4.3.1->-r requirements.txt (line 9))
+2026-Mar-27 11:58:26.719370 #9 6.311   Downloading asgiref-3.11.1-py3-none-any.whl.metadata (9.3 kB)
+2026-Mar-27 11:58:26.719370 #9 6.412 Collecting pyjwt<3,>=1.7.1 (from djangorestframework-simplejwt==5.3.1->-r requirements.txt (line 10))
+2026-Mar-27 11:58:26.719370 #9 6.421   Downloading pyjwt-2.12.1-py3-none-any.whl.metadata (4.1 kB)
+2026-Mar-27 11:58:26.719370 #9 6.451 Collecting sqlparse>=0.5.0 (from Django>=5.0->-r requirements.txt (line 1))
+2026-Mar-27 11:58:26.719370 #9 6.458   Downloading sqlparse-0.5.5-py3-none-any.whl.metadata (4.7 kB)
+2026-Mar-27 11:58:26.719370 #9 6.477 Collecting arabic-reshaper>=3.0.0 (from xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 6.482   Downloading arabic_reshaper-3.0.0-py3-none-any.whl.metadata (12 kB)
+2026-Mar-27 11:58:26.719370 #9 6.496 Collecting html5lib>=1.1 (from xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 6.501   Downloading html5lib-1.1-py2.py3-none-any.whl.metadata (16 kB)
+2026-Mar-27 11:58:26.719370 #9 6.537 Collecting pyHanko>=0.12.1 (from xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 6.542   Downloading pyhanko-0.34.1-py3-none-any.whl.metadata (3.3 kB)
+2026-Mar-27 11:58:26.719370 #9 6.570 Collecting pyhanko-certvalidator>=0.19.5 (from xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 6.578   Downloading pyhanko_certvalidator-0.30.1-py3-none-any.whl.metadata (4.9 kB)
+2026-Mar-27 11:58:26.719370 #9 6.617 Collecting pypdf>=3.1.0 (from xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 6.626   Downloading pypdf-6.9.2-py3-none-any.whl.metadata (7.1 kB)
+2026-Mar-27 11:58:26.719370 #9 6.710 Collecting python-bidi>=0.5.0 (from xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 6.717   Downloading python_bidi-0.6.7-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.9 kB)
+2026-Mar-27 11:58:26.719370 #9 6.944 Collecting reportlab<5,>=4.0.4 (from xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 6.951   Downloading reportlab-4.4.10-py3-none-any.whl.metadata (1.7 kB)
+2026-Mar-27 11:58:26.719370 #9 6.976 Collecting svglib>=1.2.1 (from xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 6.983   Downloading svglib-1.6.0-py3-none-any.whl.metadata (11 kB)
+2026-Mar-27 11:58:26.719370 #9 7.015 Collecting six>=1.9 (from html5lib>=1.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 7.024   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2026-Mar-27 11:58:26.719370 #9 7.039 Collecting webencodings (from html5lib>=1.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 7.045   Downloading webencodings-0.5.1-py2.py3-none-any.whl.metadata (2.1 kB)
+2026-Mar-27 11:58:26.719370 #9 7.064 Collecting asn1crypto>=1.5.1 (from pyHanko>=0.12.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 7.069   Downloading asn1crypto-1.5.1-py2.py3-none-any.whl.metadata (13 kB)
+2026-Mar-27 11:58:26.719370 #9 7.090 Collecting tzlocal>=4.3 (from pyHanko>=0.12.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 7.096   Downloading tzlocal-5.3.1-py3-none-any.whl.metadata (7.6 kB)
+2026-Mar-27 11:58:26.719370 #9 7.140 Collecting requests>=2.31.0 (from pyHanko>=0.12.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 7.145   Downloading requests-2.33.0-py3-none-any.whl.metadata (5.1 kB)
+2026-Mar-27 11:58:26.719370 #9 7.183 Collecting pyyaml>=6.0 (from pyHanko>=0.12.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 7.188   Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-Mar-27 11:58:26.719370 #9 7.425 Collecting cryptography>=43.0.3 (from pyHanko>=0.12.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 7.430   Downloading cryptography-46.0.6-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (5.7 kB)
+2026-Mar-27 11:58:26.719370 #9 7.666 Collecting lxml>=5.4.0 (from pyHanko>=0.12.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 7.671   Downloading lxml-6.0.2-cp312-cp312-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl.metadata (3.6 kB)
+2026-Mar-27 11:58:26.719370 #9 7.685 Collecting oscrypto>=1.1.0 (from pyhanko-certvalidator>=0.19.5->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 7.690   Downloading oscrypto-1.3.0-py2.py3-none-any.whl.metadata (15 kB)
+2026-Mar-27 11:58:26.719370 #9 7.725 Collecting uritools>=3.0.1 (from pyhanko-certvalidator>=0.19.5->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 7.731   Downloading uritools-6.0.1-py3-none-any.whl.metadata (5.1 kB)
+2026-Mar-27 11:58:26.719370 #9 7.832 Collecting charset-normalizer (from reportlab<5,>=4.0.4->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 7.838   Downloading charset_normalizer-3.4.6-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (40 kB)
+2026-Mar-27 11:58:26.719370 #9 7.857 Collecting cssselect2>=0.2.0 (from svglib>=1.2.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 7.861   Downloading cssselect2-0.9.0-py3-none-any.whl.metadata (2.9 kB)
+2026-Mar-27 11:58:26.719370 #9 7.882 Collecting rlpycairo>=0.4.0 (from svglib>=1.2.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 7.888   Downloading rlpycairo-0.4.0-py3-none-any.whl.metadata (4.9 kB)
+2026-Mar-27 11:58:26.719370 #9 7.899 Collecting tinycss2>=0.6.0 (from svglib>=1.2.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 7.904   Downloading tinycss2-1.5.1-py3-none-any.whl.metadata (3.0 kB)
+2026-Mar-27 11:58:26.719370 #9 8.007 Collecting cffi>=2.0.0 (from cryptography>=43.0.3->pyHanko>=0.12.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 8.013   Downloading cffi-2.0.0-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.6 kB)
+2026-Mar-27 11:58:26.719370 #9 8.041 Collecting idna<4,>=2.5 (from requests>=2.31.0->pyHanko>=0.12.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 8.046   Downloading idna-3.11-py3-none-any.whl.metadata (8.4 kB)
+2026-Mar-27 11:58:26.719370 #9 8.075 Collecting urllib3<3,>=1.26 (from requests>=2.31.0->pyHanko>=0.12.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 8.080   Downloading urllib3-2.6.3-py3-none-any.whl.metadata (6.9 kB)
+2026-Mar-27 11:58:26.719370 #9 8.101 Collecting certifi>=2023.5.7 (from requests>=2.31.0->pyHanko>=0.12.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 8.107   Downloading certifi-2026.2.25-py3-none-any.whl.metadata (2.5 kB)
+2026-Mar-27 11:58:26.719370 #9 8.128 Collecting pycairo>=1.20.0 (from rlpycairo>=0.4.0->svglib>=1.2.1->xhtml2pdf>=0.2.17->-r requirements.txt (line 11))
+2026-Mar-27 11:58:26.719370 #9 8.136   Downloading pycairo-1.29.0.tar.gz (665 kB)
+2026-Mar-27 11:58:26.719370 #9 8.150      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 665.9/665.9 kB 84.9 MB/s eta 0:00:00
+2026-Mar-27 11:58:26.719370 #9 8.207   Installing build dependencies: started
+2026-Mar-27 11:58:26.719370 #9 10.40   Installing build dependencies: finished with status 'done'
+2026-Mar-27 11:58:26.719370 #9 10.40   Getting requirements to build wheel: started
+2026-Mar-27 11:58:26.719370 #9 10.61   Getting requirements to build wheel: finished with status 'done'
+2026-Mar-27 11:58:26.719370 #9 10.61   Installing backend dependencies: started
+2026-Mar-27 11:58:26.719370 #9 11.53   Installing backend dependencies: finished with status 'done'
+2026-Mar-27 11:58:26.719370 #9 11.53   Preparing metadata (pyproject.toml): started
+2026-Mar-27 11:58:26.719370 #9 13.60   Preparing metadata (pyproject.toml): finished with status 'error'
+2026-Mar-27 11:58:26.719370 #9 13.61   error: subprocess-exited-with-error
+2026-Mar-27 11:58:26.719370 #9 13.61
+2026-Mar-27 11:58:26.719370 #9 13.61   × Preparing metadata (pyproject.toml) did not run successfully.
+2026-Mar-27 11:58:26.719370 #9 13.61   │ exit code: 1
+2026-Mar-27 11:58:26.719370 #9 13.61   ╰─> [49 lines of output]
+2026-Mar-27 11:58:26.719370 #9 13.61       + meson setup /tmp/pip-install-5igh3ngd/pycairo_5223a415c5f34cb4801a832b9612f439 /tmp/pip-install-5igh3ngd/pycairo_5223a415c5f34cb4801a832b9612f439/.mesonpy-sd412rxl -Dbuildtype=release -Db_ndebug=if-release -Db_vscrt=md -Dwheel=true -Dtests=false --native-file=/tmp/pip-install-5igh3ngd/pycairo_5223a415c5f34cb4801a832b9612f439/.mesonpy-sd412rxl/meson-python-native-file.ini
+2026-Mar-27 11:58:26.719370 #9 13.61       The Meson build system
+2026-Mar-27 11:58:26.719370 #9 13.61       Version: 1.10.2
+2026-Mar-27 11:58:26.719370 #9 13.61       Source dir: /tmp/pip-install-5igh3ngd/pycairo_5223a415c5f34cb4801a832b9612f439
+2026-Mar-27 11:58:26.719370 #9 13.61       Build dir: /tmp/pip-install-5igh3ngd/pycairo_5223a415c5f34cb4801a832b9612f439/.mesonpy-sd412rxl
+2026-Mar-27 11:58:26.719370 #9 13.61       Build type: native build
+2026-Mar-27 11:58:26.719370 #9 13.61       Project name: pycairo
+2026-Mar-27 11:58:26.719370 #9 13.61       Project version: 1.29.0
+2026-Mar-27 11:58:26.719370 #9 13.61       C compiler for the host machine: cc (gcc 14.2.0 "cc (Debian 14.2.0-19) 14.2.0")
+2026-Mar-27 11:58:26.719370 #9 13.61       C linker for the host machine: cc ld.bfd 2.44
+2026-Mar-27 11:58:26.719370 #9 13.61       Host machine cpu family: x86_64
+2026-Mar-27 11:58:26.719370 #9 13.61       Host machine cpu: x86_64
+2026-Mar-27 11:58:26.719370 #9 13.61       Program python3 found: YES (/usr/local/bin/python3.12)
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Wall: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Warray-bounds: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Wcast-align: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Wconversion: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Wextra: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Wformat=2: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Wformat-nonliteral: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Wformat-security: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Wimplicit-function-declaration: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Winit-self: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Wmissing-format-attribute: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Wmissing-noreturn: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Wnested-externs: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Wold-style-definition: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Wpacked: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Wpointer-arith: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Wreturn-type: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Wshadow: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Wsign-compare: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Wstrict-aliasing: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Wundef: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Wunused-but-set-variable: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Wswitch-default: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Wno-missing-field-initializers: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -Wno-unused-parameter: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -fno-strict-aliasing: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Compiler for C supports arguments -fvisibility=hidden: YES
+2026-Mar-27 11:58:26.719370 #9 13.61       Did not find pkg-config by name 'pkg-config'
+2026-Mar-27 11:58:26.719370 #9 13.61       Found pkg-config: NO
+2026-Mar-27 11:58:26.719370 #9 13.61       Did not find CMake 'cmake'
+2026-Mar-27 11:58:26.719370 #9 13.61       Found CMake: NO
+2026-Mar-27 11:58:26.719370 #9 13.61       Run-time dependency cairo found: NO
+2026-Mar-27 11:58:26.719370 #9 13.61
+2026-Mar-27 11:58:26.719370 #9 13.61       ../cairo/meson.build:31:12: ERROR: Dependency lookup for cairo with method 'pkgconfig' failed: Pkg-config for machine host machine not found. Giving up.
+2026-Mar-27 11:58:26.719370 #9 13.61
+2026-Mar-27 11:58:26.719370 #9 13.61       A full log can be found at /tmp/pip-install-5igh3ngd/pycairo_5223a415c5f34cb4801a832b9612f439/.mesonpy-sd412rxl/meson-logs/meson-log.txt
+2026-Mar-27 11:58:26.719370 #9 13.61       [end of output]
+2026-Mar-27 11:58:26.719370 #9 13.61
+2026-Mar-27 11:58:26.719370 #9 13.61   note: This error originates from a subprocess, and is likely not a problem with pip.
+2026-Mar-27 11:58:26.719370 #9 13.70
+2026-Mar-27 11:58:26.719370 #9 13.70 [notice] A new release of pip is available: 25.0.1 -> 26.0.1
+2026-Mar-27 11:58:26.719370 #9 13.70 [notice] To update, run: pip install --upgrade pip
+2026-Mar-27 11:58:26.719370 #9 13.71 error: metadata-generation-failed
+2026-Mar-27 11:58:26.719370 #9 13.71
+2026-Mar-27 11:58:26.719370 #9 13.71 × Encountered error while generating package metadata.
+2026-Mar-27 11:58:26.719370 #9 13.71 ╰─> See above for output.
+2026-Mar-27 11:58:26.719370 #9 13.71
+2026-Mar-27 11:58:26.719370 #9 13.71 note: This is an issue with the package mentioned above, not pip.
+2026-Mar-27 11:58:26.719370 #9 13.71 hint: See above for details.
+2026-Mar-27 11:58:26.719370 #9 ERROR: process "/bin/sh -c pip install --no-cache-dir -r requirements.txt" did not complete successfully: exit code: 1
+2026-Mar-27 11:58:26.719370 ------
+2026-Mar-27 11:58:26.719370 > [5/8] RUN pip install --no-cache-dir -r requirements.txt:
+2026-Mar-27 11:58:26.719370 13.70
+2026-Mar-27 11:58:26.719370 13.70 [notice] A new release of pip is available: 25.0.1 -> 26.0.1
+2026-Mar-27 11:58:26.719370 13.70 [notice] To update, run: pip install --upgrade pip
+2026-Mar-27 11:58:26.719370 13.71 error: metadata-generation-failed
+2026-Mar-27 11:58:26.719370 13.71
+2026-Mar-27 11:58:26.719370 13.71 × Encountered error while generating package metadata.
+2026-Mar-27 11:58:26.719370 13.71 ╰─> See above for output.
+2026-Mar-27 11:58:26.719370 13.71
+2026-Mar-27 11:58:26.719370 13.71 note: This is an issue with the package mentioned above, not pip.
+2026-Mar-27 11:58:26.719370 13.71 hint: See above for details.
+2026-Mar-27 11:58:26.719370 ------
+2026-Mar-27 11:58:26.719370 Dockerfile:19
+2026-Mar-27 11:58:26.719370 --------------------
+2026-Mar-27 11:58:26.719370 17 |     # Install Python dependencies
+2026-Mar-27 11:58:26.719370 18 |     COPY requirements.txt .
+2026-Mar-27 11:58:26.719370 19 | >>> RUN pip install --no-cache-dir -r requirements.txt
+2026-Mar-27 11:58:26.719370 20 |
+2026-Mar-27 11:58:26.719370 21 |     # Copy project files
+2026-Mar-27 11:58:26.719370 --------------------
+2026-Mar-27 11:58:26.719370 ERROR: failed to build: failed to solve: process "/bin/sh -c pip install --no-cache-dir -r requirements.txt" did not complete successfully: exit code: 1
+2026-Mar-27 11:58:26.719370 exit status 1
+2026-Mar-27 11:58:26.733210 [DEBUG] Error type: RuntimeException
+2026-Mar-27 11:58:26.745231 [DEBUG] Error code: 0
+2026-Mar-27 11:58:26.760586 [DEBUG] Location: /var/www/html/app/Traits/ExecuteRemoteCommand.php:243
+2026-Mar-27 11:58:26.780025 [DEBUG] Stack trace (first 5 lines):
+2026-Mar-27 11:58:26.797348 [DEBUG] #0 /var/www/html/app/Traits/ExecuteRemoteCommand.php(104): App\Jobs\ApplicationDeploymentJob->executeCommandWithProcess()
+2026-Mar-27 11:58:26.814832 [DEBUG] #1 /var/www/html/vendor/laravel/framework/src/Illuminate/Collections/Traits/EnumeratesValues.php(272): App\Jobs\ApplicationDeploymentJob->{closure:App\Traits\ExecuteRemoteCommand::execute_remote_command():71}()
+2026-Mar-27 11:58:26.829341 [DEBUG] #2 /var/www/html/app/Traits/ExecuteRemoteCommand.php(71): Illuminate\Support\Collection->each()
+2026-Mar-27 11:58:26.842117 [DEBUG] #3 /var/www/html/app/Jobs/ApplicationDeploymentJob.php(3163): App\Jobs\ApplicationDeploymentJob->execute_remote_command()
+2026-Mar-27 11:58:26.853312 [DEBUG] #4 /var/www/html/app/Jobs/ApplicationDeploymentJob.php(854): App\Jobs\ApplicationDeploymentJob->build_image()
+2026-Mar-27 11:58:26.865116 ========================================
+2026-Mar-27 11:58:26.878696 Deployment failed. Removing the new version of your application.
+2026-Mar-27 11:58:29.076898 Gracefully shutting down build container: q88sw0k4ks8k008kowk40osk
+2026-Mar-27 11:58:29.781720 [DEBUG] [CMD]: docker stop -t 30 q88sw0k4ks8k008kowk40osk
+2026-Mar-27 11:58:29.781720 [DEBUG] q88sw0k4ks8k008kowk40osk
