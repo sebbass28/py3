@@ -17,6 +17,7 @@ urlpatterns = [
     # Marketplace, Patients & Users API (Unified under /api/)
     path('api/', include('marketplace.urls')),
     path('api/', include('users.urls')),
+    path('api/users/', include('users.urls')), # Soporte para llamadas inconsistentes del frontend
     
     # Root Statics for React (Favicon & Manifest)
     path('favicon.ico', RedirectView.as_view(url='/static/favicon.ico')),
