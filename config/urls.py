@@ -19,8 +19,8 @@ urlpatterns = [
     path('api/', include('users.urls')),
     
     # Root Statics for React (Favicon & Manifest)
-    path('favicon.ico', RedirectView.as_view(url=settings.STATIC_URL + 'favicon.ico')),
-    path('manifest.json', RedirectView.as_view(url=settings.STATIC_URL + 'manifest.json')),
+    path('favicon.ico', RedirectView.as_view(url='/static/favicon.ico')),
+    path('manifest.json', RedirectView.as_view(url='/static/manifest.json')),
     
     # Backend for templates (optional backup)
     path('accounts/', include('django.contrib.auth.urls')),
