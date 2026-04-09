@@ -8,8 +8,14 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         # Definimos los campos que se enviarán/recibirán desde el frontend
         fields = ('id', 'username', 'email', 'role', 'company_name', 'address', 'phone', 'vat_id', 'password')
-        # La contraseña solo se puede escribir (al registrar), nunca se envía de vuelta por seguridad
-        extra_kwargs = {'password': {'write_only': True}}
+        # Hacemos los campos corporativos opcionales en la validación del serializador
+        extra_kwargs = {
+            'password': {'write_only': True},
+            'phone': {'required': False, 'allow_blank': True},
+            'address': {'required': False, 'allow_blank': True},
+            'company_name': {'required': False, 'allow_blank': True},
+            'vat_id': {'required': False, 'allow_blank': True},
+        }
 
     # Sobrescribimos el método create para usar 'create_user', que se encarga de hashear (encriptar) la contraseña
     def create(self, validated_data):
