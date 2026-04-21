@@ -5,24 +5,8 @@ import Viewer3D from '../components/Viewer3D';
 function Landing() {
   return (
     <div className="bg-white min-h-screen font-sans selection:bg-medical-100 selection:text-medical-600">
-      {/* --- NAVIGATION (MINIMAL) --- */}
-      <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-medical-500 rounded-lg shadow-lg flex items-center justify-center text-white font-bold">D</div>
-            <span className="text-xl font-extrabold text-gray-900 tracking-tighter italic">DentalLinkLab</span>
-          </div>
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-sm font-bold text-gray-500 hover:text-medical-600 transition uppercase tracking-widest">Características</a>
-            <a href="#how-it-works" className="text-sm font-bold text-gray-500 hover:text-medical-600 transition uppercase tracking-widest">Cómo funciona</a>
-            <Link to="/login" className="text-sm font-bold text-gray-900 hover:text-medical-600 transition uppercase tracking-widest border-l border-gray-200 pl-8">Acceder</Link>
-            <Link to="/signup" className="px-6 py-2.5 bg-medical-500 text-white rounded-xl font-bold text-sm shadow-lg shadow-medical-500/20 hover:bg-medical-600 transition uppercase tracking-widest">Regístrate</Link>
-          </div>
-        </div>
-      </nav>
-
       {/* --- HERO SECTION --- */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+      <section className="relative pt-20 pb-20 lg:pt-28 lg:pb-32 overflow-hidden">
         {/* Background elements */}
         <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-medical-50/50 to-transparent -z-10 blur-3xl rounded-full"></div>
         <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-50/50 -z-10 blur-3xl rounded-full"></div>
@@ -53,6 +37,9 @@ function Landing() {
               <Link to="/marketplace" className="px-12 py-5 bg-white text-gray-900 border border-gray-100 rounded-2xl font-extrabold text-sm uppercase tracking-[0.2em] shadow-card hover:bg-gray-50 transition">
                 Explorar Marketplace
               </Link>
+              <Link to="/find-clinics" className="px-12 py-5 bg-white text-medical-700 border border-medical-100 rounded-2xl font-extrabold text-sm uppercase tracking-[0.2em] shadow-card hover:bg-medical-50 transition">
+                Buscar Clínica
+              </Link>
             </div>
           </div>
           
@@ -69,6 +56,27 @@ function Landing() {
                </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* --- HOW IT WORKS SECTION --- */}
+      <section id="how-it-works" className="py-24 lg:py-32 bg-gray-50 border-y border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 text-center mb-16 space-y-4">
+          <h2 className="text-medical-500 font-extrabold uppercase tracking-[0.3em] text-xs italic">Cómo funciona</h2>
+          <h3 className="text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tighter">Flujo simple en 3 pasos</h3>
+        </div>
+        <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            { step: '01', title: 'La clínica crea el caso', text: 'Selecciona producto, paciente y sube STL con indicaciones clínicas.' },
+            { step: '02', title: 'El laboratorio diseña', text: 'Sube propuesta digital, conversa por chat y actualiza estados de fabricación.' },
+            { step: '03', title: 'Validación y entrega', text: 'La clínica aprueba, se emite factura y todo queda trazado en timeline.' },
+          ].map((item) => (
+            <div key={item.step} className="bg-white rounded-3xl border border-gray-100 p-8 shadow-card text-left">
+              <p className="text-xs font-extrabold text-medical-500 uppercase tracking-widest">{item.step}</p>
+              <h4 className="mt-3 text-xl font-extrabold text-gray-900 tracking-tight">{item.title}</h4>
+              <p className="mt-3 text-sm text-gray-500 font-medium italic">{item.text}</p>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -151,12 +159,12 @@ function Landing() {
             <span className="text-lg font-extrabold text-gray-900 tracking-tighter italic">DentalLinkLab</span>
           </div>
           <div className="flex gap-12">
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer hover:text-gray-600">Privacidad</span>
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer hover:text-gray-600">Términos</span>
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest cursor-pointer hover:text-gray-600">Contacto</span>
+            <Link to="/privacy" className="text-[10px] font-bold text-gray-400 uppercase tracking-widest hover:text-gray-600">Privacidad</Link>
+            <Link to="/terms" className="text-[10px] font-bold text-gray-400 uppercase tracking-widest hover:text-gray-600">Términos</Link>
+            <Link to="/contact" className="text-[10px] font-bold text-gray-400 uppercase tracking-widest hover:text-gray-600">Contacto</Link>
           </div>
           <div className="text-[10px] font-extrabold text-gray-900 uppercase tracking-widest italic">
-            © 2026 DentalLinkLab TFG Project 🦷
+            © 2026 DentalLinkLab
           </div>
         </div>
       </footer>

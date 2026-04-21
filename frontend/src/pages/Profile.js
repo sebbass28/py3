@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
-import AuthContext from '../context/AuthContext';
+import React, { useState, useEffect } from 'react';
 import apiClient from '../api';
 
 function Profile() {
-  const { user } = useContext(AuthContext);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -74,6 +72,48 @@ function Profile() {
               <input 
                 name="address"
                 defaultValue={profile.address}
+                className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-5 py-4 text-sm font-bold text-gray-900 focus:outline-none focus:border-medical-500 transition shadow-sm"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest ml-1">Precio Consulta (€)</label>
+              <input
+                name="consultation_price"
+                type="number"
+                step="0.01"
+                defaultValue={profile.consultation_price || ''}
+                className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-5 py-4 text-sm font-bold text-gray-900 focus:outline-none focus:border-medical-500 transition shadow-sm"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest ml-1">Rating (0-5)</label>
+              <input
+                name="rating"
+                type="number"
+                step="0.01"
+                min="0"
+                max="5"
+                defaultValue={profile.rating || ''}
+                className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-5 py-4 text-sm font-bold text-gray-900 focus:outline-none focus:border-medical-500 transition shadow-sm"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest ml-1">Latitud</label>
+              <input
+                name="latitude"
+                type="number"
+                step="0.000001"
+                defaultValue={profile.latitude || ''}
+                className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-5 py-4 text-sm font-bold text-gray-900 focus:outline-none focus:border-medical-500 transition shadow-sm"
+              />
+            </div>
+            <div className="space-y-2">
+              <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest ml-1">Longitud</label>
+              <input
+                name="longitude"
+                type="number"
+                step="0.000001"
+                defaultValue={profile.longitude || ''}
                 className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-5 py-4 text-sm font-bold text-gray-900 focus:outline-none focus:border-medical-500 transition shadow-sm"
               />
             </div>

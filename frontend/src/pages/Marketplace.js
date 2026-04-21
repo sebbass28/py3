@@ -7,7 +7,6 @@ function Marketplace() {
   // 1. Estados Globales y Locales
   const { user } = useContext(AuthContext); // Usuario para saber si es Clínica (comprador)
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   
@@ -22,18 +21,25 @@ function Marketplace() {
     scan_url: '',
   });
   const [selectedImage, setSelectedImage] = useState(null); // Estado para la foto clínica
+  // Estado para crear pacientes desde el front sin salir del flujo de pedido.
+  const [newPatient, setNewPatient] = useState({
+    first_name: '',
+    last_name: '',
+    birth_date: '',
+    gender: '',
+    external_id: '',
+  });
+  const [creatingPatient, setCreatingPatient] = useState(false);
 
   // 3. EFECTO INICIAL: Cargamos catálogos y pacientes al entrar
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Ejecutamos varias peticiones en paralelo para mayor velocidad
-        const [prodRes, catRes] = await Promise.all([
+        const [prodRes] = await Promise.all([
           apiClient.get('products/'),
-          apiClient.get('categories/')
         ]);
         setProducts(prodRes.data);
-        setCategories(catRes.data);
 
         // Si el usuario es una CLÍNICA, cargamos su lista de pacientes para el selector
         if (user?.role === 'clinic') {
@@ -94,7 +100,44 @@ function Marketplace() {
     }
   };
 
-  // 6. SPINNER: UX profesional mientras cargan los datos
+  // 6. CREACIÓN RÁPIDA DE PACIENTE: Cubre la lógica backend de pacientes desde el frontend.
+  const handleCreatePatient = async (e) => {
+    e.preventDefault();
+    try {
+      setCreatingPatient(true);
+      const payload = {
+        first_name: newPatient.first_name.trim(),
+        last_name: newPatient.last_name.trim(),
+        birth_date: newPatient.birth_date || null,
+        gender: newPatient.gender || '',
+        external_id: newPatient.external_id.trim(),
+      };
+
+      const response = await apiClient.post('patients/', payload);
+      const createdPatient = response.data;
+
+      // Actualizamos selector de pacientes y dejamos el nuevo ya seleccionado.
+      setPatients((prev) => [...prev, createdPatient]);
+      setOrderDetails((prev) => ({ ...prev, patient_id: createdPatient.id }));
+
+      // Reseteamos formulario secundario de paciente.
+      setNewPatient({
+        first_name: '',
+        last_name: '',
+        birth_date: '',
+        gender: '',
+        external_id: '',
+      });
+      alert("Paciente creado correctamente.");
+    } catch (err) {
+      console.error("Error al crear paciente", err);
+      alert("No se pudo crear el paciente.");
+    } finally {
+      setCreatingPatient(false);
+    }
+  };
+
+  // 7. SPINNER: UX profesional mientras cargan los datos
   if (loading) return (
     <div className="flex items-center justify-center min-h-[60vh]">
       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-medical-500"></div>
@@ -161,7 +204,7 @@ function Marketplace() {
                 {user?.role === 'clinic' ? (
                   <button 
                     onClick={() => setSelectedProduct(product)}
-                    className="w-full py-4 bg-gray-900 hover:bg-medical-500 text-white rounded-2xl transition-all duration-300 font-bold text-sm uppercase tracking-widest shadow-lg hover:shadow-medical-500/30 font-bold"
+                    className="w-full py-4 bg-gray-900 hover:bg-medical-500 text-white rounded-2xl transition-all duration-300 font-bold text-sm uppercase tracking-widest shadow-lg hover:shadow-medical-500/30"
                   >
                     Nuevo Pedido
                   </button>
@@ -207,6 +250,60 @@ function Marketplace() {
                             </select>
                         </div>
 
+                        {/* 1.1 Alta rápida de paciente: conecta con /patients/ sin cambiar de vista */}
+                        <div className="md:col-span-2 bg-gray-50 border border-gray-100 rounded-2xl p-4 space-y-3">
+                          <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                            Alta rápida de paciente (si no existe)
+                          </p>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <input
+                              type="text"
+                              placeholder="Nombre"
+                              value={newPatient.first_name}
+                              onChange={(e) => setNewPatient({ ...newPatient, first_name: e.target.value })}
+                              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-xs font-bold"
+                            />
+                            <input
+                              type="text"
+                              placeholder="Apellidos"
+                              value={newPatient.last_name}
+                              onChange={(e) => setNewPatient({ ...newPatient, last_name: e.target.value })}
+                              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-xs font-bold"
+                            />
+                            <input
+                              type="date"
+                              value={newPatient.birth_date}
+                              onChange={(e) => setNewPatient({ ...newPatient, birth_date: e.target.value })}
+                              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-xs font-bold"
+                            />
+                            <select
+                              value={newPatient.gender}
+                              onChange={(e) => setNewPatient({ ...newPatient, gender: e.target.value })}
+                              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-xs font-bold"
+                            >
+                              <option value="">Género (opcional)</option>
+                              <option value="M">Masculino</option>
+                              <option value="F">Femenino</option>
+                              <option value="O">Otro</option>
+                            </select>
+                            <input
+                              type="text"
+                              placeholder="ID Externo de clínica"
+                              value={newPatient.external_id}
+                              onChange={(e) => setNewPatient({ ...newPatient, external_id: e.target.value })}
+                              className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-xs font-bold md:col-span-2"
+                            />
+                          </div>
+                          <button
+                            type="button"
+                            disabled={creatingPatient || !newPatient.first_name.trim() || !newPatient.last_name.trim()}
+                            onClick={handleCreatePatient}
+                            className="w-full md:w-auto px-5 py-2 rounded-xl text-xs font-bold uppercase tracking-wider bg-gray-900 text-white disabled:bg-gray-200 disabled:text-gray-400 transition"
+                          >
+                            {creatingPatient ? 'Creando paciente...' : 'Crear paciente'}
+                          </button>
+                        </div>
+
                         {/* 2. Notación FDI: Precisión en qué dientes vamos a trabajar */}
                         <div className="space-y-2">
                             <label className="text-xs font-bold text-gray-400 uppercase tracking-widest">Piezas (ej: 11, 21)</label>
@@ -245,7 +342,7 @@ function Marketplace() {
 
                         {/* 5. Subida de Foto Clínica (Nuevo) */}
                         <div className="space-y-2 md:col-span-2">
-                            <label className="text-xs font-bold text-gray-400 uppercase tracking-widest text-medical-600">
+                            <label className="text-xs font-bold text-medical-600 uppercase tracking-widest">
                                 {selectedImage ? '✅ Foto seleccionada' : '📸 Añadir Foto Clínica (Opcional)'}
                             </label>
                             <input 
