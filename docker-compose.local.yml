@@ -1,0 +1,48 @@
+services:
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: dentalink_local_mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+  db:
+    image: postgres:16-alpine
+    container_name: dentalink_local_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-dentalink_local}
+      POSTGRES_USER: ${POSTGRES_USER:-dentalink_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dentalink_pass}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data_local:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-dentalink_user} -d ${POSTGRES_DB:-dentalink_local}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dentalink_local_web
+    restart: unless-stopped
+    env_file:
+      - .env.local
+    ports:
+      - "8000:8000"
+    depends_on:
+      mailhog:
+        condition: service_started
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+
+volumes:
+  postgres_data_local:
