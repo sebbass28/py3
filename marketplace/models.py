@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+import secrets
 
 User = get_user_model()
 
@@ -105,6 +106,16 @@ class Order(models.Model):
     # 5. Gestión Logística y Trazabilidad
     due_date = models.DateField(null=True, blank=True, verbose_name="Fecha de entrega pactada")
     priority = models.BooleanField(default=False, verbose_name="Pedido Urgente")
+    # Datos operativos del laboratorio para planificación de producción.
+    assigned_technician = models.CharField(
+        max_length=120,
+        blank=True,
+        help_text="Técnico responsable del caso dentro del laboratorio"
+    )
+    production_started_at = models.DateTimeField(null=True, blank=True)
+    # Metadatos de integración para enlazar pedidos con sistemas externos.
+    external_source = models.CharField(max_length=80, blank=True, default='')
+    external_order_id = models.CharField(max_length=120, blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -136,4 +147,129 @@ class Invoice(models.Model):
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     status = models.CharField(max_length=20, choices=[('pending', 'Pendiente'), ('paid', 'Pagada')], default='pending')
     discount_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    qr_code = models.ImageField(upload_to='invoices/qr/', blank=True, null=True, help_text="QR de trazabilidad para la caja física")
+    qr_code = models.ImageField(upload_to='invoices/qr/', blank=True, null=True, help_text="QR de trazabilidad para la caja física")
+
+
+# --- MODELO DE MENSAJERÍA POR PEDIDO (CHAT CLÍNICA <-> LABORATORIO) ---
+class OrderMessage(models.Model):
+    # Cada mensaje está vinculado a un pedido concreto para mantener contexto técnico/legal.
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='messages')
+    # El emisor será siempre uno de los dos actores del pedido (clínica o laboratorio).
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='order_messages')
+    # Contenido textual del mensaje (instrucciones, aclaraciones, incidencias, etc.).
+    content = models.TextField(max_length=2000, blank=True, default='')
+    # Adjuntos opcionales para compartir evidencias/fotos entre clínica y laboratorio.
+    image = models.ImageField(upload_to='messages/images/', null=True, blank=True)
+    # Flags simples de lectura para saber si cada rol ya revisó el mensaje.
+    read_by_clinic = models.BooleanField(default=False)
+    read_by_lab = models.BooleanField(default=False)
+    # Sello temporal para ordenar la conversación cronológicamente.
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['created_at']
+
+    def __str__(self):
+        return f"Msg #{self.id} - Pedido #{self.order_id} - {self.sender.username}"
+
+
+# --- MODELO DE EVENTOS DE PEDIDO (AUDITORÍA/TIMELINE) ---
+class OrderEvent(models.Model):
+    EVENT_TYPES = [
+        ('created', 'Pedido creado'),
+        ('status_changed', 'Estado actualizado'),
+        ('design_uploaded', 'Diseño subido'),
+        ('design_approved', 'Diseño aprobado'),
+        ('design_rejected', 'Diseño rechazado'),
+        ('message_sent', 'Mensaje enviado'),
+        ('invoice_generated', 'Factura generada'),
+    ]
+
+    # Cada evento se asocia a un pedido concreto para construir su trazabilidad.
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='events')
+    # Usuario que dispara el evento (clínica, laboratorio o staff).
+    actor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='order_events')
+    # Tipo y detalle del cambio para mostrar una narrativa clara en frontend.
+    event_type = models.CharField(max_length=30, choices=EVENT_TYPES)
+    description = models.CharField(max_length=255)
+    # Campo opcional para guardar un JSON con detalles útiles (estado anterior/nuevo, etc.).
+    metadata = models.JSONField(default=dict, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Evento {self.event_type} - Pedido #{self.order_id}"
+
+
+# --- MODELO DE NOTIFICACIONES IN-APP ---
+class Notification(models.Model):
+    TARGET_ROLES = [
+        ('clinic', 'Clínica'),
+        ('lab', 'Laboratorio'),
+        ('both', 'Ambos'),
+    ]
+
+    # Receptor de la notificación dentro de la plataforma.
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
+    # Relación opcional con pedido para navegación contextual.
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='notifications', null=True, blank=True)
+    title = models.CharField(max_length=120)
+    message = models.CharField(max_length=300)
+    target_role = models.CharField(max_length=10, choices=TARGET_ROLES, default='both')
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Notificación para {self.user.username}: {self.title}"
+
+
+# --- MODELO DE CONEXIÓN DE INTEGRACIONES (API KEY POR EMPRESA) ---
+class IntegrationConnection(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='integration_connections')
+    name = models.CharField(max_length=120)
+    external_system = models.CharField(max_length=120, help_text="Nombre del PMS/ERP conectado")
+    api_key = models.CharField(max_length=64, unique=True, editable=False, db_index=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_sync_at = models.DateTimeField(null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        # Generamos clave automáticamente la primera vez.
+        if not self.api_key:
+            self.api_key = secrets.token_hex(24)
+        return super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.owner.username} - {self.external_system}"
+
+
+# --- LOG DE SINCRONIZACIÓN PARA AUDITORÍA DE INTEGRACIONES ---
+class IntegrationSyncLog(models.Model):
+    DIRECTION_CHOICES = [
+        ('inbound', 'Entrada'),
+        ('outbound', 'Salida'),
+    ]
+    STATUS_CHOICES = [
+        ('success', 'Éxito'),
+        ('error', 'Error'),
+    ]
+
+    connection = models.ForeignKey(IntegrationConnection, on_delete=models.CASCADE, related_name='sync_logs')
+    direction = models.CharField(max_length=10, choices=DIRECTION_CHOICES)
+    entity_type = models.CharField(max_length=50, default='order')
+    external_id = models.CharField(max_length=120, blank=True, default='')
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES)
+    message = models.CharField(max_length=255, blank=True, default='')
+    payload = models.JSONField(default=dict, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.connection.external_system} {self.direction} {self.status}"

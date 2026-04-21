@@ -17,6 +17,11 @@ DentalLinkLab es una plataforma B2B de vanguardia diseñada para digitalizar la 
 Para profundizar en la lógica del proyecto y su valor de mercado, consulta los siguientes documentos:
 - 📊 **[Análisis del Sector y Soluciones](docs/analisis_problemas_sector.md):** Cómo resolvemos los problemas reales de los dentistas.
 - 🔐 **[Arquitectura de Seguridad y Roles](docs/seguridad_jwt_roles.md):** Explicación técnica de JWT y la distinción Clínica/Lab.
+- 🧭 **[Flujo Scrum en GitHub](docs/scrum_github_workflow.md):** Proceso de backlog, sprints, issues y PRs para trazabilidad académica.
+- 🔌 **[API de Integraciones Externas](docs/api_integraciones_mvp.md):** Endpoints, payloads y ejemplos `curl` para PMS/ERP.
+- 🛡️ **[Retención y Privacidad de Datos](docs/retencion_y_privacidad_datos.md):** Política operativa de anonimización y cumplimiento.
+- ✅ **[Checklist Release Sin Pagos](docs/checklist_release_sin_pagos.md):** Validación final de entrega funcional.
+- 📝 **[Release Notes](RELEASE_NOTES.md):** Resumen técnico de la versión actual.
 
 ---
 
@@ -104,12 +109,20 @@ Para transformar este prototipo de TFG en un producto comercial real, se propone
 ```bash
 # 1. Preparar el Backend
 pip install -r requirements.txt
+python manage.py migrate
+python manage.py seed_demo_clinics
+python manage.py seed_demo_data
 python manage.py runserver
 
 # 2. Preparar el Frontend
 cd frontend
 npm install
 npm start
+```
+
+### Smoke test de entrega (Windows / PowerShell)
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\smoke_local.ps1
 ```
 
 ---
