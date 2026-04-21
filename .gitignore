@@ -12,6 +12,7 @@ media
 
 # Environments
 .env
+.env.local
 .venv
 env/
 venv/
