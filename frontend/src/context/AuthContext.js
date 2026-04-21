@@ -5,13 +5,22 @@ import apiClient from '../api';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const getStoredToken = () => {
+    return localStorage.getItem('token') || sessionStorage.getItem('token');
+  };
+
+  const clearStoredAuth = () => {
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
+  };
+
   // 1. Estados Globales: 'user' guarda quién está logueado y 'loading' evita parpadeos
   const [user, setUser] = useState(null); 
   const [loading, setLoading] = useState(true); 
 
   // 2. PERSISTENCIA: Al cargar la web, verificamos si ya había una sesión iniciada
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = getStoredToken();
     if (token) {
       // Si el Token existe, lo inyectamos en la librería Axios para todas las peticiones
       apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -22,7 +31,9 @@ export const AuthProvider = ({ children }) => {
         })
         .catch(() => {
           // Si el Token es viejo o inválido, limpiamos la sesión
-          localStorage.removeItem('token');
+          clearStoredAuth();
+          delete apiClient.defaults.headers.common['Authorization'];
+          setUser(null);
         })
         .finally(() => setLoading(false));
     } else {
@@ -31,14 +42,19 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // 3. FUNCIÓN LOGIN: La puerta de entrada a la aplicación (JWT)
-  const login = async (username, password) => {
+  const login = async (username, password, rememberMe = true) => {
     try {
       // Paso A: Enviamos credenciales al servidor Django
       const response = await apiClient.post('token/', { username, password });
       const { access: token } = response.data;
       
       // Paso B: Guardamos el Token en el almacenamiento persistente del navegador
-      localStorage.setItem('token', token);
+      clearStoredAuth();
+      if (rememberMe) {
+        localStorage.setItem('token', token);
+      } else {
+        sessionStorage.setItem('token', token);
+      }
       // Paso C: Lo activamos en la capa de comunicación (Axios)
       apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       
@@ -48,6 +64,10 @@ export const AuthProvider = ({ children }) => {
       return { success: true };
     } catch (error) {
       console.error("Error en el inicio de sesión:", error);
+      // En caso de error de autenticación, dejamos limpio cualquier token/header residual.
+      clearStoredAuth();
+      delete apiClient.defaults.headers.common['Authorization'];
+      setUser(null);
       return { success: false, error: error.response?.data?.detail || "Error al iniciar sesión" };
     }
   };
@@ -68,7 +88,7 @@ export const AuthProvider = ({ children }) => {
   // 5. FUNCIÓN LOGOUT: Cierre de sesión seguro
   const logout = () => {
     // Eliminamos el Token para que nadie más pueda usarlo
-    localStorage.removeItem('token');
+    clearStoredAuth();
     delete apiClient.defaults.headers.common['Authorization'];
     setUser(null);
   };

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+  <body style="margin:0;padding:16px;background:#f8fafc;font-family:Arial,sans-serif;">
+    <div style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid #e5e7eb;border-radius:12px;padding:20px;">
+      <h2 style="margin:0 0 12px;color:#0f172a;">{{ title }}</h2>
+      <p style="margin:0 0 12px;color:#334155;">{{ message }}</p>
+      <div style="padding:12px;background:#f1f5f9;border-radius:8px;">
+        <p style="margin:0 0 6px;color:#0f172a;font-size:13px;">
+          Pedido: <strong>#{{ order.id }}</strong>
+        </p>
+        <p style="margin:0 0 6px;color:#0f172a;font-size:13px;">
+          Producto: <strong>{{ order.product.name }}</strong>
+        </p>
+        <p style="margin:0;color:#475569;font-size:12px;">
+          Destinatario: {{ recipient.company_name|default:recipient.username }}
+        </p>
+      </div>
+      <p style="margin:14px 0 0;color:#64748b;font-size:12px;">
+        DentalLinkLab · Notificación automática de estado.
+      </p>
+    </div>
+  </body>
+</html>

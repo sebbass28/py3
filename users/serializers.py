@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, PublicClinic
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 # Los Serializers en Django REST Framework (DRF) transforman objetos de la base de datos a JSON y viceversa
@@ -7,7 +7,10 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         # Definimos los campos que se enviarán/recibirán desde el frontend
-        fields = ('id', 'username', 'email', 'role', 'company_name', 'address', 'phone', 'vat_id', 'password')
+        fields = (
+            'id', 'username', 'email', 'role', 'company_name', 'address', 'phone',
+            'vat_id', 'consultation_price', 'rating', 'latitude', 'longitude', 'password'
+        )
         # Hacemos los campos corporativos opcionales en la validación del serializador
         extra_kwargs = {
             'password': {'write_only': True},
@@ -15,6 +18,10 @@ class UserSerializer(serializers.ModelSerializer):
             'address': {'required': False, 'allow_blank': True},
             'company_name': {'required': False, 'allow_blank': True},
             'vat_id': {'required': False, 'allow_blank': True},
+            'consultation_price': {'required': False, 'allow_null': True},
+            'rating': {'required': False, 'allow_null': True},
+            'latitude': {'required': False, 'allow_null': True},
+            'longitude': {'required': False, 'allow_null': True},
         }
 
     # Sobrescribimos el método create para usar 'create_user', que se encarga de hashear (encriptar) la contraseña
@@ -36,3 +43,27 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['company_name'] = user.company_name
         
         return token
+
+
+# Serializer liviano para finder público de clínicas (sin datos sensibles).
+class ClinicDirectorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = (
+            'id', 'company_name', 'address', 'phone',
+            'consultation_price', 'rating', 'latitude', 'longitude'
+        )
+
+
+class UnifiedClinicDirectorySerializer(serializers.Serializer):
+    id = serializers.CharField()
+    company_name = serializers.CharField()
+    address = serializers.CharField(allow_blank=True, allow_null=True, required=False)
+    phone = serializers.CharField(allow_blank=True, allow_null=True, required=False)
+    consultation_price = serializers.DecimalField(max_digits=10, decimal_places=2, allow_null=True, required=False)
+    rating = serializers.DecimalField(max_digits=3, decimal_places=2, allow_null=True, required=False)
+    latitude = serializers.DecimalField(max_digits=9, decimal_places=6, allow_null=True, required=False)
+    longitude = serializers.DecimalField(max_digits=9, decimal_places=6, allow_null=True, required=False)
+    source_type = serializers.CharField()
+    is_verified = serializers.BooleanField()
+    is_claimed = serializers.BooleanField()
