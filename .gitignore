@@ -38,6 +38,8 @@ copia/
 *.doc
 *.docx
 *.pdf
+*.ppt
+*.pptx
 
 # Local Word generation scripts (kept outside git)
 generar_word_tfg.py
