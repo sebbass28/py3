@@ -38,3 +38,7 @@ copia/
 *.doc
 *.docx
 *.pdf
+
+# Local Word generation scripts (kept outside git)
+generar_word_tfg.py
+scripts/md_to_docx_ies.py
