@@ -33,3 +33,8 @@ frontend/node_modules/
 
 # Local copies
 copia/
+
+# Office/PDF delivery documents (kept outside git)
+*.doc
+*.docx
+*.pdf
