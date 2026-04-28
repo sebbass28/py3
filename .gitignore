@@ -26,7 +26,8 @@ venv.bak/
 
 # Build artifacts
 staticfiles/
-# frontend/build/ (Eliminado para permitir deploy hibrido)
+build/
+# frontend/build/ se versiona porque es el artefacto de deploy
 
 # Dependencies
 frontend/node_modules/

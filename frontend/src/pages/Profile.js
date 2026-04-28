@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import apiClient from '../api';
+import { useToast } from '../context/ToastContext';
 
 function Profile() {
+  const { showToast } = useToast();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -26,9 +28,9 @@ function Profile() {
     
     try {
       await apiClient.patch('users/me/', data);
-      alert("Perfil actualizado correctamente");
+      showToast('Perfil actualizado correctamente.', 'success');
     } catch (err) {
-      alert("Error al actualizar perfil");
+      showToast('Error al actualizar perfil.', 'error');
     }
   };
 
@@ -39,12 +41,15 @@ function Profile() {
   );
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12">
-      <div className="bg-white rounded-[32px] shadow-sm border border-gray-100 overflow-hidden">
-        <div className="bg-medical-900 px-10 py-12 text-white relative">
-          <h2 className="text-3xl font-extrabold tracking-tight italic">Configuración de Perfil</h2>
-          <p className="text-blue-100/60 mt-2 text-sm font-bold uppercase tracking-widest">Panel de Control DentaLink</p>
-          <div className="absolute -bottom-10 right-10 w-24 h-24 bg-medical-500 rounded-3xl flex items-center justify-center text-3xl font-bold shadow-2xl border-4 border-white">
+    <div className="mx-auto max-w-5xl">
+      <div className="overflow-hidden rounded-[36px] bg-white shadow-card">
+        <div className="relative bg-slate-950 px-10 py-12 text-white">
+          <p className="text-xs font-bold uppercase tracking-[0.25em] text-slate-400">Profile</p>
+          <h2 className="mt-2 text-4xl font-black tracking-tight">Configuración de perfil</h2>
+          <p className="mt-3 max-w-2xl text-sm text-slate-300">
+            Ajusta los datos visibles para tu operación y la información usada en marketplace, pedidos y facturación.
+          </p>
+          <div className="absolute -bottom-10 right-10 flex h-24 w-24 items-center justify-center rounded-3xl border-4 border-white bg-sky-500 text-3xl font-black shadow-2xl">
             {profile.username.slice(0, 2).toUpperCase()}
           </div>
         </div>
@@ -52,41 +57,41 @@ function Profile() {
         <form onSubmit={handleSubmit} className="px-10 pt-20 pb-12 space-y-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="space-y-2">
-              <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest ml-1">Nombre de la Empresa</label>
+              <label className="ml-1 text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Nombre de la empresa</label>
               <input 
                 name="company_name"
                 defaultValue={profile.company_name}
-                className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-5 py-4 text-sm font-bold text-gray-900 focus:outline-none focus:border-medical-500 transition shadow-sm"
+                className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-5 py-4 text-sm font-semibold text-slate-900 focus:border-slate-900 focus:outline-none"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest ml-1">Email de Contacto</label>
+              <label className="ml-1 text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Email de contacto</label>
               <input 
                 name="email"
                 defaultValue={profile.email}
-                className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-5 py-4 text-sm font-bold text-gray-900 focus:outline-none focus:border-medical-500 transition shadow-sm"
+                className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-5 py-4 text-sm font-semibold text-slate-900 focus:border-slate-900 focus:outline-none"
               />
             </div>
             <div className="col-span-full space-y-2">
-              <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest ml-1">Dirección Física</label>
+              <label className="ml-1 text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Dirección física</label>
               <input 
                 name="address"
                 defaultValue={profile.address}
-                className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-5 py-4 text-sm font-bold text-gray-900 focus:outline-none focus:border-medical-500 transition shadow-sm"
+                className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-5 py-4 text-sm font-semibold text-slate-900 focus:border-slate-900 focus:outline-none"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest ml-1">Precio Consulta (€)</label>
+              <label className="ml-1 text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Precio consulta (€)</label>
               <input
                 name="consultation_price"
                 type="number"
                 step="0.01"
                 defaultValue={profile.consultation_price || ''}
-                className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-5 py-4 text-sm font-bold text-gray-900 focus:outline-none focus:border-medical-500 transition shadow-sm"
+                className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-5 py-4 text-sm font-semibold text-slate-900 focus:border-slate-900 focus:outline-none"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest ml-1">Rating (0-5)</label>
+              <label className="ml-1 text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Rating (0-5)</label>
               <input
                 name="rating"
                 type="number"
@@ -94,38 +99,38 @@ function Profile() {
                 min="0"
                 max="5"
                 defaultValue={profile.rating || ''}
-                className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-5 py-4 text-sm font-bold text-gray-900 focus:outline-none focus:border-medical-500 transition shadow-sm"
+                className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-5 py-4 text-sm font-semibold text-slate-900 focus:border-slate-900 focus:outline-none"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest ml-1">Latitud</label>
+              <label className="ml-1 text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Latitud</label>
               <input
                 name="latitude"
                 type="number"
                 step="0.000001"
                 defaultValue={profile.latitude || ''}
-                className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-5 py-4 text-sm font-bold text-gray-900 focus:outline-none focus:border-medical-500 transition shadow-sm"
+                className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-5 py-4 text-sm font-semibold text-slate-900 focus:border-slate-900 focus:outline-none"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-[10px] font-extrabold text-gray-400 uppercase tracking-widest ml-1">Longitud</label>
+              <label className="ml-1 text-[10px] font-extrabold uppercase tracking-widest text-slate-400">Longitud</label>
               <input
                 name="longitude"
                 type="number"
                 step="0.000001"
                 defaultValue={profile.longitude || ''}
-                className="w-full bg-gray-50 border border-gray-100 rounded-2xl px-5 py-4 text-sm font-bold text-gray-900 focus:outline-none focus:border-medical-500 transition shadow-sm"
+                className="w-full rounded-3xl border border-slate-200 bg-slate-50 px-5 py-4 text-sm font-semibold text-slate-900 focus:border-slate-900 focus:outline-none"
               />
             </div>
           </div>
 
-          <div className="flex justify-between items-center pt-8 border-t border-gray-50">
-            <div className="text-[10px] text-gray-400 font-medium italic">
-              ID de Usuario: <span className="font-bold text-gray-500">#{profile.id}</span> • Rol: <span className="font-bold text-medical-600 uppercase">{profile.role}</span>
+          <div className="flex items-center justify-between border-t border-slate-100 pt-8">
+            <div className="text-[10px] font-medium italic text-slate-400">
+              ID de Usuario: <span className="font-bold text-slate-500">#{profile.id}</span> • Rol: <span className="font-bold uppercase text-sky-700">{profile.role}</span>
             </div>
             <button 
               type="submit"
-              className="px-10 py-4 bg-medical-500 hover:bg-medical-600 text-white rounded-2xl font-extrabold text-xs shadow-xl shadow-medical-500/10 transition transform hover:-translate-y-0.5 uppercase tracking-widest"
+              className="rounded-3xl bg-slate-950 px-10 py-4 text-xs font-extrabold uppercase tracking-widest text-white transition hover:-translate-y-0.5"
             >
               Guardar Cambios
             </button>
