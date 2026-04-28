@@ -1,9 +1,9 @@
 # Build frontend inside Docker (no artifacts in git)
-FROM node:20-alpine AS frontend_build
+FROM node:22-alpine AS frontend_build
 WORKDIR /frontend
 
 COPY frontend/package.json frontend/package-lock.json ./
-RUN npm ci
+RUN npm install --no-audit --fund=false
 
 COPY frontend/ ./
 RUN npm run build
