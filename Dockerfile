@@ -22,7 +22,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Copy frontend build (pre-built locally)
-COPY build ./frontend/build
+COPY frontend/build ./frontend/build
 
 # Environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
