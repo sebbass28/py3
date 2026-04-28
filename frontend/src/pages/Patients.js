@@ -158,10 +158,11 @@ function Patients() {
   const isClinic = user.role === 'clinic';
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
-      <div>
-        <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Registro de Pacientes</h1>
-        <p className="text-sm text-gray-500 mt-2 italic">
+    <div className="space-y-6">
+      <div className="rounded-[32px] bg-white p-8 shadow-card">
+        <p className="text-xs font-bold uppercase tracking-[0.25em] text-slate-400">Patients</p>
+        <h1 className="mt-2 text-4xl font-black tracking-tight text-slate-950">Registro de pacientes</h1>
+        <p className="mt-3 max-w-3xl text-sm text-slate-500">
           {isClinic
             ? 'Gestiona el historial de pacientes y reutiliza sus datos en nuevos casos.'
             : 'Consulta los pacientes asociados a tus casos para mantener contexto clínico.'}
@@ -169,15 +170,15 @@ function Patients() {
       </div>
 
       {isClinic && (
-        <form onSubmit={handleCreatePatient} className="bg-white border border-gray-100 rounded-2xl p-6 shadow-card space-y-4">
-          <h2 className="text-lg font-extrabold text-gray-900">Alta rápida de paciente</h2>
+        <form onSubmit={handleCreatePatient} className="rounded-[32px] bg-white p-6 shadow-card space-y-4">
+          <h2 className="text-2xl font-black text-slate-950">Alta rápida de paciente</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
             <input
               type="text"
               placeholder="Nombre"
               value={newPatient.first_name}
               onChange={(e) => setNewPatient({ ...newPatient, first_name: e.target.value })}
-              className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 text-sm font-medium"
+              className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm"
               required
             />
             <input
@@ -185,19 +186,19 @@ function Patients() {
               placeholder="Apellidos"
               value={newPatient.last_name}
               onChange={(e) => setNewPatient({ ...newPatient, last_name: e.target.value })}
-              className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 text-sm font-medium"
+              className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm"
               required
             />
             <input
               type="date"
               value={newPatient.birth_date}
               onChange={(e) => setNewPatient({ ...newPatient, birth_date: e.target.value })}
-              className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 text-sm font-medium"
+              className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm"
             />
             <select
               value={newPatient.gender}
               onChange={(e) => setNewPatient({ ...newPatient, gender: e.target.value })}
-              className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 text-sm font-medium"
+              className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm"
             >
               <option value="">Género</option>
               <option value="M">Masculino</option>
@@ -209,34 +210,34 @@ function Patients() {
               placeholder="ID externo"
               value={newPatient.external_id}
               onChange={(e) => setNewPatient({ ...newPatient, external_id: e.target.value })}
-              className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 text-sm font-medium"
+              className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm"
             />
           </div>
           <button
             type="submit"
             disabled={creating}
-            className="px-5 py-2.5 bg-medical-500 text-white rounded-xl text-sm font-bold uppercase tracking-wider disabled:bg-gray-300"
+            className="rounded-2xl bg-slate-950 px-5 py-3 text-sm font-bold text-white disabled:bg-slate-300"
           >
             {creating ? 'Guardando...' : 'Guardar paciente'}
           </button>
         </form>
       )}
 
-      <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-card space-y-4">
+      <div className="rounded-[32px] bg-white p-6 shadow-card space-y-4">
         <div className="flex items-center justify-between gap-3 flex-wrap">
-          <h2 className="text-lg font-extrabold text-gray-900">Historial de pacientes</h2>
+          <h2 className="text-2xl font-black text-slate-950">Historial de pacientes</h2>
           <input
             type="text"
             placeholder="Buscar por nombre o ID externo..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full md:w-80 bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 text-sm font-medium"
+            className="w-full md:w-80 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm"
           />
         </div>
         <div className="overflow-x-auto">
           <table className="min-w-full text-sm">
             <thead>
-              <tr className="text-left text-gray-400 uppercase text-[10px] tracking-widest">
+              <tr className="text-left text-slate-400 uppercase text-[10px] tracking-widest">
                 <th className="py-3 pr-4">Paciente</th>
                 <th className="py-3 pr-4">Nacimiento</th>
                 <th className="py-3 pr-4">Género</th>
@@ -248,8 +249,8 @@ function Patients() {
             <tbody>
               {filteredPatients.length > 0 ? (
                 filteredPatients.map((patient) => (
-                  <tr key={patient.id} className="border-t border-gray-100 text-gray-700">
-                    <td className="py-3 pr-4 font-bold">{patient.first_name} {patient.last_name}</td>
+                  <tr key={patient.id} className="border-t border-slate-100 text-slate-700">
+                    <td className="py-4 pr-4 font-bold">{patient.first_name} {patient.last_name}</td>
                     <td className="py-3 pr-4">{patient.birth_date || '-'}</td>
                     <td className="py-3 pr-4">{patient.gender || '-'}</td>
                     <td className="py-3 pr-4">{patient.external_id || '-'}</td>
@@ -257,7 +258,7 @@ function Patients() {
                     <td className="py-3 pr-4">
                       <button
                         onClick={() => handleSelectPatient(patient)}
-                        className="px-3 py-1 rounded-lg bg-medical-50 text-medical-700 text-xs font-bold"
+                        className="rounded-2xl bg-slate-100 px-3 py-2 text-xs font-bold text-slate-800"
                       >
                         Ver ficha
                       </button>
@@ -277,23 +278,23 @@ function Patients() {
       </div>
 
       {selectedPatient && (
-        <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-card space-y-4">
+        <div className="rounded-[32px] bg-white p-6 shadow-card space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-extrabold text-gray-900">
+            <h2 className="text-2xl font-black text-slate-950">
               Ficha de {selectedPatient.first_name} {selectedPatient.last_name}
             </h2>
             {isClinic && (
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setEditing((prev) => !prev)}
-                  className="px-3 py-1 rounded-lg bg-purple-50 text-purple-700 text-xs font-bold"
+                  className="rounded-2xl bg-violet-100 px-3 py-2 text-xs font-bold text-violet-800"
                 >
                   {editing ? 'Cancelar edición' : 'Editar ficha'}
                 </button>
                 <button
                   onClick={handleAnonymizePatient}
                   disabled={anonymizing}
-                  className="px-3 py-1 rounded-lg bg-red-50 text-red-700 text-xs font-bold disabled:opacity-60"
+                  className="rounded-2xl bg-rose-100 px-3 py-2 text-xs font-bold text-rose-700 disabled:opacity-60"
                 >
                   {anonymizing ? 'Anonimizando...' : 'Anonimizar'}
                 </button>
@@ -307,26 +308,26 @@ function Patients() {
                 type="text"
                 value={editPatient.first_name}
                 onChange={(e) => setEditPatient({ ...editPatient, first_name: e.target.value })}
-                className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 text-sm font-medium"
+                className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm"
                 required
               />
               <input
                 type="text"
                 value={editPatient.last_name}
                 onChange={(e) => setEditPatient({ ...editPatient, last_name: e.target.value })}
-                className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 text-sm font-medium"
+                className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm"
                 required
               />
               <input
                 type="date"
                 value={editPatient.birth_date || ''}
                 onChange={(e) => setEditPatient({ ...editPatient, birth_date: e.target.value })}
-                className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 text-sm font-medium"
+                className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm"
               />
               <select
                 value={editPatient.gender || ''}
                 onChange={(e) => setEditPatient({ ...editPatient, gender: e.target.value })}
-                className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 text-sm font-medium"
+                className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm"
               >
                 <option value="">Género</option>
                 <option value="M">Masculino</option>
@@ -337,41 +338,41 @@ function Patients() {
                 type="text"
                 value={editPatient.external_id || ''}
                 onChange={(e) => setEditPatient({ ...editPatient, external_id: e.target.value })}
-                className="bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 text-sm font-medium"
+                className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm"
               />
               <button
                 type="submit"
                 disabled={savingEdit}
-                className="md:col-span-5 px-5 py-2.5 bg-purple-600 text-white rounded-xl text-sm font-bold uppercase tracking-wider disabled:bg-gray-300"
+                className="md:col-span-5 rounded-2xl bg-slate-950 px-5 py-3 text-sm font-bold text-white disabled:bg-slate-300"
               >
                 {savingEdit ? 'Guardando...' : 'Guardar cambios'}
               </button>
             </form>
           ) : (
-            <div className="text-sm text-gray-600">
+            <div className="rounded-3xl bg-slate-50 px-4 py-3 text-sm text-slate-600">
               ID externo: <span className="font-bold">{selectedPatient.external_id || '-'}</span>
             </div>
           )}
 
           <div>
-            <h3 className="text-sm font-extrabold text-gray-800 mb-2">Pedidos asociados</h3>
+            <h3 className="mb-3 text-sm font-extrabold text-slate-800">Pedidos asociados</h3>
             {ordersLoading ? (
-              <p className="text-xs text-gray-400 italic">Cargando historial...</p>
+              <p className="text-xs text-slate-400 italic">Cargando historial...</p>
             ) : patientOrders.length > 0 ? (
               <ul className="space-y-2">
                 {patientOrders.map((order) => (
-                  <li key={order.id} className="p-3 rounded-xl border border-gray-100 bg-gray-50 text-xs">
-                    <p className="font-bold text-gray-800">
+                  <li key={order.id} className="rounded-3xl border border-slate-100 bg-slate-50 p-4 text-xs">
+                    <p className="font-bold text-slate-800">
                       #{order.id} · {order.product?.name || 'Trabajo'}
                     </p>
-                    <p className="text-gray-500 mt-1">
+                    <p className="mt-1 text-slate-500">
                       Estado: {order.status_display} · Fecha: {new Date(order.created_at).toLocaleDateString()}
                     </p>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="text-xs text-gray-400 italic">Este paciente aún no tiene pedidos asociados.</p>
+              <p className="text-xs text-slate-400 italic">Este paciente aún no tiene pedidos asociados.</p>
             )}
           </div>
         </div>

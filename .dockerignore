@@ -9,6 +9,7 @@ db.sqlite3
 .venv
 venv
 frontend/node_modules
+build
 # frontend/build (Habilitado para que Docker lo pueda copiar)
 node_modules
 staticfiles
