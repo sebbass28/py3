@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, Link, useLocation } from 'react-router-dom';
 import AuthContext, { AuthProvider } from './context/AuthContext';
 import Landing from './pages/Landing';
 import Marketplace from './pages/Marketplace';
@@ -33,6 +33,49 @@ function PublicOnlyRoute({ children }) {
   return children;
 }
 
+function PublicNavbar() {
+  const { user } = useContext(AuthContext);
+  const location = useLocation();
+  const isLanding = location.pathname === '/';
+  const isActive = (path) => location.pathname === path;
+
+  if (user) return null;
+
+  return (
+    <nav className="sticky top-0 z-40 border-b border-gray-100 bg-white/95 backdrop-blur">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <Link to="/" className="text-2xl font-bold text-medical-600">
+          DentalLink
+        </Link>
+        <div className="hidden items-center gap-6 sm:flex">
+          <Link to="/" className={`${isActive('/') ? 'text-medical-600' : 'text-gray-500 hover:text-medical-600'} text-sm font-medium`}>
+            Inicio
+          </Link>
+          {isLanding ? (
+            <>
+              <a href="#features" className="text-sm font-medium text-gray-500 hover:text-medical-600">
+                Características
+              </a>
+              <a href="#how-it-works" className="text-sm font-medium text-gray-500 hover:text-medical-600">
+                Cómo funciona
+              </a>
+            </>
+          ) : null}
+          <Link to="/find-clinics" className={`${isActive('/find-clinics') ? 'text-medical-600' : 'text-gray-500 hover:text-medical-600'} text-sm font-medium`}>
+            Buscar clínica
+          </Link>
+          <Link to="/login" className="text-sm font-bold text-gray-600 hover:text-medical-600">
+            Iniciar sesión
+          </Link>
+          <Link to="/signup" className="rounded-lg bg-medical-500 px-4 py-2.5 text-sm font-bold text-white hover:bg-medical-600">
+            Registrarse
+          </Link>
+        </div>
+      </div>
+    </nav>
+  );
+}
+
 function PrivatePage({ children }) {
   return (
     <PrivateRoute>
@@ -47,6 +90,7 @@ function App() {
       <AuthProvider>
         <ToastProvider>
           <div className="flex flex-col min-h-screen">
+            <PublicNavbar />
             <main className="flex-grow">
               <Routes>
                 <Route path="/" element={<PublicOnlyRoute><Landing /></PublicOnlyRoute>} />
