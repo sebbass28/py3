@@ -6,6 +6,9 @@ COPY frontend/package.json frontend/package-lock.json ./
 RUN npm install --no-audit --fund=false
 
 COPY frontend/ ./
+ENV NODE_OPTIONS=--max-old-space-size=2048
+ENV GENERATE_SOURCEMAP=false
+ENV CI=false
 RUN npm run build
 
 FROM python:3.12-slim
