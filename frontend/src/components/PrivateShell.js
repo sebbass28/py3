@@ -32,16 +32,16 @@ function PrivateShell({ children }) {
 
   const navItems = useMemo(() => {
     const baseItems = [
-      { to: '/dashboard', label: user?.role === 'lab' ? 'Lab Dashboard' : 'Dashboard' },
-      { to: '/orders', label: 'Orders', badge: unreadNotifications > 0 ? unreadNotifications : null },
-      { to: '/messages', label: 'Messages' },
-      { to: '/patients', label: 'Patients' },
-      { to: '/integrations', label: 'Integrations' },
-      { to: '/profile', label: 'Profile' },
+      { to: '/dashboard', label: user?.role === 'lab' ? 'Lab Dashboard' : 'Dashboard', icon: 'dashboard' },
+      { to: '/orders', label: 'Orders', icon: 'inventory_2', badge: unreadNotifications > 0 ? unreadNotifications : null },
+      { to: '/messages', label: 'Messages', icon: 'chat_bubble' },
+      { to: '/patients', label: 'Patients', icon: 'group' },
+      { to: '/integrations', label: 'Integrations', icon: 'integration_instructions' },
+      { to: '/profile', label: 'Profile', icon: 'account_circle' },
     ];
 
     if (user?.role === 'clinic') {
-      baseItems.splice(2, 0, { to: '/marketplace', label: 'Marketplace' });
+      baseItems.splice(2, 0, { to: '/marketplace', label: 'Marketplace', icon: 'storefront' });
     }
 
     return baseItems;
@@ -69,7 +69,10 @@ function PrivateShell({ children }) {
                   : 'text-slate-400 hover:bg-slate-800/80 hover:text-white',
             ].join(' ')}
           >
-            <span>{item.label}</span>
+            <span className="flex items-center gap-3">
+              <span className={`material-symbols-outlined ${isActive ? 'fill' : ''}`}>{item.icon}</span>
+              {item.label}
+            </span>
             {item.badge ? (
               <span className="rounded-full bg-rose-500 px-2 py-0.5 text-[10px] font-bold text-white">
                 {item.badge > 99 ? '99+' : item.badge}
@@ -119,18 +122,21 @@ function PrivateShell({ children }) {
           <header className="sticky top-0 z-40 border-b border-slate-200 bg-white px-4 py-3 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between gap-4">
               <div className="relative hidden w-full max-w-md sm:block">
+                <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">search</span>
                 <input
                   type="text"
                   placeholder="Buscar pacientes, órdenes..."
-                  className="w-full rounded-full border border-[#bcc9ce] bg-[#eef4fd] px-4 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-cyan-600 focus:outline-none"
+                  className="w-full rounded-full border border-[#bcc9ce] bg-[#eef4fd] pl-11 pr-4 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-cyan-600 focus:outline-none"
                 />
               </div>
               <div className="flex items-center gap-3">
                 <button className="relative hidden h-10 w-10 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 sm:flex">
-                  🔔
+                  <span className="material-symbols-outlined">notifications</span>
                   {unreadNotifications > 0 ? <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-500" /> : null}
                 </button>
-                <button className="hidden h-10 w-10 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 sm:flex">💬</button>
+                <button className="hidden h-10 w-10 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 sm:flex">
+                  <span className="material-symbols-outlined">chat_bubble</span>
+                </button>
                 <button
                   onClick={() => setMobileOpen((prev) => !prev)}
                   className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-700 lg:hidden"
