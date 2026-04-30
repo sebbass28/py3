@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CodeNext - Lab Finder</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#003e62",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#eef4fd",
+                        "secondary-fixed-dim": "#aec6ff",
+                        "secondary": "#315ca9",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#58acee",
+                        "primary": "#00677d",
+                        "tertiary": "#006399",
+                        "on-surface-variant": "#3d494d",
+                        "on-secondary-fixed": "#001a42",
+                        "on-primary-fixed-variant": "#004e5f",
+                        "on-error-container": "#93000a",
+                        "outline": "#6d797e",
+                        "surface-tint": "#00677d",
+                        "on-primary-fixed": "#001f27",
+                        "on-primary-container": "#00414f",
+                        "on-tertiary-fixed": "#001d32",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#94ccff",
+                        "primary-fixed": "#b3ebff",
+                        "on-secondary-fixed-variant": "#0f4490",
+                        "on-secondary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed": "#d8e2ff",
+                        "secondary-container": "#86adff",
+                        "surface-container-high": "#e2e9f1",
+                        "surface": "#f6f9ff",
+                        "inverse-surface": "#2a3138",
+                        "outline-variant": "#bcc9ce",
+                        "surface-container": "#e8eef7",
+                        "on-secondary-container": "#033e8a",
+                        "on-tertiary-fixed-variant": "#004b74",
+                        "surface-container-highest": "#dce3ec",
+                        "inverse-on-surface": "#ebf1fa",
+                        "primary-fixed-dim": "#4cd6fb",
+                        "surface-variant": "#dce3ec",
+                        "on-background": "#151c22",
+                        "primary-container": "#00b4d8",
+                        "on-tertiary": "#ffffff",
+                        "on-surface": "#151c22",
+                        "inverse-primary": "#4cd6fb",
+                        "surface-dim": "#d4dbe3",
+                        "surface-bright": "#f6f9ff",
+                        "error": "#ba1a1a",
+                        "background": "#f6f9ff",
+                        "tertiary-fixed": "#cde5ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "0.25rem",
+                        "xl": "2rem",
+                        "sm": "0.5rem",
+                        "md": "1rem",
+                        "container-max": "1440px",
+                        "lg": "1.5rem",
+                        "gutter": "1rem",
+                        "2xl": "3rem"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "h2": ["Manrope"],
+                        "h1": ["Manrope"],
+                        "code": ["Inter"],
+                        "h3": ["Manrope"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "h2": ["24px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "h1": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "code": ["13px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "500" }],
+                        "h3": ["20px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Hide scrollbar for a cleaner look in the panel */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md h-screen overflow-hidden flex">
+<!-- Shared Component: SideNavBar -->
+<nav class="bg-slate-900 dark:bg-black fixed left-0 top-0 h-full w-[240px] border-r border-slate-800 z-50 flex flex-col font-manrope text-sm antialiased shadow-none transition-all duration-200 ease-in-out">
+<!-- Header -->
+<div class="px-6 py-8 border-b border-slate-800 dark:border-slate-800 flex items-center gap-md">
+<div class="w-10 h-10 rounded-lg bg-cyan-600 flex items-center justify-center text-white shrink-0">
+<span class="material-symbols-outlined icon-fill">dentistry</span>
+</div>
+<div>
+<div class="text-xl font-bold text-white tracking-tight">CodeNext</div>
+<div class="text-slate-400 text-xs font-medium">Dental Management</div>
+</div>
+</div>
+<!-- Navigation Tabs -->
+<div class="flex-1 overflow-y-auto py-6 flex flex-col gap-sm">
+<!-- Dashboard (Inactive) -->
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<!-- Patients (Inactive) -->
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span>Patients</span>
+</a>
+<!-- Orders (Inactive) -->
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span>Orders</span>
+</a>
+<!-- Lab Finder (Active Match) -->
+<a class="text-cyan-400 font-semibold border-r-4 border-cyan-500 flex items-center gap-3 px-6 py-3 bg-slate-800/50 hover:bg-slate-800/80 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined icon-fill" data-icon="biotech">biotech</span>
+<span>Lab Finder</span>
+</a>
+<!-- Settings (Inactive) -->
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</div>
+<!-- Footer Tab -->
+<div class="border-t border-slate-800 dark:border-slate-800 p-4">
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80" href="#">
+<span class="material-symbols-outlined" data-icon="help_center">help_center</span>
+<span>Support</span>
+</a>
+</div>
+</nav>
+<!-- Main Application Canvas -->
+<main class="flex-1 ml-[240px] flex flex-col h-screen relative bg-surface">
+<!-- Shared Component: TopAppBar -->
+<header class="bg-white dark:bg-slate-900 fixed top-0 right-0 border-b w-[calc(100%-240px)] border-b border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none font-manrope text-base flex justify-between items-center h-16 px-8 z-40 transition-all duration-200 ease-in-out">
+<!-- Search Bar (on_left as per JSON) -->
+<div class="flex-1 max-w-md relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="w-full bg-surface-container rounded-full py-2 pl-10 pr-4 text-sm font-body-md text-on-surface border-none focus:ring-2 focus:ring-cyan-500 outline-none placeholder:text-slate-500 dark:bg-slate-800 dark:text-slate-200 transition-shadow" placeholder="Search laboratories, services, or locations..." type="text"/>
+</div>
+<!-- Trailing Icons & Profile -->
+<div class="flex items-center gap-6">
+<!-- Trailing Icon Actions -->
+<div class="flex items-center gap-4 text-slate-500 dark:text-slate-400">
+<button class="hover:text-cyan-500 dark:hover:text-cyan-300 cursor-pointer active:opacity-70 transition-opacity">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="hover:text-cyan-500 dark:hover:text-cyan-300 cursor-pointer active:opacity-70 transition-opacity">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+</button>
+</div>
+<!-- Profile Separator -->
+<div class="w-px h-8 bg-slate-200 dark:bg-slate-700"></div>
+<!-- Profile -->
+<button class="flex items-center gap-3 hover:text-cyan-500 dark:hover:text-cyan-300 cursor-pointer active:opacity-70 transition-opacity">
+<img alt="User Profile" class="w-9 h-9 rounded-full object-cover border border-slate-200 dark:border-slate-700" data-alt="Close up portrait of a male dental professional wearing scrubs, well-lit, professional background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIeZpOO5wrkvLJGOFqY_tr0r0tQawUoYv_5X2wQAh6kF3qO_TuRGpDh6XC8Lgj7RfoPGY9WEuJN7jWyQwPMmXqjoSeguSI4Qw2E2TfgPY_o7vCOgJj7fsZosKUT_3UrNhpqT73Dp-aFm7-bdmiaiprR6koB7RzYFa-P7kZZEJ1dB_jm-eNU1rHC_UrBT7N520vBCmCC_FP3OSxEHxNmvYeXqdrhSbgeatpHiABJ-PeYHJiRdTOKXudmot5XpGmHhp2pqhiRceH6Gk"/>
+<div class="hidden lg:block text-left">
+<div class="text-sm font-semibold text-slate-800 dark:text-slate-200 leading-tight">Dr. A. Carter</div>
+<div class="text-xs text-slate-500 dark:text-slate-400">Clinic Admin</div>
+</div>
+</button>
+</div>
+</header>
+<!-- Lab Finder Workspace (Split View) -->
+<div class="mt-16 flex-1 flex overflow-hidden">
+<!-- Left Panel: Results & Filters -->
+<aside class="w-[420px] bg-surface-container-lowest border-r border-outline-variant flex flex-col z-20 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+<!-- Panel Header / Filters -->
+<div class="p-lg border-b border-outline-variant bg-surface-bright">
+<h1 class="font-h2 text-h2 text-on-surface mb-sm">Laboratories</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md">Showing 12 specialized labs near your clinic.</p>
+<!-- Filter Chips -->
+<div class="flex flex-wrap gap-xs">
+<button class="bg-primary text-on-primary font-label-sm text-label-sm px-3 py-1.5 rounded-full flex items-center gap-1 transition-transform hover:scale-105">
+<span class="material-symbols-outlined text-[14px]">tune</span> All Filters
+                        </button>
+<button class="bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm px-3 py-1.5 rounded-full border border-outline-variant transition-colors">
+                            Prosthetics
+                        </button>
+<button class="bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm px-3 py-1.5 rounded-full border border-outline-variant transition-colors">
+                            Orthodontics
+                        </button>
+<button class="bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm px-3 py-1.5 rounded-full border border-outline-variant transition-colors">
+                            CAD/CAM
+                        </button>
+</div>
+</div>
+<!-- Scrollable Results List -->
+<div class="flex-1 overflow-y-auto no-scrollbar p-gutter flex flex-col gap-md bg-surface">
+<!-- Result Card 1 (Active/Highlighted) -->
+<div class="bg-surface-container-lowest rounded-xl border-2 border-primary shadow-sm p-md relative cursor-pointer hover:shadow-md transition-shadow">
+<!-- Top Badge -->
+<div class="absolute top-0 right-0 bg-primary-container text-on-primary-container font-label-sm text-label-sm px-2 py-1 rounded-bl-xl rounded-tr-lg">
+                            Closest Match
+                        </div>
+<div class="flex justify-between items-start mb-sm">
+<h3 class="font-h3 text-h3 text-on-surface">Apex Dental Arts</h3>
+<div class="flex items-center gap-0.5 text-secondary">
+<span class="material-symbols-outlined icon-fill text-[16px]">star</span>
+<span class="font-body-md text-body-md font-medium">4.9</span>
+</div>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant font-body-md text-body-md mb-md">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span>1.2 miles away • 1200 Tech Blvd</span>
+</div>
+<div class="flex flex-wrap gap-xs mb-md">
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-1 rounded-md">Crown &amp; Bridge</span>
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-1 rounded-md">Implants</span>
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-1 rounded-md">3D Printing</span>
+</div>
+<div class="pt-sm border-t border-outline-variant flex justify-between items-center mt-auto">
+<span class="font-label-sm text-label-sm text-tertiary">Turnaround: 3-5 days</span>
+<button class="text-primary font-label-sm text-label-sm hover:underline flex items-center gap-1">
+                                View Profile <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Result Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm p-md relative cursor-pointer hover:shadow-md transition-shadow hover:border-primary-container">
+<div class="flex justify-between items-start mb-sm">
+<h3 class="font-h3 text-h3 text-on-surface">Precision Ortho Lab</h3>
+<div class="flex items-center gap-0.5 text-secondary">
+<span class="material-symbols-outlined icon-fill text-[16px]">star</span>
+<span class="font-body-md text-body-md font-medium">4.7</span>
+</div>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant font-body-md text-body-md mb-md">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span>3.4 miles away • 855 Innovation Way</span>
+</div>
+<div class="flex flex-wrap gap-xs mb-md">
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-1 rounded-md">Clear Aligners</span>
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-1 rounded-md">Retainers</span>
+</div>
+<div class="pt-sm border-t border-outline-variant flex justify-between items-center mt-auto">
+<span class="font-label-sm text-label-sm text-tertiary">Turnaround: 5-7 days</span>
+<button class="text-primary font-label-sm text-label-sm hover:underline flex items-center gap-1">
+                                View Profile <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Result Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm p-md relative cursor-pointer hover:shadow-md transition-shadow hover:border-primary-container">
+<div class="flex justify-between items-start mb-sm">
+<h3 class="font-h3 text-h3 text-on-surface">Ceramic Studio 360</h3>
+<div class="flex items-center gap-0.5 text-secondary">
+<span class="material-symbols-outlined icon-fill text-[16px]">star</span>
+<span class="font-body-md text-body-md font-medium">4.8</span>
+</div>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant font-body-md text-body-md mb-md">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+<span>5.0 miles away • 42 Artisan Row</span>
+</div>
+<div class="flex flex-wrap gap-xs mb-md">
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-1 rounded-md">Veneers</span>
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-1 rounded-md">Custom Shade</span>
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-1 rounded-md">Zirconia</span>
+</div>
+<div class="pt-sm border-t border-outline-variant flex justify-between items-center mt-auto">
+<span class="font-label-sm text-label-sm text-tertiary">Turnaround: 7-10 days</span>
+<button class="text-primary font-label-sm text-label-sm hover:underline flex items-center gap-1">
+                                View Profile <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</aside>
+<!-- Right Panel: Interactive Map Area -->
+<section class="flex-1 relative bg-surface-container">
+<!-- Map Background Image -->
+<img alt="Map view" class="w-full h-full object-cover opacity-80 mix-blend-multiply" data-location="City map with modern clean minimal style roads and blocks in soft grey and blue tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXrpEgcY801dWHXdUNrPzl0vOFtAi6baB_9Wqnz2zCArdyLxmYTgLlz27wxTQ0fqlxFqPX6miqRfywxW7MCW0vd7TmrR3Du9CeVxB4UPYrwwcM7VtfdnosAvRr0MK_ixrQrHG0jwBcy0vPLbvH-g84yNUNqGMEjoaxhkBboJGkNlnsRI7B89Af-jllPWZARJBZwDLjhC6scmtL4jgXeoQm8Gm_V5Gx3XgaDmC0stPHTnSf6EHwiNm2X99O_Z9ZDpd1fc_TH10guU4"/>
+<!-- Map Controls Overlay -->
+<div class="absolute top-lg right-lg flex flex-col gap-sm">
+<button class="w-10 h-10 bg-surface-container-lowest rounded-lg shadow-sm border border-outline-variant flex items-center justify-center text-on-surface hover:bg-surface-bright transition-colors">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+<button class="w-10 h-10 bg-surface-container-lowest rounded-lg shadow-sm border border-outline-variant flex items-center justify-center text-on-surface hover:bg-surface-bright transition-colors">
+<span class="material-symbols-outlined text-[20px]">remove</span>
+</button>
+<button class="w-10 h-10 mt-md bg-surface-container-lowest rounded-lg shadow-sm border border-outline-variant flex items-center justify-center text-primary hover:bg-surface-bright transition-colors">
+<span class="material-symbols-outlined text-[20px]">my_location</span>
+</button>
+</div>
+<!-- Custom Map Markers -->
+<!-- Marker 1 (Active/Apex Dental) -->
+<div class="absolute top-1/3 left-1/3 -translate-x-1/2 -translate-y-1/2 group cursor-pointer">
+<!-- Popup details on hover -->
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max bg-surface-container-lowest rounded-lg shadow-md p-2 border border-primary hidden group-hover:block transition-all z-10">
+<div class="font-label-sm text-label-sm text-on-surface">Apex Dental Arts</div>
+<div class="text-[10px] text-tertiary">1.2 miles</div>
+</div>
+<!-- Pin -->
+<div class="relative flex items-center justify-center">
+<div class="w-12 h-12 bg-primary/20 rounded-full absolute animate-ping"></div>
+<div class="w-8 h-8 bg-primary text-on-primary rounded-full border-2 border-surface-container-lowest shadow-sm flex items-center justify-center z-10">
+<span class="material-symbols-outlined text-[16px] icon-fill">biotech</span>
+</div>
+</div>
+</div>
+<!-- Marker 2 (Precision Ortho) -->
+<div class="absolute top-1/2 left-[60%] -translate-x-1/2 -translate-y-1/2 group cursor-pointer">
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max bg-surface-container-lowest rounded-lg shadow-sm p-2 border border-outline-variant hidden group-hover:block transition-all z-10">
+<div class="font-label-sm text-label-sm text-on-surface">Precision Ortho Lab</div>
+</div>
+<div class="w-6 h-6 bg-secondary text-on-secondary rounded-full border-2 border-surface-container-lowest shadow-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-[12px] icon-fill">circle</span>
+</div>
+</div>
+<!-- Marker 3 (Ceramic Studio) -->
+<div class="absolute bottom-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 group cursor-pointer">
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max bg-surface-container-lowest rounded-lg shadow-sm p-2 border border-outline-variant hidden group-hover:block transition-all z-10">
+<div class="font-label-sm text-label-sm text-on-surface">Ceramic Studio 360</div>
+</div>
+<div class="w-6 h-6 bg-secondary text-on-secondary rounded-full border-2 border-surface-container-lowest shadow-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-[12px] icon-fill">circle</span>
+</div>
+</div>
+<!-- User Location Marker -->
+<div class="absolute top-[40%] left-[45%] -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+<div class="w-5 h-5 bg-tertiary-container rounded-full border-2 border-white shadow-sm flex items-center justify-center">
+<div class="w-2 h-2 bg-on-tertiary-container rounded-full"></div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</body></html>

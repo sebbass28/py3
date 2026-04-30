@@ -1,16 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@600;700;800&display=swap');
 
 :root {
-  --color-medical-50: #f0f9ff;
-  --color-medical-100: #e0f2fe;
-  --color-medical-200: #bae6fd;
-  --color-medical-500: #0ea5e9;
-  --color-medical-600: #0284c7;
-  --color-medical-700: #0369a1;
-  --color-medical-800: #075985;
-  --color-medical-900: #0c4a6e;
+  --color-medical-50: #eef4fd;
+  --color-medical-100: #dce3ec;
+  --color-medical-200: #bcc9ce;
+  --color-medical-500: #00677d;
+  --color-medical-600: #004e5f;
+  --color-medical-700: #003e62;
+  --color-medical-800: #2a3138;
+  --color-medical-900: #151c22;
 }
 
 body {
@@ -34,4 +35,8 @@ body {
 
 .shadow-navbar {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.font-manrope {
+  font-family: 'Manrope', sans-serif;
 }

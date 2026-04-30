@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Wireframe - Iniciar Sesión</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary": "#315ca9",
+                      "surface-variant": "#dce3ec",
+                      "primary-fixed": "#b3ebff",
+                      "on-primary-container": "#00414f",
+                      "on-surface": "#151c22",
+                      "surface-container-low": "#eef4fd",
+                      "surface": "#f6f9ff",
+                      "inverse-on-surface": "#ebf1fa",
+                      "on-surface-variant": "#3d494d",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary-fixed": "#001d32",
+                      "surface-container-highest": "#dce3ec",
+                      "surface-container": "#e8eef7",
+                      "primary-fixed-dim": "#4cd6fb",
+                      "inverse-primary": "#4cd6fb",
+                      "on-background": "#151c22",
+                      "tertiary-fixed": "#cde5ff",
+                      "inverse-surface": "#2a3138",
+                      "on-primary-fixed-variant": "#004e5f",
+                      "outline": "#6d797e",
+                      "surface-dim": "#d4dbe3",
+                      "outline-variant": "#bcc9ce",
+                      "on-primary-fixed": "#001f27",
+                      "tertiary": "#006399",
+                      "on-secondary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "on-tertiary": "#ffffff",
+                      "tertiary-container": "#58acee",
+                      "background": "#f6f9ff",
+                      "primary": "#00677d",
+                      "on-error": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed": "#d8e2ff",
+                      "surface-bright": "#f6f9ff",
+                      "primary-container": "#00b4d8",
+                      "surface-tint": "#00677d",
+                      "on-tertiary-container": "#003e62",
+                      "on-primary": "#ffffff",
+                      "on-secondary-fixed-variant": "#0f4490",
+                      "secondary-fixed-dim": "#aec6ff",
+                      "on-secondary-fixed": "#001a42",
+                      "on-tertiary-fixed-variant": "#004b74",
+                      "error": "#ba1a1a",
+                      "on-secondary-container": "#033e8a",
+                      "surface-container-high": "#e2e9f1",
+                      "tertiary-fixed-dim": "#94ccff",
+                      "secondary-container": "#86adff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "sm": "0.5rem",
+                      "xs": "0.25rem",
+                      "xl": "2rem",
+                      "md": "1rem",
+                      "container-max": "1440px",
+                      "lg": "1.5rem",
+                      "2xl": "3rem",
+                      "gutter": "1rem"
+              },
+              "fontFamily": {
+                      "h3": ["Manrope"],
+                      "label-sm": ["Inter"],
+                      "h2": ["Manrope"],
+                      "h1": ["Manrope"],
+                      "body-lg": ["Inter"],
+                      "body-md": ["Inter"],
+                      "code": ["Inter"]
+              },
+              "fontSize": {
+                      "h3": ["20px", {"lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600"}],
+                      "label-sm": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                      "h2": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "h1": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-lg": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                      "body-md": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
+                      "code": ["13px", {"lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "500"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        /* Ensuring strict wireframe mode overrides */
+        .wireframe-border {
+            border-width: 1px !important;
+            border-style: solid !important;
+            border-color: #6d797e !important; /* outline token */
+        }
+        .wireframe-fill {
+            background-color: #f6f9ff !important; /* surface token */
+        }
+        .wireframe-text {
+            color: #151c22 !important; /* on-surface token */
+        }
+        .wireframe-cross::before, .wireframe-cross::after {
+            content: '';
+            position: absolute;
+            background-color: #bcc9ce; /* outline-variant */
+        }
+        .wireframe-cross::before { top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to bottom right, transparent calc(50% - 0.5px), #bcc9ce calc(50% - 0.5px), #bcc9ce calc(50% + 0.5px), transparent calc(50% + 0.5px)); }
+        .wireframe-cross::after { top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(to top right, transparent calc(50% - 0.5px), #bcc9ce calc(50% - 0.5px), #bcc9ce calc(50% + 0.5px), transparent calc(50% + 0.5px)); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex antialiased selection:bg-surface-variant selection:text-on-surface">
+<!-- Left Panel: Split Screen Image Placeholder -->
+<div class="hidden lg:flex w-1/2 bg-surface-container-high relative items-center justify-center border-r border-outline-variant overflow-hidden p-2xl">
+<!-- Structural Wireframe Cross -->
+<div class="absolute inset-0 wireframe-cross opacity-50 pointer-events-none"></div>
+<!-- Placeholder Indicator -->
+<div class="z-10 bg-surface px-lg py-md wireframe-border flex items-center gap-sm" data-alt="Monochrome geometric shapes representing a placeholder area in a minimalist architectural style">
+<span class="material-symbols-outlined text-outline">image</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Image Placeholder</span>
+</div>
+</div>
+<!-- Right Panel: Functional Form Area -->
+<div class="w-full lg:w-1/2 flex items-center justify-center p-xl md:p-2xl relative" data-alt="Subtle 8px wireframe grid pattern background indicating structural layout constraints" style="background-image: linear-gradient(to right, var(--tw-colors-surface-container-highest) 1px, transparent 1px), linear-gradient(to bottom, var(--tw-colors-surface-container-highest) 1px, transparent 1px); background-size: 8px 8px;">
+<!-- Form Container / Card -->
+<div class="w-full max-w-[440px] z-10 bg-surface p-xl md:p-2xl wireframe-border relative">
+<!-- Wireframe Corner Markers -->
+<div class="absolute top-0 left-0 w-3 h-3 border-t border-l border-on-surface -translate-x-px -translate-y-px"></div>
+<div class="absolute top-0 right-0 w-3 h-3 border-t border-r border-on-surface translate-x-px -translate-y-px"></div>
+<div class="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-on-surface -translate-x-px translate-y-px"></div>
+<div class="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-on-surface translate-x-px translate-y-px"></div>
+<!-- Logo Area -->
+<div class="w-12 h-12 bg-surface-container border border-outline-variant flex items-center justify-center mb-xl">
+<span class="material-symbols-outlined text-outline">square</span>
+</div>
+<!-- Header Text -->
+<div class="mb-xl">
+<h1 class="font-h2 text-h2 text-on-surface mb-xs">Iniciar Sesión</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Ingresa tus credenciales para acceder al sistema.</p>
+</div>
+<!-- Login Form State -->
+<form class="flex flex-col gap-lg">
+<!-- Email Input Group -->
+<div class="flex flex-col gap-xs">
+<label class="font-body-md text-body-md font-bold text-on-surface" for="email">Correo Electrónico</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline-variant text-[20px]">mail</span>
+<input class="w-full bg-transparent border border-outline pl-[40px] pr-md py-sm font-body-md text-body-md text-on-surface focus:outline-none focus:border-on-surface placeholder:text-outline-variant rounded-none" id="email" placeholder="nombre@ejemplo.com" type="email"/>
+</div>
+</div>
+<!-- Password Input Group -->
+<div class="flex flex-col gap-xs">
+<label class="font-body-md text-body-md font-bold text-on-surface" for="password">Contraseña</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-md top-1/2 -translate-y-1/2 text-outline-variant text-[20px]">lock</span>
+<input class="w-full bg-transparent border border-outline pl-[40px] pr-md py-sm font-body-md text-body-md text-on-surface focus:outline-none focus:border-on-surface placeholder:text-outline-variant rounded-none" id="password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<!-- Auxiliary Actions -->
+<div class="flex items-center justify-between mt-xs">
+<label class="flex items-center gap-sm cursor-pointer group">
+<div class="w-4 h-4 border border-outline group-hover:border-on-surface bg-transparent flex items-center justify-center"></div>
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-on-surface">Recordarme</span>
+</label>
+<!-- Prominent Recover Password Link -->
+<a class="font-body-md text-body-md text-on-surface underline decoration-outline underline-offset-4 hover:decoration-on-surface font-semibold" href="#">
+                        ¿Olvidaste tu contraseña?
+                    </a>
+</div>
+<!-- Primary Action -->
+<button class="w-full mt-md bg-on-surface text-surface py-md px-lg font-body-md text-body-md font-bold flex items-center justify-center gap-sm hover:bg-inverse-surface transition-colors border border-on-surface rounded-none" type="button">
+                    Ingresar al Sistema
+                    <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</form>
+<!-- Structural Divider -->
+<div class="w-full flex items-center gap-md my-xl opacity-60">
+<div class="h-px bg-outline flex-1"></div>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Soporte Técnico</span>
+<div class="h-px bg-outline flex-1"></div>
+</div>
+<!-- Alternative / Secondary Action -->
+<button class="w-full bg-transparent text-on-surface py-md px-lg font-body-md text-body-md border border-outline flex items-center justify-center gap-sm hover:bg-surface-variant transition-colors rounded-none" type="button">
+<span class="material-symbols-outlined text-[18px]">help</span>
+                Contactar Administrador
+            </button>
+</div>
+<!-- Wireframe Annotation (Optional conceptual touch for low-fi) -->
+<div class="absolute bottom-xl right-xl hidden xl:flex items-center gap-sm text-outline-variant">
+<span class="material-symbols-outlined text-[16px]">straighten</span>
+<span class="font-code text-code">8px Grid System</span>
+</div>
+</div>
+</body></html>

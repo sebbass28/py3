@@ -16,6 +16,7 @@ import Contact from './pages/Contact';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import Orders from './pages/Orders';
+import Messages from './pages/Messages';
 import { ToastProvider } from './context/ToastContext';
 import PrivateShell from './components/PrivateShell';
 
@@ -97,6 +98,7 @@ function App() {
                 <Route path="/marketplace" element={<PrivatePage><Marketplace /></PrivatePage>} />
                 <Route path="/dashboard" element={<PrivatePage><Dashboard /></PrivatePage>} />
                 <Route path="/orders" element={<PrivatePage><Orders /></PrivatePage>} />
+                <Route path="/messages" element={<PrivatePage><Messages /></PrivatePage>} />
                 <Route path="/login" element={<PublicOnlyRoute><Login /></PublicOnlyRoute>} />
                 <Route path="/forgot-password" element={<PublicOnlyRoute><ForgotPassword /></PublicOnlyRoute>} />
                 <Route path="/reset-password" element={<PublicOnlyRoute><ResetPassword /></PublicOnlyRoute>} />
