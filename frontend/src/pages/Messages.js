@@ -51,6 +51,7 @@ function Messages() {
     () => conversations.find((conversation) => conversation.orderId === selectedOrderId) || conversations[0] || null,
     [conversations, selectedOrderId]
   );
+  const totalMessages = activeConversation?.items?.length || 0;
 
   const handleSend = async () => {
     const clean = input.trim();
@@ -93,6 +94,7 @@ function Messages() {
         <aside className="w-[320px] shrink-0 border-r border-[#bcc9ce] bg-[#ffffff]">
           <div className="border-b border-[#bcc9ce] p-4">
             <h2 className="font-manrope text-xl font-semibold text-[#151c22]">Conversaciones</h2>
+            <p className="mt-1 text-xs uppercase tracking-[0.2em] text-[#3d494d]">{conversations.length} activas</p>
           </div>
           <div className="max-h-full overflow-y-auto">
             {conversations.map((conversation) => (
@@ -125,6 +127,9 @@ function Messages() {
             <h3 className="font-manrope text-xl font-semibold text-[#151c22]">
               {activeConversation ? `Orden #${activeConversation.orderId}` : 'Selecciona una conversación'}
             </h3>
+            {activeConversation ? (
+              <p className="mt-1 text-xs uppercase tracking-[0.2em] text-[#3d494d]">{totalMessages} mensajes</p>
+            ) : null}
           </div>
 
           <div className="flex-1 space-y-4 overflow-y-auto p-6">
@@ -141,6 +146,11 @@ function Messages() {
                 </div>
               );
             })}
+            {!activeConversation ? (
+              <div className="rounded-2xl border border-dashed border-[#bcc9ce] bg-white p-8 text-center">
+                <p className="text-sm font-semibold text-[#151c22]">Selecciona una conversación para empezar</p>
+              </div>
+            ) : null}
           </div>
 
           <div className="border-t border-[#bcc9ce] bg-white p-4">
