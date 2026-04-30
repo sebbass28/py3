@@ -159,7 +159,7 @@ function Patients() {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-[32px] bg-white p-8 shadow-card">
+      <div className="rounded-[32px] border border-[#bcc9ce]/40 bg-white p-8 shadow-card">
         <p className="text-xs font-bold uppercase tracking-[0.25em] text-slate-400">Patients</p>
         <h1 className="mt-2 text-4xl font-black tracking-tight text-slate-950">Registro de pacientes</h1>
         <p className="mt-3 max-w-3xl text-sm text-slate-500">
@@ -170,7 +170,7 @@ function Patients() {
       </div>
 
       {isClinic && (
-        <form onSubmit={handleCreatePatient} className="rounded-[32px] bg-white p-6 shadow-card space-y-4">
+        <form onSubmit={handleCreatePatient} className="rounded-[32px] border border-[#bcc9ce]/40 bg-white p-6 shadow-card space-y-4">
           <h2 className="text-2xl font-black text-slate-950">Alta rápida de paciente</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
             <input
@@ -223,7 +223,7 @@ function Patients() {
         </form>
       )}
 
-      <div className="rounded-[32px] bg-white p-6 shadow-card space-y-4">
+      <div className="rounded-[32px] border border-[#bcc9ce]/40 bg-white p-6 shadow-card space-y-4">
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <h2 className="text-2xl font-black text-slate-950">Historial de pacientes</h2>
           <input
@@ -249,7 +249,7 @@ function Patients() {
             <tbody>
               {filteredPatients.length > 0 ? (
                 filteredPatients.map((patient) => (
-                  <tr key={patient.id} className="border-t border-slate-100 text-slate-700">
+                  <tr key={patient.id} className="border-t border-slate-100 text-slate-700 hover:bg-slate-50/60">
                     <td className="py-4 pr-4 font-bold">{patient.first_name} {patient.last_name}</td>
                     <td className="py-3 pr-4">{patient.birth_date || '-'}</td>
                     <td className="py-3 pr-4">{patient.gender || '-'}</td>
@@ -258,8 +258,9 @@ function Patients() {
                     <td className="py-3 pr-4">
                       <button
                         onClick={() => handleSelectPatient(patient)}
-                        className="rounded-2xl bg-slate-100 px-3 py-2 text-xs font-bold text-slate-800"
+                        className="inline-flex items-center gap-1 rounded-2xl bg-slate-100 px-3 py-2 text-xs font-bold text-slate-800"
                       >
+                        <span className="material-symbols-outlined text-[14px]">badge</span>
                         Ver ficha
                       </button>
                     </td>
@@ -278,7 +279,7 @@ function Patients() {
       </div>
 
       {selectedPatient && (
-        <div className="rounded-[32px] bg-white p-6 shadow-card space-y-4">
+        <div className="rounded-[32px] border border-[#bcc9ce]/40 bg-white p-6 shadow-card space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-black text-slate-950">
               Ficha de {selectedPatient.first_name} {selectedPatient.last_name}
@@ -287,15 +288,17 @@ function Patients() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setEditing((prev) => !prev)}
-                  className="rounded-2xl bg-violet-100 px-3 py-2 text-xs font-bold text-violet-800"
+                  className="inline-flex items-center gap-1 rounded-2xl bg-violet-100 px-3 py-2 text-xs font-bold text-violet-800"
                 >
+                  <span className="material-symbols-outlined text-[14px]">edit</span>
                   {editing ? 'Cancelar edición' : 'Editar ficha'}
                 </button>
                 <button
                   onClick={handleAnonymizePatient}
                   disabled={anonymizing}
-                  className="rounded-2xl bg-rose-100 px-3 py-2 text-xs font-bold text-rose-700 disabled:opacity-60"
+                  className="inline-flex items-center gap-1 rounded-2xl bg-rose-100 px-3 py-2 text-xs font-bold text-rose-700 disabled:opacity-60"
                 >
+                  <span className="material-symbols-outlined text-[14px]">visibility_off</span>
                   {anonymizing ? 'Anonimizando...' : 'Anonimizar'}
                 </button>
               </div>
