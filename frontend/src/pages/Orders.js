@@ -14,6 +14,17 @@ const LAB_WORKFLOW_STATUSES = [
   { value: 'cancelled', label: 'Cancelado' },
 ];
 
+const STATUS_TONE = {
+  received: 'bg-slate-100 text-slate-700',
+  design: 'bg-blue-100 text-blue-700',
+  production: 'bg-cyan-100 text-cyan-700',
+  finishing: 'bg-violet-100 text-violet-700',
+  quality: 'bg-amber-100 text-amber-700',
+  shipped: 'bg-emerald-100 text-emerald-700',
+  completed: 'bg-emerald-100 text-emerald-700',
+  cancelled: 'bg-rose-100 text-rose-700',
+};
+
 function Orders() {
   const { user } = useContext(AuthContext);
   const { showToast } = useToast();
@@ -323,7 +334,7 @@ function Orders() {
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.1fr,1.3fr,0.8fr]">
-        <section className="rounded-[32px] bg-white p-5 shadow-card">
+        <section className="rounded-[32px] border border-[#bcc9ce]/40 bg-white p-5 shadow-card">
           <div className="flex flex-wrap gap-3">
             <input
               type="text"
@@ -385,7 +396,7 @@ function Orders() {
                       {order.patient?.first_name} {order.patient?.last_name}
                     </p>
                   </div>
-                  <span className={`rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] ${selectedOrder?.id === order.id ? 'bg-white/10 text-white' : 'bg-slate-200 text-slate-700'}`}>
+                  <span className={`rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] ${selectedOrder?.id === order.id ? 'bg-white/10 text-white' : STATUS_TONE[order.status] || 'bg-slate-200 text-slate-700'}`}>
                     {order.status_display}
                   </span>
                 </div>
@@ -398,7 +409,7 @@ function Orders() {
         </section>
 
         <section className="space-y-6">
-          <div className="rounded-[32px] bg-white p-6 shadow-card">
+          <div className="rounded-[32px] border border-[#bcc9ce]/40 bg-white p-6 shadow-card">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.25em] text-slate-400">Pedido seleccionado</p>
@@ -412,7 +423,7 @@ function Orders() {
                 ) : null}
               </div>
               {selectedOrder ? (
-                <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-slate-700">
+                <span className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] ${STATUS_TONE[selectedOrder.status] || 'bg-slate-100 text-slate-700'}`}>
                   {selectedOrder.status_display}
                 </span>
               ) : null}
@@ -594,7 +605,7 @@ function Orders() {
             )}
           </div>
 
-          <div className="rounded-[32px] bg-white p-6 shadow-card">
+          <div className="rounded-[32px] border border-[#bcc9ce]/40 bg-white p-6 shadow-card">
             <h3 className="text-lg font-black text-slate-950">Timeline</h3>
             <div className="mt-4 space-y-3">
               {eventsLoading ? (
@@ -615,7 +626,7 @@ function Orders() {
 
         <aside className="space-y-6">
           {!isClinic ? (
-            <section className="rounded-[32px] bg-white p-6 shadow-card">
+            <section className="rounded-[32px] border border-[#bcc9ce]/40 bg-white p-6 shadow-card">
               <h3 className="text-lg font-black text-slate-950">Planificación de producción</h3>
               <div className="mt-4 space-y-3">
                 <input
@@ -650,7 +661,7 @@ function Orders() {
             </section>
           ) : null}
 
-          <section className="rounded-[32px] bg-white p-6 shadow-card">
+          <section className="rounded-[32px] border border-[#bcc9ce]/40 bg-white p-6 shadow-card">
             <div className="flex items-center justify-between gap-3">
               <h3 className="text-lg font-black text-slate-950">Notificaciones</h3>
               <span className="rounded-full bg-rose-100 px-3 py-1 text-xs font-bold text-rose-700">{unreadNotifications}</span>
