@@ -54,27 +54,36 @@ function Login() {
   };
 
   return (
-    <div className="min-h-[80vh] flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gray-50">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 tracking-tight">
-          Inicia sesión en tu cuenta
-        </h2>
-        <p className="mt-2 text-center text-sm text-gray-600 font-medium">
-          O{' '}
-          <Link to="/signup" className="font-bold text-medical-600 hover:text-medical-500 transition">
-            regístrate gratis hoy
-          </Link>
-        </p>
-      </div>
+    <div className="min-h-[86vh] bg-[#f6f9ff]">
+      <div className="mx-auto grid min-h-[86vh] w-full max-w-[1400px] lg:grid-cols-2">
+        <section className="relative hidden overflow-hidden border-r border-[#bcc9ce]/40 bg-slate-900 lg:flex">
+          <div className="absolute inset-0 bg-gradient-to-br from-medical-600/85 to-blue-800/80" />
+          <div className="relative z-10 flex max-w-xl flex-col justify-center gap-4 p-14 text-white">
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-cyan-100">DentalLink</p>
+            <h2 className="font-manrope text-5xl font-black leading-tight">Gestión clínica y laboratorio en una sola plataforma.</h2>
+            <p className="text-sm leading-relaxed text-cyan-100/90">
+              Controla pedidos, pacientes y conversaciones con trazabilidad completa del flujo CAD/CAM.
+            </p>
+          </div>
+        </section>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md px-4">
+        <section className="flex items-center justify-center p-6 sm:p-10">
+          <div className="w-full max-w-md">
+            <h1 className="font-manrope text-4xl font-black text-[#151c22]">Acceso al sistema</h1>
+            <p className="mt-2 text-sm text-[#3d494d]">
+              Inicia sesión con tu cuenta profesional o{' '}
+              <Link to="/signup" className="font-bold text-medical-600 hover:text-medical-700">
+                crea una nueva
+              </Link>.
+            </p>
+
         {error && (
           <div className="mb-4 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 text-sm font-bold rounded-r-xl shadow-sm animate-pulse">
             {error}
           </div>
         )}
-        <div className="bg-white py-10 px-6 shadow-card sm:rounded-2xl sm:px-10 border border-gray-100">
-          <form className="space-y-6" onSubmit={handleSubmit}>
+            <div className="mt-6 bg-white py-8 px-6 shadow-card rounded-2xl border border-[#bcc9ce]/40 sm:px-8">
+              <form className="space-y-5" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="username" className="block text-sm font-bold text-gray-700 uppercase tracking-tight ml-1 mb-1">
                 Usuario
@@ -159,16 +168,19 @@ function Login() {
               )}
             </div>
 
-            <div>
-              <button
+                <div>
+                  <button
                 type="submit"
-                className="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-xl shadow-lg shadow-medical-500/10 text-sm font-extrabold text-white bg-medical-500 hover:bg-medical-600 transition-all transform hover:-translate-y-0.5 uppercase tracking-widest focus:outline-none"
+                    className="w-full flex items-center justify-center gap-2 py-3.5 px-4 border border-transparent rounded-xl shadow-lg shadow-medical-500/10 text-sm font-extrabold text-white bg-medical-500 hover:bg-medical-600 transition-all uppercase tracking-widest focus:outline-none"
               >
-                Entrar
-              </button>
+                    Entrar
+                    <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                  </button>
+                </div>
+              </form>
             </div>
-          </form>
-        </div>
+          </div>
+        </section>
       </div>
     </div>
   );
