@@ -49,14 +49,15 @@ function ClinicFinder() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
-      <div>
-        <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Buscar Clínica Cercana</h1>
-        <p className="mt-2 text-sm text-gray-500 italic">
+      <div className="rounded-[32px] border border-[#bcc9ce]/40 bg-white p-8 shadow-card">
+        <p className="text-xs font-bold uppercase tracking-[0.25em] text-slate-400">Clinic finder</p>
+        <h1 className="mt-2 text-4xl font-black text-gray-900 tracking-tight">Buscar Clínica Cercana</h1>
+        <p className="mt-2 text-sm text-gray-500">
           Compara opciones por zona, precio orientativo y valoración media para elegir la mejor clínica.
         </p>
       </div>
 
-      <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-card grid grid-cols-1 md:grid-cols-5 gap-3">
+      <div className="bg-white border border-[#bcc9ce]/40 rounded-[28px] p-5 shadow-card grid grid-cols-1 md:grid-cols-5 gap-3">
         <input
           type="text"
           value={search}
@@ -101,7 +102,7 @@ function ClinicFinder() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-card">
+        <div className="bg-white border border-[#bcc9ce]/40 rounded-[28px] p-5 shadow-card">
           <h2 className="text-lg font-extrabold text-gray-900 mb-4">Mapa de clínicas</h2>
           <div className="h-[440px] rounded-xl overflow-hidden border border-gray-200">
             <MapContainer center={[40.4168, -3.7038]} zoom={6} style={{ height: '100%', width: '100%' }}>
@@ -129,7 +130,7 @@ function ClinicFinder() {
           </div>
         </div>
 
-        <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-card">
+        <div className="bg-white border border-[#bcc9ce]/40 rounded-[28px] p-5 shadow-card">
           <h2 className="text-lg font-extrabold text-gray-900 mb-4">Comparador de opciones</h2>
           {loading ? (
             <div className="text-sm text-gray-400 italic">Cargando clínicas...</div>
