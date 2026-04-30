@@ -34,6 +34,7 @@ function PrivateShell({ children }) {
     const baseItems = [
       { to: '/dashboard', label: user?.role === 'lab' ? 'Lab Dashboard' : 'Dashboard' },
       { to: '/orders', label: 'Orders', badge: unreadNotifications > 0 ? unreadNotifications : null },
+      { to: '/messages', label: 'Messages' },
       { to: '/patients', label: 'Patients' },
       { to: '/integrations', label: 'Integrations' },
       { to: '/profile', label: 'Profile' },
@@ -47,9 +48,10 @@ function PrivateShell({ children }) {
   }, [unreadNotifications, user?.role]);
 
   const shellLabel = user?.role === 'lab' ? 'Lab workspace' : 'Clinic workspace';
+  const pageTitle = navItems.find((item) => item.to === location.pathname)?.label || shellLabel;
 
   const NavLinks = ({ mobile = false }) => (
-    <div className={mobile ? 'space-y-2' : 'space-y-1'}>
+    <div className={mobile ? 'space-y-1' : 'space-y-1'}>
       {navItems.map((item) => {
         const isActive = location.pathname === item.to;
         return (
@@ -57,14 +59,14 @@ function PrivateShell({ children }) {
             key={item.to}
             to={item.to}
             className={[
-              'flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold transition',
+              'flex items-center justify-between px-6 py-3 text-sm font-semibold transition',
               mobile
                 ? isActive
-                  ? 'bg-slate-900 text-white'
-                  : 'bg-white text-slate-600'
+                  ? 'bg-slate-800 text-cyan-300'
+                  : 'text-slate-300'
                 : isActive
-                  ? 'bg-white text-slate-950 shadow-sm'
-                  : 'text-slate-500 hover:bg-white/70 hover:text-slate-900',
+                  ? 'border-r-4 border-cyan-500 bg-slate-800/50 text-cyan-300'
+                  : 'text-slate-400 hover:bg-slate-800/80 hover:text-white',
             ].join(' ')}
           >
             <span>{item.label}</span>
@@ -84,43 +86,51 @@ function PrivateShell({ children }) {
   }
 
   return (
-    <div className="min-h-screen bg-[#f4f7fb] text-slate-900">
-      <div className="mx-auto flex min-h-screen max-w-[1600px]">
-        <aside className="hidden w-72 shrink-0 border-r border-slate-200 bg-[#eef2f7] px-6 py-8 lg:flex lg:flex-col">
-          <Link to="/dashboard" className="text-2xl font-black tracking-tight text-slate-950">
-            DentalLink
-          </Link>
-          <p className="mt-2 text-sm text-slate-500">{shellLabel}</p>
-
-          <div className="mt-8">
+    <div className="min-h-screen bg-[#f6f9ff] text-[#151c22]">
+      <div className="flex min-h-screen">
+        <aside className="fixed left-0 top-0 z-50 hidden h-full w-[240px] border-r border-slate-800 bg-slate-900 lg:flex lg:flex-col">
+          <div className="border-b border-slate-800 px-6 py-6">
+            <Link to="/dashboard" className="flex items-center gap-3">
+              <div className="flex h-8 w-8 items-center justify-center rounded bg-cyan-500 text-sm font-black text-slate-900">
+                D
+              </div>
+              <div>
+                <p className="text-xl font-bold text-white">DentaLink</p>
+                <p className="text-xs text-slate-400">Dental Management</p>
+              </div>
+            </Link>
+          </div>
+          <div className="py-4">
             <NavLinks />
           </div>
 
-          <div className="mt-auto rounded-[28px] bg-slate-950 p-5 text-white">
-            <p className="text-xs uppercase tracking-[0.25em] text-slate-400">{user.role}</p>
-            <p className="mt-2 text-lg font-bold">{user.company_name || user.username}</p>
-            <p className="mt-1 text-sm text-slate-300">{user.email || 'Cuenta activa'}</p>
+          <div className="mt-auto border-t border-slate-800 p-4">
+            <p className="px-6 text-[11px] uppercase tracking-[0.2em] text-slate-500">{user.role}</p>
             <button
               onClick={logout}
-              className="mt-5 w-full rounded-2xl bg-white/10 px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/20"
+              className="mt-2 w-full px-6 py-3 text-left text-sm font-semibold text-slate-300 hover:bg-slate-800/80 hover:text-white"
             >
               Cerrar sesión
             </button>
           </div>
         </aside>
 
-        <div className="flex min-w-0 flex-1 flex-col">
-          <header className="border-b border-slate-200 bg-white/80 px-4 py-4 backdrop-blur sm:px-6 lg:px-8">
+        <div className="flex min-w-0 flex-1 flex-col lg:ml-[240px]">
+          <header className="sticky top-0 z-40 border-b border-slate-200 bg-white px-4 py-3 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between gap-4">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.25em] text-slate-400">Private area</p>
-                <p className="text-lg font-bold text-slate-950">{shellLabel}</p>
+              <div className="relative hidden w-full max-w-md sm:block">
+                <input
+                  type="text"
+                  placeholder="Buscar pacientes, órdenes..."
+                  className="w-full rounded-full border border-[#bcc9ce] bg-[#eef4fd] px-4 py-2 text-sm text-slate-700 placeholder:text-slate-400 focus:border-cyan-600 focus:outline-none"
+                />
               </div>
               <div className="flex items-center gap-3">
-                <div className="hidden rounded-2xl border border-slate-200 bg-white px-4 py-2 text-right sm:block">
-                  <p className="text-sm font-semibold text-slate-900">{user.company_name || user.username}</p>
-                  <p className="text-xs text-slate-500">{unreadNotifications} alerts</p>
-                </div>
+                <button className="relative hidden h-10 w-10 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 sm:flex">
+                  🔔
+                  {unreadNotifications > 0 ? <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-500" /> : null}
+                </button>
+                <button className="hidden h-10 w-10 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 sm:flex">💬</button>
                 <button
                   onClick={() => setMobileOpen((prev) => !prev)}
                   className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-700 lg:hidden"
@@ -134,15 +144,18 @@ function PrivateShell({ children }) {
                     )}
                   </svg>
                 </button>
+                <div className="hidden h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-xs font-bold text-slate-700 sm:flex">
+                  {(user.company_name || user.username || 'DL').slice(0, 2).toUpperCase()}
+                </div>
               </div>
             </div>
 
             {mobileOpen ? (
-              <div className="mt-4 rounded-[28px] bg-[#eef2f7] p-4 lg:hidden">
+              <div className="mt-4 rounded-[20px] bg-slate-900 p-3 lg:hidden">
                 <NavLinks mobile />
                 <button
                   onClick={logout}
-                  className="mt-3 w-full rounded-2xl bg-slate-950 px-4 py-3 text-sm font-semibold text-white"
+                  className="mt-3 w-full rounded-2xl bg-slate-800 px-4 py-3 text-sm font-semibold text-white"
                 >
                   Cerrar sesión
                 </button>
@@ -150,7 +163,13 @@ function PrivateShell({ children }) {
             ) : null}
           </header>
 
-          <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">{children}</main>
+          <main className="flex-1 bg-[#f6f9ff] px-4 py-6 sm:px-6 lg:px-8">
+            <div className="mb-4">
+              <p className="text-[11px] uppercase tracking-[0.18em] text-[#3d494d]">{shellLabel}</p>
+              <h1 className="font-manrope text-2xl font-bold text-[#151c22]">{pageTitle}</h1>
+            </div>
+            {children}
+          </main>
         </div>
       </div>
     </div>
