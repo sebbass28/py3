@@ -1,4 +1,5 @@
 import base64
+from django.core import signing
 from django.utils import timezone
 from datetime import timedelta
 from django.core.files.base import ContentFile
@@ -150,6 +151,87 @@ class PatientViewSet(viewsets.ModelViewSet):
         patient.external_id = f'ANON-{patient.id}'
         patient.save(update_fields=['first_name', 'last_name', 'birth_date', 'gender', 'external_id'])
         return Response({"status": "anonymized", "patient_id": patient.id}, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['post'])
+    def share_qr(self, request, pk=None):
+        # Genera un token firmado y su QR para compartir una ficha entre clínicas.
+        patient = self.get_object()
+        if request.user != patient.clinic and not request.user.is_staff:
+            return Response({"error": "No autorizado para compartir este paciente."}, status=status.HTTP_403_FORBIDDEN)
+
+        expires_hours = request.data.get('expires_hours', 72)
+        try:
+            expires_hours = int(expires_hours)
+        except (TypeError, ValueError):
+            expires_hours = 72
+        expires_hours = max(1, min(expires_hours, 168))
+
+        payload = {
+            'patient_id': patient.id,
+            'source_clinic_id': patient.clinic_id,
+            'issued_at': timezone.now().isoformat(),
+            'expires_hours': expires_hours,
+        }
+        token = signing.dumps(payload, salt='patient-transfer')
+        qr_file = generate_qr_code(token)
+        qr_base64 = base64.b64encode(qr_file.read()).decode('utf-8')
+
+        return Response({
+            'token': token,
+            'qr_png_base64': f"data:image/png;base64,{qr_base64}",
+            'patient': PatientSerializer(patient, context={'request': request}).data,
+            'expires_hours': expires_hours,
+        }, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['post'])
+    def import_qr(self, request):
+        # Importa/actualiza paciente en la clínica destino usando token QR firmado.
+        if request.user.role != 'clinic' and not request.user.is_staff:
+            return Response({"error": "Solo clínicas pueden importar pacientes por QR."}, status=status.HTTP_403_FORBIDDEN)
+
+        token = (request.data.get('token') or '').strip()
+        if not token:
+            return Response({"error": "El token QR es obligatorio."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            payload = signing.loads(token, salt='patient-transfer', max_age=60 * 60 * 24 * 7)
+        except signing.BadSignature:
+            return Response({"error": "Token QR inválido o alterado."}, status=status.HTTP_400_BAD_REQUEST)
+        except signing.SignatureExpired:
+            return Response({"error": "Token QR expirado."}, status=status.HTTP_400_BAD_REQUEST)
+
+        patient_id = payload.get('patient_id')
+        source_clinic_id = payload.get('source_clinic_id')
+        if not patient_id or not source_clinic_id:
+            return Response({"error": "Token QR incompleto."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            source_patient = Patient.objects.get(pk=patient_id, clinic_id=source_clinic_id)
+        except Patient.DoesNotExist:
+            return Response({"error": "Paciente origen no encontrado."}, status=status.HTTP_404_NOT_FOUND)
+
+        if source_patient.clinic_id == request.user.id:
+            return Response({"error": "No puedes importar tu propio paciente."}, status=status.HTTP_400_BAD_REQUEST)
+
+        transfer_external_id = f"XFER-{source_patient.clinic_id}-{source_patient.id}"
+        imported_patient, created = Patient.objects.update_or_create(
+            clinic=request.user,
+            external_id=transfer_external_id,
+            defaults={
+                'first_name': source_patient.first_name,
+                'last_name': source_patient.last_name,
+                'birth_date': source_patient.birth_date,
+                'gender': source_patient.gender,
+            }
+        )
+
+        serializer = PatientSerializer(imported_patient, context={'request': request})
+        return Response({
+            'status': 'created' if created else 'updated',
+            'patient': serializer.data,
+            'source_patient_id': source_patient.id,
+            'source_clinic_id': source_patient.clinic_id,
+        }, status=status.HTTP_201_CREATED if created else status.HTTP_200_OK)
 
 # --- VISTAS PARA PRODUCTOS ---
 class ProductViewSet(viewsets.ModelViewSet):
