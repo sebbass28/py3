@@ -3,7 +3,7 @@
 Autor: Juan Sebastian Agudelo Castrillon  
 Ciclo Formativo: Desarrollo de Aplicaciones Web (DAW)  
 Centro: IES El Grao  
-Curso: 2024-2025  
+Curso: 2025-2026  
 Tutor/a: Paula Carolina Martinez Perea
 
 ---
