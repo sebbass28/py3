@@ -126,5 +126,4 @@ powershell -ExecutionPolicy Bypass -File .\scripts\smoke_local.ps1
 ```
 
 ---
-**Desarrollado como Proyecto de Fin de Grado (TFG) por [Tu Nombre].**
-*Este documento constituye la base de la memoria técnica del proyecto.*
+**Desarrollado como Proyecto de Fin de Grado (TFG) por Juan Sebastián Agudelo Castrillón.**
