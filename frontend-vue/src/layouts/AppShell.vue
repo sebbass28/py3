@@ -48,10 +48,22 @@ function handleLogout() {
     <section class="content">
       <header class="topbar">
         <div>
-          <p class="eyebrow">Vue migration copy</p>
+          <p class="eyebrow">Vue frontend · modo producción alumno</p>
           <h2>{{ pageTitle }}</h2>
         </div>
-        <p class="user">{{ auth.user?.company_name || auth.user?.username }}</p>
+        <div class="user-block">
+          <p class="user">{{ auth.user?.company_name || auth.user?.username }}</p>
+          <p class="hint">
+            Rol:
+            {{
+              auth.user?.role === 'clinic'
+                ? 'Clínica'
+                : auth.user?.role === 'lab'
+                  ? 'Laboratorio'
+                  : '—'
+            }}
+          </p>
+        </div>
       </header>
       <main class="main-panel">
         <RouterView />
