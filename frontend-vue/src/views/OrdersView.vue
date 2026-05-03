@@ -19,7 +19,9 @@ import {
   MessageSquare,
   Activity,
   UserCheck,
-  Download
+  Download,
+  Hospital,
+  Factory
 } from 'lucide-vue-next';
 
 const auth = useAuth();
