@@ -8,18 +8,18 @@ const router = useRouter();
 const auth = useAuth();
 
 const navItems = [
-  { to: '/app/dashboard', label: 'Dashboard' },
-  { to: '/app/orders', label: 'Orders' },
-  { to: '/app/messages', label: 'Messages' },
-  { to: '/app/patients', label: 'Patients' },
-  { to: '/app/marketplace', label: 'Marketplace' },
-  { to: '/app/find-clinics', label: 'Clinic Finder' },
-  { to: '/app/integrations', label: 'Integrations' },
-  { to: '/app/profile', label: 'Profile' },
+  { to: '/app/dashboard', label: 'Panel' },
+  { to: '/app/orders', label: 'Pedidos' },
+  { to: '/app/messages', label: 'Mensajes' },
+  { to: '/app/patients', label: 'Pacientes' },
+  { to: '/app/marketplace', label: 'Catálogo' },
+  { to: '/app/find-clinics', label: 'Clínicas' },
+  { to: '/app/integrations', label: 'Integraciones' },
+  { to: '/app/profile', label: 'Perfil' },
 ];
 
 const pageTitle = computed(
-  () => navItems.find((item) => item.to === route.path)?.label || 'Workspace'
+  () => navItems.find((item) => item.to === route.path)?.label || 'DentalLink'
 );
 
 function handleLogout() {
@@ -29,10 +29,10 @@ function handleLogout() {
 </script>
 
 <template>
-  <div class="shell">
-    <aside class="sidebar">
-      <h1>DentaLink Vue</h1>
-      <nav>
+  <div class="shell shell-polished">
+    <aside class="sidebar sidebar-polished">
+      <h1 class="sidebar-brand">DentalLink</h1>
+      <nav class="sidebar-nav">
         <RouterLink
           v-for="item in navItems"
           :key="item.to"
@@ -43,18 +43,17 @@ function handleLogout() {
           {{ item.label }}
         </RouterLink>
       </nav>
-      <button class="logout" @click="handleLogout">Cerrar sesión</button>
+      <button type="button" class="logout" @click="handleLogout">Cerrar sesión</button>
     </aside>
-    <section class="content">
-      <header class="topbar">
-        <div>
-          <p class="eyebrow">Vue frontend · modo producción alumno</p>
-          <h2>{{ pageTitle }}</h2>
+    <section class="content content-polished">
+      <header class="topbar topbar-polished">
+        <div class="topbar-title-block">
+          <p class="eyebrow topbar-context">DentalLink</p>
+          <h2 class="topbar-heading">{{ pageTitle }}</h2>
         </div>
-        <div class="user-block">
+        <div class="user-block user-chip">
           <p class="user">{{ auth.user?.company_name || auth.user?.username }}</p>
-          <p class="hint">
-            Rol:
+          <p class="user-role-chip">
             {{
               auth.user?.role === 'clinic'
                 ? 'Clínica'
@@ -65,7 +64,7 @@ function handleLogout() {
           </p>
         </div>
       </header>
-      <main class="main-panel">
+      <main class="main-panel main-panel-soft">
         <RouterView />
       </main>
     </section>
