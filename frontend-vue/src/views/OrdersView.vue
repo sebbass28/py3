@@ -38,8 +38,8 @@ async function fetchOrders() {
     } else if (selectedOrder.value) {
       selectedOrder.value = orders.value.find((item) => item.id === selectedOrder.value.id) || orders.value[0] || null;
     }
-  } catch {
-    error.value = 'No se pudieron cargar los pedidos.';
+  } catch (err) {
+    error.value = err.friendlyMessage || 'No se pudieron cargar los pedidos.';
   } finally {
     loading.value = false;
   }
@@ -51,12 +51,18 @@ async function fetchOrderContext(orderId) {
     messages.value = [];
     return;
   }
-  const [eventsRes, messagesRes] = await Promise.all([
-    api.get(`order-events/?order_id=${orderId}`),
-    api.get(`messages/?order_id=${orderId}`),
-  ]);
-  events.value = eventsRes.data;
-  messages.value = messagesRes.data;
+  try {
+    const [eventsRes, messagesRes] = await Promise.all([
+      api.get(`order-events/?order_id=${orderId}`),
+      api.get(`messages/?order_id=${orderId}`),
+    ]);
+    events.value = eventsRes.data;
+    messages.value = messagesRes.data;
+  } catch (err) {
+    events.value = [];
+    messages.value = [];
+    error.value = err.friendlyMessage || 'No se cargó detalle/timeline.';
+  }
 }
 
 async function changeStatus(newStatus) {
@@ -67,23 +73,27 @@ async function changeStatus(newStatus) {
     refreshTick.value += 1;
     await fetchOrders();
     await fetchOrderContext(selectedOrder.value.id);
-  } catch {
-    error.value = 'No se pudo actualizar el estado.';
+  } catch (err) {
+    error.value = err.friendlyMessage || 'No se pudo actualizar el estado.';
   } finally {
     statusChanging.value = false;
   }
 }
 
 async function exportCsv() {
-  const response = await api.get('orders/export_csv/', { responseType: 'blob' });
-  const url = window.URL.createObjectURL(new Blob([response.data]));
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'orders_export.csv';
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  window.URL.revokeObjectURL(url);
+  try {
+    const response = await api.get('orders/export_csv/', { responseType: 'blob' });
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'orders_export.csv';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (err) {
+    error.value = err.friendlyMessage || 'No se pudo exportar el CSV.';
+  }
 }
 
 onMounted(async () => {

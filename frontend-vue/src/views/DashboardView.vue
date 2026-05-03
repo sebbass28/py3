@@ -20,8 +20,11 @@ onMounted(async () => {
     ]);
     metrics.value = metricsRes.data;
     notifications.value = [...notificationsRes.data].slice(0, 6);
-  } catch {
-    error.value = 'No se pudieron cargar las métricas.';
+  } catch (err) {
+    error.value =
+      err.friendlyMessage ||
+      err.response?.data?.detail?.toString() ||
+      'No se pudieron cargar las métricas (¿sesión válida?).';
   } finally {
     loading.value = false;
   }

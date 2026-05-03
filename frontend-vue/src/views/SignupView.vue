@@ -25,9 +25,7 @@ async function handleSubmit() {
     router.push('/app/dashboard');
     return;
   }
-  error.value = typeof result.error === 'object'
-    ? Object.values(result.error).flat().join(' ')
-    : result.error;
+  error.value = typeof result.error === 'string' ? result.error : String(result.error);
 }
 </script>
 

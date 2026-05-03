@@ -62,7 +62,11 @@ export async function login(username, password, rememberMe = true) {
     state.user = null;
     return {
       success: false,
-      error: error.response?.data?.detail || 'No se pudo iniciar sesión',
+      error:
+        error.friendlyMessage ||
+        (error.response?.status === 401
+          ? 'Usuario o contraseña incorrectos (o cuenta inactiva).'
+          : 'No se pudo iniciar sesión.'),
     };
   }
 }
@@ -74,7 +78,7 @@ export async function register(payload) {
   } catch (error) {
     return {
       success: false,
-      error: error.response?.data || 'No se pudo registrar la cuenta',
+      error: error.friendlyMessage || 'No se pudo registrar la cuenta.',
     };
   }
 }
