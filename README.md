@@ -25,6 +25,24 @@ Para profundizar en la lógica del proyecto y su valor de mercado, consulta los 
 
 ---
 
+## 🌿 Rama de trabajo (GitFlow ligero para TFG)
+
+El código estable vive siempre integrado en `main`, pero el trabajo diario debe fluir por ramas pequeñas para que GitHub conserve trazabilidad real de sprint sin “megacommits”.
+
+- **`main`** — Rama de producción: solo integra cambios revisados (`merge commit` cuando sea posible, sin squash agresivo en PRs grandes).
+- **`develop`** — Integración continua entre features: todo lo nuevo se fusiona aquí antes de llegar a `main`.
+- **`staging`** — Candidato a despliegue (Coolify): misma historia que prod salvo cuando se prueba un sprint cerrado antes de etiquetarlo.
+- **`feature/nombre-claro`** — Ramas cortas enlazadas a un objetivo revisable (`feature/vue-shell-ux`, `feature/api-validacion-order`, …).
+- **`test/spikes-*`** — Ramas opcionales para experimentos rápidos que no deben contaminar producción hasta validarse.
+
+Buenas prácticas que el tribunal puede verificar en Insights → Network:
+
+1. Una rama `feature/*` por tarea cerrable (< 400 líneas cuando sea viable).
+2. PR pequeños hacia `develop` con descripción Scrum (alcance + cómo validar).
+3. Integración incremental hacia `main` al cerrar cada mini-sprint visible.
+
+---
+
 ## 🛠️ 3. El Enfoque DentalLinkLab: Solución a Problemas Reales
 
 DentalLinkLab no es solo una web de ventas; es una herramienta de ingeniería diseñada para eliminar los 5 mayores "puntos de dolor" del sector:
