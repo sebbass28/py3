@@ -4773,7 +4773,7 @@ last week
 scripts
 Sprint-4 Assets: include visual evidence pack and doc tooling
 13 minutes ago
-talento360
+dentalink
 DentalLinkLab: Fase Final completada con Build y Sincronización.
 last month
 templates
@@ -4960,7 +4960,7 @@ last week
 scripts
 Sprint-4 Assets: include visual evidence pack and doc tooling
 17 minutes ago
-talento360
+dentalink
 DentalLinkLab: Fase Final completada con Build y Sincronización.
 last month
 templates
@@ -6463,7 +6463,7 @@ Sprint-6 QR: add cross-clinic patient transfer workflow
 scripts
 Sprint-4 Cleanup: remove Word/PDF artifacts and Word tooling
 5 days ago
-talento360
+dentalink
 DentalLinkLab: Fase Final completada con Build y Sincronización.
 2 months ago
 templates
@@ -6777,7 +6777,7 @@ Sprint-6 QR: add cross-clinic patient transfer workflow
 scripts
 Sprint-4 Cleanup: remove Word/PDF artifacts and Word tooling
 5 days ago
-talento360
+dentalink
 DentalLinkLab: Fase Final completada con Build y Sincronización.
 2 months ago
 templates
