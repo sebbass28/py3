@@ -9,7 +9,10 @@ db.sqlite3
 .venv
 venv
 frontend/node_modules
+frontend-vue/node_modules
+frontend-vue/dist
 build
+dist
 # frontend/build (Habilitado para que Docker lo pueda copiar)
 node_modules
 staticfiles

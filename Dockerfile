@@ -1,11 +1,9 @@
-# Build frontend inside Docker (no artifacts in git)
+# Build modern Vue frontend
 FROM node:22-alpine AS frontend_build
-WORKDIR /frontend
-
-COPY frontend/package.json frontend/package-lock.json ./
+WORKDIR /frontend-vue
+COPY frontend-vue/package*.json ./
 RUN npm install --no-audit --fund=false
-
-COPY frontend/ ./
+COPY frontend-vue/ ./
 ENV NODE_OPTIONS=--max-old-space-size=2048
 ENV GENERATE_SOURCEMAP=false
 ENV CI=false
@@ -35,8 +33,8 @@ COPY . .
 # Ensure optional static dir exists (avoids warnings)
 RUN mkdir -p /app/static
 
-# Copy built frontend into expected path
-COPY --from=frontend_build /frontend/build ./frontend/build
+# Copy built frontend assets (Vite outputs to dist)
+COPY --from=frontend_build /frontend-vue/dist ./frontend-vue/dist
 
 # Environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
