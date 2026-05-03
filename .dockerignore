@@ -10,9 +10,9 @@ db.sqlite3
 venv
 frontend/node_modules
 frontend-vue/node_modules
-frontend-vue/dist
-build
-dist
+# frontend-vue/dist (Permitido para deploy rpido)
+build/
+# dist/
 # frontend/build (Habilitado para que Docker lo pueda copiar)
 node_modules
 staticfiles
