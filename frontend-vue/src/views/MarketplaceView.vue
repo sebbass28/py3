@@ -125,9 +125,6 @@ onMounted(fetchData);
     <header class="market-toolbar card-surface-strong">
       <div class="market-toolbar-copy">
         <h3 class="page-title market-title">Catálogo prótesico</h3>
-        <p class="page-subtitle market-subtitle">
-          Servicios por laboratorio. Los filtros actualizan el listado; el icono vuelve a pedir datos al servidor.
-        </p>
       </div>
       <button
         type="button"
