@@ -1,6 +1,6 @@
-# 🦷 DentalLinkLab: Marketplace Odontológico con Visor 3D
+# 🦷 DentaLink: Marketplace Odontológico con Visor 3D
 
-DentalLinkLab es una plataforma B2B de vanguardia diseñada para digitalizar la comunicación y gestión de pedidos entre clínicas dentales y laboratorios de prótesis.
+ DentaLink es una plataforma B2B de vanguardia diseñada para digitalizar la comunicación y gestión de pedidos entre clínicas dentales y laboratorios de prótesis.
 
 ---
 
@@ -73,9 +73,9 @@ Abre `http://localhost:5173` y deja el backend en `http://localhost:8000`.
 
 ---
 
-## 🛠️ 3. El Enfoque DentalLinkLab: Solución a Problemas Reales
+## 🛠️ 3. El Enfoque DentaLink: Solución a Problemas Reales
 
-DentalLinkLab no es solo una web de ventas; es una herramienta de ingeniería diseñada para eliminar los 5 mayores "puntos de dolor" del sector:
+ DentaLink no es solo una web de ventas; es una herramienta de ingeniería diseñada para eliminar los 5 mayores "puntos de dolor" del sector:
 
 - **🚫 Contra el "Teléfono Escacharrado":** Casi todos siguen usando WhatsApp o papel para las instrucciones. Centralizamos todo (3D, fotos, notas) en una **ficha única e inmutable** por pedido.
 - **🚫 Contra la "Caja Perdida":** Eliminamos la incertidumbre de la clínica sobre el estado de sus trabajos con una **barra de progreso en tiempo real** (como Domino's Pizza, pero para prótesis).
