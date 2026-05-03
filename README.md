@@ -104,8 +104,8 @@ Para asegurar la rentabilidad y escalabilidad de la plataforma, se han diseñado
 ## 💻 3. Stack Tecnológico (Industrial Grade)
 
 ### **Frontend (Visualización & UI)**
-- **React 19:** Biblioteca principal para la construcción de interfaces reactivas.
-- **Three.js + @react-three/fiber:** Motor de rénder 3D declarativo para modelos STL.
+- **Vue :** Biblioteca principal para la construcción de interfaces Vueivas.
+- **Three.js + @Vue-three/fiber:** Motor de rénder 3D declarativo para modelos STL.
 - **Tailwind CSS:** Framework de diseño basado en utilidades para una UI premium.
 - **Axios:** Gestión de peticiones asíncronas seguras con el backend.
 
@@ -122,7 +122,7 @@ Para asegurar la rentabilidad y escalabilidad de la plataforma, se han diseñado
 
 ### **Modelo MVT Desacoplado (API-First)**
 - El Backend expone datos puros en formato **JSON**.
-- El Frontend (React) actúa como cliente inteligente, gestionando el estado y la renderización 3D por separado.
+- El Frontend (Vue) actúa como cliente inteligente, gestionando el estado y la renderización 3D por separado.
 
 ### **Estrategia de Despliegue Híbrido**
 Debido a las limitaciones de RAM (1GB) en servidores AWS de bajos recursos, se implementó:
@@ -149,7 +149,7 @@ Para transformar este prototipo de TFG en un producto comercial real, se propone
 ## 🛠️ 6. Guía de Instalación y Librerías
 
 ### Librerías Clave a Investigar:
-- **Codificación QR:** `qrcode` (Python) / `react-qr-code` (React).
+- **Codificación QR:** `qrcode` (Python) / `Vue-qr-code` (Vue).
 - **Generación PDF:** `WeasyPrint` (Transformación de HTML a etiquetas/facturas PDF).
 - **Gráficos Dashboard:** `Recharts` para analíticas de ventas del laboratorio.
 
