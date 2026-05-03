@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
 import api from '../lib/api';
+import ClinicMap from '../components/ClinicMap.vue';
 import { useAuth } from '../stores/auth';
 
 const auth = useAuth();
@@ -19,6 +20,11 @@ const editingId = ref(null);
 const editForm = ref({ first_name: '', last_name: '', birth_date: '', gender: '', external_id: '' });
 const patientOrders = ref([]);
 const ordersLoading = ref(false);
+
+const directoryClinics = ref([]);
+const directoryLoading = ref(false);
+const mapHighlightId = ref(null);
+
 const newPatient = ref({
   first_name: '',
   last_name: '',
@@ -28,24 +34,41 @@ const newPatient = ref({
 });
 
 const filtered = computed(() => {
-  const query = search.value.trim().toLowerCase();
-  if (!query) return patients.value;
+  const q = search.value.trim().toLowerCase();
+  if (!q) return patients.value;
   return patients.value.filter((patient) => {
     const fullName = `${patient.first_name || ''} ${patient.last_name || ''}`.toLowerCase();
-    return fullName.includes(query) || (patient.external_id || '').toLowerCase().includes(query);
+    return fullName.includes(q) || (patient.external_id || '').toLowerCase().includes(q);
   });
 });
 
 async function fetchPatients() {
   loading.value = true;
+  error.value = '';
   try {
     const response = await api.get('patients/');
     patients.value = response.data;
-  } catch {
-    error.value = 'No se pudieron cargar los pacientes.';
+  } catch (err) {
+    error.value = err.friendlyMessage || 'No se pudieron cargar los pacientes.';
   } finally {
     loading.value = false;
   }
+}
+
+async function fetchClinicDirectory() {
+  directoryLoading.value = true;
+  try {
+    const response = await api.get('users/clinics/');
+    directoryClinics.value = response.data || [];
+  } catch {
+    directoryClinics.value = [];
+  } finally {
+    directoryLoading.value = false;
+  }
+}
+
+function selectClinicOnMap(row) {
+  mapHighlightId.value = row.id;
 }
 
 function startEdit(patient) {
@@ -71,8 +94,8 @@ async function saveEdit(patientId) {
     });
     editingId.value = null;
     await fetchPatients();
-  } catch {
-    error.value = 'No se pudo actualizar el paciente.';
+  } catch (err) {
+    error.value = err.friendlyMessage || 'No se pudo actualizar el paciente.';
   }
 }
 
@@ -81,7 +104,7 @@ async function anonymizePatient(patientId) {
     await api.post(`patients/${patientId}/anonymize/`, {});
     await fetchPatients();
   } catch (requestError) {
-    error.value = requestError.response?.data?.error || 'No se pudo anonimizar el paciente.';
+    error.value = requestError.friendlyMessage || requestError.response?.data?.error || 'No se pudo anonimizar.';
   }
 }
 
@@ -115,8 +138,8 @@ async function createPatient() {
       external_id: '',
     };
     await fetchPatients();
-  } catch {
-    error.value = 'No se pudo crear el paciente.';
+  } catch (err) {
+    error.value = err.friendlyMessage || 'No se pudo crear el paciente.';
   } finally {
     creating.value = false;
   }
@@ -129,9 +152,9 @@ async function openShareQr(patient) {
   try {
     const response = await api.post(`patients/${patient.id}/share_qr/`, { expires_hours: 72 });
     qrPayload.value = response.data;
-  } catch {
+  } catch (err) {
     qrModalOpen.value = false;
-    error.value = 'No se pudo generar el QR de transferencia.';
+    error.value = err.friendlyMessage || 'No se pudo generar el QR.';
   }
 }
 
@@ -144,108 +167,160 @@ async function importFromQr() {
     importToken.value = '';
     await fetchPatients();
   } catch (requestError) {
-    importFeedback.value = requestError.response?.data?.error || 'No se pudo importar el paciente.';
+    importFeedback.value =
+      requestError.friendlyMessage || requestError.response?.data?.error || 'No se pudo importar el paciente.';
   } finally {
     importLoading.value = false;
   }
 }
 
-onMounted(fetchPatients);
+onMounted(async () => {
+  await fetchPatients();
+  await fetchClinicDirectory();
+});
 </script>
 
 <template>
-  <section>
-    <h3>Pacientes</h3>
+  <section class="patients-page">
+    <header class="page-head-inline">
+      <div>
+        <h3 class="page-title">Pacientes</h3>
+        <p class="page-subtitle">Gestión clínica y mapa de referencia sin cambiar de sección.</p>
+      </div>
+    </header>
 
-    <form v-if="auth.user?.role === 'clinic'" class="form card-form" @submit.prevent="createPatient">
-      <label>Nombre</label>
-      <input v-model="newPatient.first_name" required type="text" />
-      <label>Apellidos</label>
-      <input v-model="newPatient.last_name" required type="text" />
-      <label>Fecha nacimiento</label>
-      <input v-model="newPatient.birth_date" type="date" />
-      <label>Genero</label>
-      <select v-model="newPatient.gender">
-        <option value="">No especificado</option>
-        <option value="M">Masculino</option>
-        <option value="F">Femenino</option>
-        <option value="O">Otro</option>
-      </select>
-      <label>ID externo</label>
-      <input v-model="newPatient.external_id" type="text" />
-      <button :disabled="creating" type="submit">{{ creating ? 'Guardando...' : 'Crear paciente' }}</button>
-    </form>
+    <div class="patients-split-layout">
+      <div class="patients-stack">
+        <form v-if="auth.user?.role === 'clinic'" class="form card-form card-surface-strong" @submit.prevent="createPatient">
+          <h4 class="subsection-title">Nuevo paciente</h4>
+          <label>Nombre</label>
+          <input v-model="newPatient.first_name" class="inp" required type="text" />
+          <label>Apellidos</label>
+          <input v-model="newPatient.last_name" class="inp" required type="text" />
+          <label>Fecha nacimiento</label>
+          <input v-model="newPatient.birth_date" class="inp" type="date" />
+          <label>Género</label>
+          <select v-model="newPatient.gender" class="inp">
+            <option value="">No especificado</option>
+            <option value="M">Masculino</option>
+            <option value="F">Femenino</option>
+            <option value="O">Otro</option>
+          </select>
+          <label>ID externo</label>
+          <input v-model="newPatient.external_id" class="inp" type="text" />
+          <button :disabled="creating" class="btn-primary-wide" type="submit">
+            {{ creating ? 'Guardando…' : 'Crear paciente' }}
+          </button>
+        </form>
 
-    <div v-if="auth.user?.role === 'clinic'" class="card-form">
-      <h4>Importar paciente desde QR</h4>
-      <textarea v-model="importToken" class="token-area" placeholder="Pega aqui el token QR..." rows="4" />
-      <button :disabled="importLoading || !importToken.trim()" @click="importFromQr">
-        {{ importLoading ? 'Importando...' : 'Importar por QR' }}
-      </button>
-      <p v-if="importFeedback" class="hint">{{ importFeedback }}</p>
-    </div>
-
-    <input v-model="search" class="search" placeholder="Buscar por nombre o ID externo..." />
-    <p v-if="loading">Cargando pacientes...</p>
-    <p v-else-if="error" class="error">{{ error }}</p>
-    <div v-else class="list">
-      <article v-for="patient in filtered" :key="patient.id" class="patient-card">
-        <div class="row-between">
-          <strong>{{ patient.first_name }} {{ patient.last_name }}</strong>
-          <div class="row-between" style="gap:.35rem">
-            <button class="mini-btn" @click="openPatientOrders(patient)">Historial</button>
-            <button
-              v-if="auth.user?.role === 'clinic'"
-              class="mini-btn"
-              @click="openShareQr(patient)"
-            >
-              Compartir QR
-            </button>
-          </div>
+        <div v-if="auth.user?.role === 'clinic'" class="card-form card-surface-strong">
+          <h4 class="subsection-title">Importar por QR</h4>
+          <textarea v-model="importToken" class="token-area" placeholder="Pega aquí el token QR…" rows="4" />
+          <button
+            :disabled="importLoading || !importToken.trim()"
+            class="btn-primary-wide"
+            type="button"
+            @click="importFromQr"
+          >
+            {{ importLoading ? 'Importando…' : 'Importar por QR' }}
+          </button>
+          <p v-if="importFeedback" class="hint">{{ importFeedback }}</p>
         </div>
-        <template v-if="editingId === patient.id">
-          <div class="form" style="margin-top:0.5rem">
-            <input v-model="editForm.first_name" placeholder="Nombre" />
-            <input v-model="editForm.last_name" placeholder="Apellidos" />
-            <input v-model="editForm.birth_date" type="date" />
-            <select v-model="editForm.gender">
-              <option value="">No especificado</option>
-              <option value="M">Masculino</option>
-              <option value="F">Femenino</option>
-              <option value="O">Otro</option>
-            </select>
-            <input v-model="editForm.external_id" placeholder="ID externo" />
+
+        <div class="search-bar-wrap card-surface">
+          <label class="visually-hidden" for="pat-search">Buscar</label>
+          <input
+            id="pat-search"
+            v-model="search"
+            class="inp search-grow"
+            placeholder="Buscar por nombre o ID externo…"
+          />
+        </div>
+
+        <p v-if="loading" class="muted-loading">Cargando pacientes…</p>
+        <p v-else-if="error" class="error">{{ error }}</p>
+        <div v-else class="list patients-card-list">
+          <article v-for="patient in filtered" :key="patient.id" class="patient-card card-surface">
             <div class="row-between">
-              <button class="mini-btn" @click="saveEdit(patient.id)">Guardar</button>
-              <button class="mini-btn" @click="cancelEdit">Cancelar</button>
+              <strong>{{ patient.first_name }} {{ patient.last_name }}</strong>
+              <div class="row-between pill-actions">
+                <button class="mini-btn" type="button" @click="openPatientOrders(patient)">Historial</button>
+                <button v-if="auth.user?.role === 'clinic'" class="mini-btn" type="button" @click="openShareQr(patient)">
+                  Compartir QR
+                </button>
+              </div>
             </div>
-          </div>
-        </template>
-        <template v-else>
-          <p>ID: {{ patient.external_id || '-' }}</p>
-          <p v-if="patient.cases_count !== undefined">Casos: {{ patient.cases_count }}</p>
-          <div v-if="auth.user?.role === 'clinic'" class="row-between" style="gap:.35rem">
-            <button class="mini-btn" @click="startEdit(patient)">Editar</button>
-            <button class="mini-btn" @click="anonymizePatient(patient.id)">Anonimizar</button>
-          </div>
-        </template>
-      </article>
+            <template v-if="editingId === patient.id">
+              <div class="form edit-block">
+                <input v-model="editForm.first_name" class="inp" placeholder="Nombre" />
+                <input v-model="editForm.last_name" class="inp" placeholder="Apellidos" />
+                <input v-model="editForm.birth_date" class="inp" type="date" />
+                <select v-model="editForm.gender" class="inp">
+                  <option value="">No especificado</option>
+                  <option value="M">Masculino</option>
+                  <option value="F">Femenino</option>
+                  <option value="O">Otro</option>
+                </select>
+                <input v-model="editForm.external_id" class="inp" placeholder="ID externo" />
+                <div class="row-between">
+                  <button class="mini-btn" type="button" @click="saveEdit(patient.id)">Guardar</button>
+                  <button class="mini-btn" type="button" @click="cancelEdit">Cancelar</button>
+                </div>
+              </div>
+            </template>
+            <template v-else>
+              <p>ID: {{ patient.external_id || '—' }}</p>
+              <p v-if="patient.cases_count !== undefined">Casos: {{ patient.cases_count }}</p>
+              <div v-if="auth.user?.role === 'clinic'" class="row-between pill-actions">
+                <button class="mini-btn" type="button" @click="startEdit(patient)">Editar</button>
+                <button class="mini-btn" type="button" @click="anonymizePatient(patient.id)">Anonimizar</button>
+              </div>
+            </template>
+          </article>
+        </div>
+      </div>
+
+      <aside class="patients-map-rail card-surface-strong">
+        <div class="map-rail-head">
+          <span class="eyebrow">Mismo pantallazo</span>
+          <h4>Mapa · directorio de clínicas</h4>
+          <p class="hint">
+            Pins de todas las entradas con coordenadas. Útil al coordinar derivaciones sin ir al ítem lateral «Clinic
+            Finder».
+          </p>
+        </div>
+        <div v-if="directoryLoading" class="muted-loading pad-map">Preparando mapa…</div>
+        <div v-else class="map-shell map-shell-rail">
+          <ClinicMap :clinics="directoryClinics" :highlighted-id="mapHighlightId" @pick="selectClinicOnMap" />
+        </div>
+        <ul v-if="directoryClinics.length" class="compact-clinic-strip">
+          <li
+            v-for="c in directoryClinics.slice(0, 8)"
+            :key="'strip-' + c.id"
+            :class="{ active: mapHighlightId === c.id }"
+            @click="selectClinicOnMap(c)"
+          >
+            {{ c.company_name }}
+          </li>
+          <li v-if="directoryClinics.length > 8" class="more-li">+{{ directoryClinics.length - 8 }} más en el mapa</li>
+        </ul>
+      </aside>
     </div>
 
     <div v-if="selectedPatient" class="modal-backdrop" @click.self="selectedPatient = null">
-      <div class="modal-card">
+      <div class="modal-card modal-wide">
         <h4>Historial de pedidos</h4>
         <p>{{ selectedPatient.first_name }} {{ selectedPatient.last_name }}</p>
-        <p v-if="ordersLoading">Cargando pedidos...</p>
+        <p v-if="ordersLoading">Cargando pedidos…</p>
         <div v-else class="list">
-          <article v-for="order in patientOrders" :key="order.id" class="patient-card">
-            <strong>Pedido #{{ order.id }} - {{ order.product?.name || 'Trabajo dental' }}</strong>
+          <article v-for="order in patientOrders" :key="order.id" class="patient-card card-surface">
+            <strong>Pedido #{{ order.id }} — {{ order.product?.name || 'Trabajo dental' }}</strong>
             <p>Estado: {{ order.status_display }}</p>
-            <p>Laboratorio: {{ order.lab?.company_name || order.lab?.username || '-' }}</p>
+            <p>Laboratorio: {{ order.lab?.company_name || order.lab?.username || '—' }}</p>
           </article>
           <p v-if="!patientOrders.length" class="hint">No hay pedidos para este paciente.</p>
         </div>
-        <button class="mini-btn" @click="selectedPatient = null">Cerrar</button>
+        <button class="mini-btn" type="button" @click="selectedPatient = null">Cerrar</button>
       </div>
     </div>
 
@@ -255,7 +330,7 @@ onMounted(fetchPatients);
         <p v-if="selectedPatient">{{ selectedPatient.first_name }} {{ selectedPatient.last_name }}</p>
         <img v-if="qrPayload.qr_png_base64" :src="qrPayload.qr_png_base64" alt="QR transferencia paciente" />
         <textarea v-if="qrPayload.token" readonly class="token-area" rows="4" :value="qrPayload.token" />
-        <button class="mini-btn" @click="qrModalOpen = false">Cerrar</button>
+        <button class="mini-btn" type="button" @click="qrModalOpen = false">Cerrar</button>
       </div>
     </div>
   </section>
