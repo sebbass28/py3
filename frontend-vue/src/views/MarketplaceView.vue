@@ -1,9 +1,12 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
 import api from '../lib/api';
 import { useAuth } from '../stores/auth';
 
+const route = useRoute();
 const auth = useAuth();
+const paddedPublic = computed(() => !route.path.startsWith('/app'));
 const loading = ref(true);
 const categories = ref([]);
 const products = ref([]);
@@ -14,6 +17,7 @@ const patients = ref([]);
 const selectedProduct = ref(null);
 const placingOrder = ref(false);
 const info = ref('');
+const catalogError = ref('');
 const orderForm = ref({
   patient_id: '',
   teeth_numbers: '',
@@ -35,16 +39,25 @@ const filteredProducts = computed(() => {
 
 async function fetchData() {
   loading.value = true;
-  const calls = [
-    api.get('categories/'),
-    api.get(`products/?ordering=${ordering.value}`),
-  ];
-  if (isClinic.value) calls.push(api.get('patients/'));
-  const [cats, prods, pats] = await Promise.all(calls);
-  categories.value = cats.data;
-  products.value = prods.data;
-  if (isClinic.value) patients.value = pats?.data || [];
-  loading.value = false;
+  catalogError.value = '';
+  try {
+    const calls = [
+      api.get('categories/'),
+      api.get(`products/?ordering=${ordering.value}`),
+    ];
+    if (isClinic.value) calls.push(api.get('patients/'));
+    const [cats, prods, pats] = await Promise.all(calls);
+    categories.value = cats.data || [];
+    products.value = prods.data || [];
+    if (isClinic.value) patients.value = pats?.data || [];
+  } catch (error) {
+    catalogError.value = error.friendlyMessage || 'No se pudo cargar el catálogo.';
+    categories.value = [];
+    products.value = [];
+    patients.value = [];
+  } finally {
+    loading.value = false;
+  }
 }
 
 function openOrderModal(product) {
@@ -85,7 +98,7 @@ async function placeOrder() {
     info.value = 'Pedido creado correctamente.';
     selectedProduct.value = null;
   } catch (error) {
-    info.value = error.response?.data?.detail || 'No se pudo crear el pedido.';
+    info.value = error.friendlyMessage || 'No se pudo crear el pedido.';
   } finally {
     placingOrder.value = false;
   }
@@ -95,11 +108,12 @@ onMounted(fetchData);
 </script>
 
 <template>
-  <section>
+  <section :class="{ 'public-inner': paddedPublic }">
     <div class="row-between">
       <h3>Marketplace dental</h3>
       <button class="mini-btn" @click="fetchData">Refrescar</button>
     </div>
+    <p v-if="catalogError" class="error">{{ catalogError }}</p>
     <p v-if="info" class="hint">{{ info }}</p>
 
     <div class="finder-grid" style="margin-bottom:0.6rem">

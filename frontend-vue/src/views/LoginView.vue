@@ -55,6 +55,11 @@ async function handleSubmit() {
           </button>
         </form>
         <p v-if="error" class="error">{{ error }}</p>
+        <p class="hint auth-api-hint">
+          Mantén Django en <code>:8000</code> y Vite en <code>:5173</code> para que proxique <code>/api</code>. Un
+          <code>401</code> en POST <code>/api/token/</code> en la pestaña «Red» sólo indica rechazo por credenciales o
+          cuenta inactiva — el texto que importa aparece aquí arriba.
+        </p>
       </div>
     </section>
   </div>
