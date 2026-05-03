@@ -50,9 +50,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'talento360.urls'
+ROOT_URLCONF = 'dentalink.urls'
 
-WSGI_APPLICATION = 'talento360.wsgi.application'
+WSGI_APPLICATION = 'dentalink.wsgi.application'
 
 # Template configuration
 TEMPLATES = [

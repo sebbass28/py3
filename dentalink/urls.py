@@ -1,5 +1,5 @@
 """
-URL configuration for talento360 project.
+URL configuration for dentalink project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/6.0/topics/http/urls/
@@ -34,7 +34,7 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     
     # Unified Backend APIs
-    path('api/', include('talento360.api_urls')),
+    path('api/', include('dentalink.api_urls')),
 
     # DRF Browser Auth
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
