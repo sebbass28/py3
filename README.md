@@ -41,6 +41,34 @@ Buenas prácticas que el tribunal puede verificar en Insights → Network:
 2. PR pequeños hacia `develop` con descripción Scrum (alcance + cómo validar).
 3. Integración incremental hacia `main` al cerrar cada mini-sprint visible.
 
+### ☁️ Coolify: usar `staging` como entorno de pre-producción
+
+Durante la última semana de entrega, apunta el despliegue de Coolify a la rama **`staging`** (no a `main`). Así puedes validar integración end-to-end sin “tocar” producción académica.
+
+1. En el recurso de Coolify → **Source** → **Branch** → selecciona `staging`.
+2. Si quieres servir la copia **Vue** desde el mismo contenedor Django, usa el Dockerfile alternativo **`Dockerfile.vue`** (build de `frontend-vue/dist` copiado a `frontend/build` para que `TemplateView` siga resolviendo `index.html`).
+3. Cuando el sprint quede cerrado, fusiona `staging → main` y cambia Coolify a `main` solo para la defensa o la entrega final.
+
+### 💻 Desarrollo local con Vue (Vite) + API Django
+
+El cliente Vue usa `axios` con `baseURL: /api/`. En desarrollo, Vite proxifica `/api` y `/media` hacia Django en `127.0.0.1:8000`, así no necesitas CORS manual ni rutas absolutas.
+
+Terminal 1 (API):
+
+```bash
+python manage.py runserver 0.0.0.0:8000
+```
+
+Terminal 2 (Vue):
+
+```bash
+cd frontend-vue
+npm install
+npm run dev -- --host 0.0.0.0 --port 5173
+```
+
+Abre `http://localhost:5173` y deja el backend en `http://localhost:8000`.
+
 ---
 
 ## 🛠️ 3. El Enfoque DentalLinkLab: Solución a Problemas Reales
