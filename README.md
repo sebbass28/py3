@@ -64,8 +64,10 @@ Terminal 2 (Vue):
 ```bash
 cd frontend-vue
 npm install
-npm run dev -- --host 0.0.0.0 --port 5173
+npm run dev:host
 ```
+
+En Windows con npm reciente, `npm run dev -- --host ...` a veces no reenvía bien los flags a Vite; `dev:host` llama a Vite directamente y evita ese problema. Alternativa equivalente: `npx vite --host 0.0.0.0 --port 5173`.
 
 Abre `http://localhost:5173` y deja el backend en `http://localhost:8000`.
 
