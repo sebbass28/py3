@@ -113,21 +113,32 @@ class IntegrationSyncLogSerializer(serializers.ModelSerializer):
 
 # --- SERIALIZER MAESTRO: EL PEDIDO (ESTRUCTURA COMPLEJA) ---
 class OrderSerializer(serializers.ModelSerializer):
-    clinic = UserSerializer(read_only=True)
-    lab = UserSerializer(read_only=True)
-    patient = PatientSerializer(read_only=True)
-    product = ProductSerializer(read_only=True)
-    
-    # Gestión de imágenes multimedia e Facturas
+    # Accept PKs on write (create/update). We override to_representation() to
+    # return nested objects for the frontend's display layer.
+    clinic = serializers.PrimaryKeyRelatedField(read_only=True)
+    lab = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), required=False, allow_null=True)
+    patient = serializers.PrimaryKeyRelatedField(queryset=Patient.objects.all())
+    product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all())
+
+    # Read-only nested collections
     images = OrderImageSerializer(many=True, read_only=True)
     invoices = InvoiceSerializer(many=True, read_only=True)
     events = OrderEventSerializer(many=True, read_only=True)
-    
+
     status_display = serializers.CharField(source='get_status_display', read_only=True)
 
     class Meta:
         model = Order
         fields = '__all__'
+
+    def to_representation(self, instance):
+        """Return nested objects for reading, even though we accept plain PKs for writing."""
+        ret = super().to_representation(instance)
+        ret['clinic'] = UserSerializer(instance.clinic).data if instance.clinic else None
+        ret['lab'] = UserSerializer(instance.lab).data if instance.lab else None
+        ret['patient'] = PatientSerializer(instance.patient).data if instance.patient else None
+        ret['product'] = ProductSerializer(instance.product).data if instance.product else None
+        return ret
 
     def validate(self, attrs):
         if self.instance is not None:
@@ -145,3 +156,4 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return super().create(validated_data)
+

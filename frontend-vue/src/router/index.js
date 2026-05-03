@@ -14,6 +14,8 @@ import ClinicFinderView from '../views/ClinicFinderView.vue';
 import MarketplaceView from '../views/MarketplaceView.vue';
 import IntegrationsView from '../views/IntegrationsView.vue';
 import ProfileView from '../views/ProfileView.vue';
+import ProductsView from '../views/ProductsView.vue';
+import PublicLegalView from '../views/PublicLegalView.vue';
 
 const routes = [
   { path: '/', name: 'landing', component: LandingView },
@@ -21,6 +23,23 @@ const routes = [
   { path: '/signup', name: 'signup', component: SignupView },
   { path: '/forgot-password', name: 'forgot-password', component: ForgotPasswordView },
   { path: '/reset-password', name: 'reset-password', component: ResetPasswordView },
+  { path: '/find-clinics', name: 'find-clinics-public', component: ClinicFinderView },
+  { path: '/marketplace', name: 'marketplace-public', component: MarketplaceView },
+  {
+    path: '/privacy',
+    component: PublicLegalView,
+    meta: { pageTitle: 'Privacidad' },
+  },
+  {
+    path: '/terms',
+    component: PublicLegalView,
+    meta: { pageTitle: 'Términos legales' },
+  },
+  {
+    path: '/contact',
+    component: PublicLegalView,
+    meta: { pageTitle: 'Contacto' },
+  },
   {
     path: '/app',
     component: AppShell,
@@ -31,8 +50,9 @@ const routes = [
       { path: 'orders', name: 'orders', component: OrdersView },
       { path: 'messages', name: 'messages', component: MessagesView },
       { path: 'patients', name: 'patients', component: PatientsView },
-      { path: 'find-clinics', name: 'find-clinics', component: ClinicFinderView },
-      { path: 'marketplace', name: 'marketplace', component: MarketplaceView },
+      { path: 'find-clinics', name: 'find-clinics-app', component: ClinicFinderView },
+      { path: 'marketplace', name: 'marketplace-app', component: MarketplaceView },
+      { path: 'products', name: 'products', component: ProductsView },
       { path: 'integrations', name: 'integrations', component: IntegrationsView },
       { path: 'profile', name: 'profile', component: ProfileView },
     ],
@@ -51,12 +71,11 @@ router.beforeEach((to) => {
   if (['/login', '/signup', '/forgot-password', '/reset-password'].includes(to.path) && auth.user) {
     return '/app/dashboard';
   }
+  if (to.path === '/' && auth.user) return '/app/dashboard';
   if (to.path === '/dashboard') return '/app/dashboard';
   if (to.path === '/orders') return '/app/orders';
   if (to.path === '/messages') return '/app/messages';
   if (to.path === '/patients') return '/app/patients';
-  if (to.path === '/find-clinics') return '/app/find-clinics';
-  if (to.path === '/marketplace') return '/app/marketplace';
   if (to.path === '/integrations') return '/app/integrations';
   if (to.path === '/profile') return '/app/profile';
   return true;

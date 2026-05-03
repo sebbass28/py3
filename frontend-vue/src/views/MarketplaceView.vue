@@ -3,6 +3,23 @@ import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import api from '../lib/api';
 import { useAuth } from '../stores/auth';
+import { 
+  ShoppingCart, 
+  RefreshCcw, 
+  Search, 
+  Filter, 
+  ArrowUpDown, 
+  Factory, 
+  Clock, 
+  Layers, 
+  Tag,
+  AlertTriangle,
+  CheckCircle2,
+  Info,
+  X,
+  Stethoscope,
+  ChevronRight
+} from 'lucide-vue-next';
 
 const route = useRoute();
 const auth = useAuth();
@@ -85,7 +102,7 @@ async function placeOrder() {
   const labId = resolveLabId(selectedProduct.value);
   if (labId == null) {
     info.value =
-      'Este servicio no trae datos del laboratorio; recarga la lista o selecciona otro producto (debe tener laboratorio definido).';
+      'Este servicio no trae datos del laboratorio; recarga la lista o selecciona otro producto.';
     return;
   }
   placingOrder.value = true;
@@ -122,100 +139,424 @@ onMounted(fetchData);
 
 <template>
   <section class="market-page" :class="{ 'public-inner': paddedPublic }">
-    <header class="market-toolbar card-surface-strong">
-      <div class="market-toolbar-copy">
-        <h3 class="page-title market-title">Catálogo prótesico</h3>
+    <header class="market-header">
+      <div class="header-main">
+        <ShoppingCart :size="24" class="header-icon" />
+        <div>
+          <h3 class="page-title">Catálogo de Soluciones</h3>
+          <p class="subtitle">Explora servicios técnicos de laboratorios certificados</p>
+        </div>
       </div>
       <button
         type="button"
-        class="btn-icon-soft"
+        class="refresh-btn"
         :disabled="loading"
-        aria-label="Actualizar catálogo desde el servidor"
-        title="Actualizar"
         @click="fetchData"
       >
-        <svg class="icon-refresh" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
-          <path
-            fill="currentColor"
-            d="M17.65 6.35A7.958 7.958 0 0 0 12 4V1L8 5l4 4V6c2.76 0 5 2.24 5 5 0 1.13-.39 2.17-1.03 3h2.69A7.962 7.962 0 0 0 20 11c0-1.71-.53-3.29-1.44-4.65zM6.35 17.65A7.955 7.955 0 0 0 12 20v3l4-4-4-4v3c-2.76 0-5-2.24-5-5 0-1.13.39-2.17 1.03-3H5.34A7.959 7.959 0 0 0 4 13c0 1.71.53 3.29 1.44 4.65l.91.65z"
-          />
-        </svg>
+        <RefreshCcw :size="18" :class="{ 'spinning': loading }" />
+        <span>Actualizar</span>
       </button>
     </header>
 
-    <p v-if="catalogError" class="error">{{ catalogError }}</p>
-    <p v-if="info" class="hint market-feedback">{{ info }}</p>
-
-    <div class="market-filters card-surface">
-      <input v-model="search" class="inp flex-grow-field" placeholder="Buscar nombre, material o descripción…" />
-      <select v-model="selectedCategory" class="inp filter-select">
-        <option value="">Todas las categorías</option>
-        <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
-      </select>
-      <select v-model="ordering" class="inp filter-order" @change="fetchData">
-        <option value="price">Precio ↑</option>
-        <option value="-price">Precio ↓</option>
-        <option value="delivery_days">Menor plazo entrega</option>
-      </select>
+    <div v-if="catalogError" class="status-msg error-bg">
+      <AlertTriangle :size="16" />
+      {{ catalogError }}
+    </div>
+    
+    <div v-if="info" class="status-msg info-bg">
+      <CheckCircle2 :size="16" />
+      {{ info }}
     </div>
 
-    <p v-if="loading" class="muted-loading pad-y">Sincronizando catálogo…</p>
-    <div v-else class="market-grid">
-      <article v-for="product in filteredProducts" :key="product.id" class="market-card card-surface-strong">
-        <div class="market-card-head">
-          <div>
-            <h4 class="market-name">{{ product.name }}</h4>
-            <span class="market-lab-chip">{{ product.lab?.company_name || product.lab?.username || 'Laboratorio' }}</span>
-          </div>
-          <span class="market-price">{{ product.price }} €</span>
-        </div>
-        <p class="market-meta">{{ product.material }} · {{ product.category_name || 'Sin categoría' }}</p>
-        <p class="market-desc">{{ product.description }}</p>
-        <p class="market-delivery"><strong>{{ product.delivery_days }}</strong> días laborables (est.)</p>
-        <button
-          v-if="isClinic"
-          type="button"
-          class="btn-market-cta"
-          @click="openOrderModal(product)"
-        >
-          Nuevo pedido
-        </button>
-        <p v-else-if="paddedPublic" class="hint market-guest-note">Accede como clínica para solicitar trabajo desde este listado público.</p>
-      </article>
-      <p v-if="!filteredProducts.length" class="empty-hint span-all">Sin resultados para los filtros actuales.</p>
-    </div>
-
-    <div v-if="selectedProduct" class="modal-backdrop" @click.self="selectedProduct = null">
-      <div class="modal-card modal-market-modal">
-        <h4>Nuevo pedido</h4>
-        <p class="modal-product-line">
-          <strong>{{ selectedProduct.name }}</strong>
-          · {{ selectedProduct.lab?.company_name || selectedProduct.lab?.username }}
-        </p>
-        <div class="form market-form-grid">
-          <label>Paciente</label>
-          <select v-model="orderForm.patient_id">
-            <option value="">Seleccionar paciente…</option>
-            <option v-for="p in patients" :key="p.id" :value="String(p.id)">{{ p.first_name }} {{ p.last_name }}</option>
+    <div class="market-toolbar">
+      <div class="search-box">
+        <Search :size="18" class="search-icon" />
+        <input v-model="search" placeholder="Nombre, material o descripción…" />
+      </div>
+      
+      <div class="filter-group">
+        <div class="select-with-icon">
+          <Filter :size="16" />
+          <select v-model="selectedCategory">
+            <option value="">Todas las categorías</option>
+            <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
           </select>
-          <label>Piezas (FDI)</label>
-          <input v-model="orderForm.teeth_numbers" placeholder="11, 21" />
-          <label>Color (VITA)</label>
-          <input v-model="orderForm.shade" placeholder="A2" />
-          <label>URL STL</label>
-          <input v-model="orderForm.scan_url" placeholder="https://…" />
-          <label>Foto clínica (opcional)</label>
-          <input accept="image/*" type="file" @change="(e) => (orderImage = e.target.files?.[0] || null)" />
-          <label>Notas</label>
-          <textarea v-model="orderForm.notes" rows="3" />
-          <div class="modal-actions row-between">
-            <button type="button" class="mini-btn ghostish" @click="selectedProduct = null">Cancelar</button>
-            <button type="button" class="mini-btn accent-btn" :disabled="placingOrder" @click="placeOrder">
-              {{ placingOrder ? 'Enviando…' : 'Confirmar pedido' }}
-            </button>
+        </div>
+        
+        <div class="select-with-icon">
+          <ArrowUpDown :size="16" />
+          <select v-model="ordering" @change="fetchData">
+            <option value="price">Precio ↑</option>
+            <option value="-price">Precio ↓</option>
+            <option value="delivery_days">Plazo entrega</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="loading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Sincronizando catálogo global…</p>
+    </div>
+
+    <div v-else class="market-grid">
+      <article v-for="product in filteredProducts" :key="product.id" class="market-card">
+        <div class="card-head">
+          <div class="title-wrap">
+            <h4 class="market-name">{{ product.name }}</h4>
+            <div class="lab-chip">
+              <Factory :size="12" />
+              {{ product.lab?.company_name || product.lab?.username || 'Laboratorio' }}
+            </div>
           </div>
+          <div class="price-badge">
+            <span class="price-val">{{ product.price }}</span>
+            <span class="currency">€</span>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="meta-row">
+            <span class="meta-item">
+              <Layers :size="12" />
+              {{ product.material }}
+            </span>
+            <span class="meta-item">
+              <Tag :size="12" />
+              {{ product.category_name || 'General' }}
+            </span>
+          </div>
+          <p class="market-desc">{{ product.description }}</p>
+          <div class="delivery-row">
+            <Clock :size="14" />
+            <span>Entrega est. <strong>{{ product.delivery_days }}</strong> días</span>
+          </div>
+        </div>
+
+        <div class="card-footer" v-if="isClinic">
+          <button class="cta-btn" @click="openOrderModal(product)">
+            Realizar Pedido
+            <ChevronRight :size="16" />
+          </button>
+        </div>
+        <p v-else-if="paddedPublic" class="guest-note">
+          <Info :size="14" />
+          Accede como clínica para solicitar este servicio.
+        </p>
+      </article>
+
+      <div v-if="!filteredProducts.length" class="empty-state">
+        <Search :size="48" />
+        <p>No se encontraron servicios que coincidan con tu búsqueda.</p>
+      </div>
+    </div>
+
+    <!-- Order Modal -->
+    <div v-if="selectedProduct" class="modal-backdrop" @click.self="selectedProduct = null">
+      <div class="modal-card order-modal">
+        <div class="modal-header">
+          <div class="header-icon-box">
+            <ShoppingCart :size="20" />
+          </div>
+          <div class="header-text">
+            <h4>Confirmar Pedido</h4>
+            <p>{{ selectedProduct.name }} · {{ selectedProduct.lab?.company_name || selectedProduct.lab?.username }}</p>
+          </div>
+          <button class="close-btn" @click="selectedProduct = null">
+            <X :size="20" />
+          </button>
+        </div>
+
+        <div class="modal-form">
+          <div class="field-group">
+            <label><Stethoscope :size="14" /> Paciente *</label>
+            <select v-model="orderForm.patient_id">
+              <option value="">Seleccionar paciente…</option>
+              <option v-for="p in patients" :key="p.id" :value="String(p.id)">{{ p.first_name }} {{ p.last_name }}</option>
+            </select>
+          </div>
+
+          <div class="field-row">
+            <div class="field-group">
+              <label><Activity :size="14" /> Piezas (FDI) *</label>
+              <input v-model="orderForm.teeth_numbers" placeholder="Ej. 11, 21" />
+            </div>
+            <div class="field-group">
+              <label><Zap :size="14" /> Color (VITA)</label>
+              <input v-model="orderForm.shade" placeholder="Ej. A2" />
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label><ExternalLink :size="14" /> URL Visor STL / Escaneado</label>
+            <input v-model="orderForm.scan_url" placeholder="https://..." />
+          </div>
+
+          <div class="field-group">
+            <label><ImageIcon :size="14" /> Foto clínica (opcional)</label>
+            <div class="file-input-wrap">
+              <input accept="image/*" type="file" @change="(e) => (orderImage = e.target.files?.[0] || null)" id="order-img" />
+              <label for="order-img" class="file-label">
+                {{ orderImage ? orderImage.name : 'Seleccionar archivo...' }}
+              </label>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label><FileText :size="14" /> Notas e indicaciones</label>
+            <textarea v-model="orderForm.notes" rows="3" placeholder="Detalles específicos para el laboratorio..." />
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="cancel-btn" @click="selectedProduct = null">Cancelar</button>
+          <button class="confirm-btn" :disabled="placingOrder" @click="placeOrder">
+            <span v-if="placingOrder">Procesando…</span>
+            <span v-else>Confirmar y Enviar Pedido</span>
+          </button>
         </div>
       </div>
     </div>
   </section>
 </template>
+
+<style scoped>
+.market-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.market-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.header-main {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-icon { color: #0ea5e9; }
+
+.page-title { margin: 0; font-size: 1.5rem; color: #0f172a; }
+
+.subtitle { margin: 0.1rem 0 0 0; font-size: 0.85rem; color: #64748b; font-weight: 500; }
+
+.refresh-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.refresh-btn:hover { background: #f8fafc; color: #0f172a; border-color: #cbd5e1; }
+
+.status-msg {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.info-bg { background: #f0f9ff; color: #0369a1; border: 1px solid #bae6fd; }
+.error-bg { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+
+.market-toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
+}
+
+@media (max-width: 900px) { .market-toolbar { flex-direction: column; } }
+
+.search-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 1rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  color: #94a3b8;
+}
+
+.search-box input { border: none; background: transparent; outline: none; width: 100%; color: #0f172a; font-size: 0.9rem; }
+
+.filter-group { display: flex; gap: 0.75rem; }
+
+.select-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 0.75rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  color: #64748b;
+}
+
+.select-with-icon select { border: none; background: transparent; outline: none; padding: 0.65rem 0; font-size: 0.85rem; font-weight: 600; color: #475569; }
+
+.market-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.market-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 1.25rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease;
+}
+
+.market-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.06); }
+
+.card-head {
+  padding: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: #fafafa;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.market-name { margin: 0; font-size: 1.05rem; color: #0f172a; line-height: 1.2; }
+
+.lab-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  padding: 0.2rem 0.6rem;
+  background: #fff;
+  color: #a855f7;
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  border-radius: 6px;
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+.price-badge {
+  display: flex;
+  align-items: baseline;
+  color: #0ea5e9;
+  background: #fff;
+  padding: 0.35rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid rgba(14, 165, 233, 0.1);
+}
+
+.price-val { font-size: 1.25rem; font-weight: 800; }
+.currency { font-size: 0.85rem; font-weight: 800; margin-left: 0.1rem; }
+
+.card-body { padding: 1.25rem; flex: 1; }
+
+.meta-row { display: flex; gap: 0.75rem; margin-bottom: 1rem; }
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #64748b;
+  background: #f8fafc;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+}
+
+.market-desc { font-size: 0.85rem; color: #475569; line-height: 1.5; margin: 0 0 1.25rem 0; }
+
+.delivery-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: #64748b;
+  padding-top: 0.75rem;
+  border-top: 1px dashed #e2e8f0;
+}
+
+.card-footer { padding: 1rem 1.25rem; background: #fdfdfd; }
+
+.cta-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: #0ea5e9;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cta-btn:hover { background: #0284c7; }
+
+.guest-note { padding: 1rem; margin: 0; font-size: 0.75rem; color: #64748b; background: #f8fafc; display: flex; align-items: center; gap: 0.5rem; }
+
+/* Modal */
+.order-modal { width: 100%; max-width: 580px; padding: 0; overflow: hidden; }
+
+.modal-header { display: flex; align-items: center; gap: 1rem; padding: 1.5rem; border-bottom: 1px solid #f1f5f9; position: relative; }
+
+.header-icon-box { width: 44px; height: 44px; background: #f0f9ff; color: #0ea5e9; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+
+.header-text h4 { margin: 0; font-size: 1.15rem; color: #0f172a; }
+.header-text p { margin: 0.15rem 0 0 0; font-size: 0.85rem; color: #64748b; }
+
+.close-btn { position: absolute; top: 1.25rem; right: 1.25rem; border: none; background: transparent; color: #94a3b8; cursor: pointer; transition: color 0.2s; }
+.close-btn:hover { color: #0f172a; }
+
+.modal-form { padding: 1.5rem; display: grid; gap: 1.25rem; }
+
+.field-group { display: flex; flex-direction: column; gap: 0.5rem; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+.field-group label { display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; font-weight: 700; color: #475569; }
+
+.field-group input, .field-group select, .field-group textarea { padding: 0.75rem; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; }
+
+.file-input-wrap { position: relative; }
+.file-input-wrap input { position: absolute; opacity: 0; inset: 0; cursor: pointer; }
+.file-label { display: block; padding: 0.75rem; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; font-size: 0.85rem; color: #64748b; text-align: center; }
+
+.modal-footer { padding: 1.5rem; background: #f8fafc; border-top: 1px solid #f1f5f9; display: flex; justify-content: flex-end; gap: 1rem; }
+
+.cancel-btn { padding: 0.75rem 1.5rem; background: transparent; color: #64748b; border: none; font-weight: 700; cursor: pointer; }
+.confirm-btn { padding: 0.75rem 2rem; background: #0ea5e9; color: #fff; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; }
+
+.spinning { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading-state { text-align: center; padding: 4rem 0; color: #64748b; }
+.spinner { width: 32px; height: 32px; border: 3px solid #f1f5f9; border-top-color: #0ea5e9; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
+</style>
