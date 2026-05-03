@@ -129,5 +129,19 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = '__all__'
 
+    def validate(self, attrs):
+        if self.instance is not None:
+            return attrs
+
+        product = attrs.get('product')
+        lab = attrs.get('lab')
+        if lab in (None, '') and product is not None:
+            attrs['lab'] = getattr(product, 'lab', None)
+        if attrs.get('lab') in (None, ''):
+            raise serializers.ValidationError(
+                {'lab': 'Falta el laboratorio para este pedido (no se puede deducir del producto seleccionado).'}
+            )
+        return attrs
+
     def create(self, validated_data):
         return super().create(validated_data)

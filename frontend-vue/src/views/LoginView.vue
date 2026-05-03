@@ -28,8 +28,8 @@ async function handleSubmit() {
   <div class="auth-page">
     <section class="auth-visual">
       <p class="eyebrow">DentalLink</p>
-      <h2>Gestion clinica y laboratorio en una sola plataforma.</h2>
-      <p>Version Vue para entrega academica, manteniendo el backend Django actual.</p>
+      <h2>Gestión clínica y laboratorio en una sola plataforma.</h2>
+      <p>Catálogo, pedidos, mensajes y trazabilidad en un mismo flujo B2B.</p>
     </section>
     <section class="auth-panel">
       <div class="auth-card">
@@ -55,11 +55,6 @@ async function handleSubmit() {
           </button>
         </form>
         <p v-if="error" class="error">{{ error }}</p>
-        <p class="hint auth-api-hint">
-          Mantén Django en <code>:8000</code> y Vite en <code>:5173</code> para que proxique <code>/api</code>. Un
-          <code>401</code> en POST <code>/api/token/</code> en la pestaña «Red» sólo indica rechazo por credenciales o
-          cuenta inactiva — el texto que importa aparece aquí arriba.
-        </p>
       </div>
     </section>
   </div>
