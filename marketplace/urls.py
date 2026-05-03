@@ -5,7 +5,7 @@ from . import views
 router = SimpleRouter()
 router.register(r'categories', views.CategoryViewSet)
 router.register(r'patients', views.PatientViewSet, basename='patient')
-router.register(r'products', views.ProductViewSet)
+router.register(r'products', views.ProductViewSet, basename='product')
 router.register(r'orders', views.OrderViewSet, basename='order')
 router.register(r'invoices', views.InvoiceViewSet, basename='invoice')
 router.register(r'messages', views.OrderMessageViewSet, basename='message')

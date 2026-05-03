@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lab Dashboard - CodeNext</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#b3ebff",
+                        "on-tertiary-container": "#003e62",
+                        "surface-container-high": "#e2e9f1",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#4cd6fb",
+                        "surface-tint": "#00677d",
+                        "on-tertiary-fixed-variant": "#004b74",
+                        "on-tertiary-fixed": "#001d32",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#001a42",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#58acee",
+                        "secondary": "#315ca9",
+                        "inverse-surface": "#2a3138",
+                        "surface-bright": "#f6f9ff",
+                        "on-secondary-container": "#033e8a",
+                        "primary-fixed-dim": "#4cd6fb",
+                        "on-primary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "background": "#f6f9ff",
+                        "tertiary-fixed-dim": "#94ccff",
+                        "surface-container": "#e8eef7",
+                        "inverse-on-surface": "#ebf1fa",
+                        "tertiary": "#006399",
+                        "surface-dim": "#d4dbe3",
+                        "secondary-container": "#86adff",
+                        "on-primary-container": "#00414f",
+                        "primary": "#00677d",
+                        "secondary-fixed": "#d8e2ff",
+                        "tertiary-fixed": "#cde5ff",
+                        "secondary-fixed-dim": "#aec6ff",
+                        "surface-variant": "#dce3ec",
+                        "outline": "#6d797e",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#bcc9ce",
+                        "primary-container": "#00b4d8",
+                        "surface": "#f6f9ff",
+                        "on-surface": "#151c22",
+                        "surface-container-highest": "#dce3ec",
+                        "on-primary-fixed": "#001f27",
+                        "on-primary-fixed-variant": "#004e5f",
+                        "on-secondary-fixed-variant": "#0f4490",
+                        "on-surface-variant": "#3d494d",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#eef4fd",
+                        "on-background": "#151c22"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "md": "1rem",
+                        "lg": "1.5rem",
+                        "gutter": "1rem",
+                        "2xl": "3rem",
+                        "xl": "2rem",
+                        "sm": "0.5rem",
+                        "container-max": "1440px",
+                        "xs": "0.25rem"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "h3": ["Manrope"],
+                        "h1": ["Manrope"],
+                        "body-md": ["Inter"],
+                        "code": ["Inter"],
+                        "h2": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "h3": ["20px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600" }],
+                        "h1": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "code": ["13px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "500" }],
+                        "h2": ["24px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md flex h-screen overflow-hidden antialiased">
+<aside class="fixed left-0 top-0 h-full w-[240px] border-r border-slate-800 bg-slate-900 dark:bg-black shadow-none flex flex-col z-50">
+<div class="px-6 py-6 border-b border-slate-800 dark:border-slate-800 flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-cyan-500 flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">dentistry</span>
+</div>
+<div>
+<h1 class="text-xl font-bold text-white tracking-tight">CodeNext</h1>
+<p class="font-label-sm text-label-sm text-cyan-500 dark:text-cyan-400">Dental Management</p>
+</div>
+</div>
+<nav class="flex-1 py-4 flex flex-col gap-1 overflow-y-auto">
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80 transition-all duration-200 ease-in-out font-manrope text-sm antialiased" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80 transition-all duration-200 ease-in-out font-manrope text-sm antialiased" href="#">
+<span class="material-symbols-outlined">person</span>
+                Patients
+            </a>
+<a class="text-cyan-400 font-semibold border-r-4 border-cyan-500 flex items-center gap-3 px-6 py-3 bg-slate-800/50 transition-all duration-200 ease-in-out font-manrope text-sm antialiased" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+                Orders
+            </a>
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80 transition-all duration-200 ease-in-out font-manrope text-sm antialiased" href="#">
+<span class="material-symbols-outlined">biotech</span>
+                Lab Finder
+            </a>
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80 transition-all duration-200 ease-in-out font-manrope text-sm antialiased" href="#">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </a>
+</nav>
+<div class="border-t border-slate-800 dark:border-slate-800 py-4">
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80 transition-all duration-200 ease-in-out font-manrope text-sm antialiased" href="#">
+<span class="material-symbols-outlined">help_center</span>
+                Support
+            </a>
+</div>
+</aside>
+<div class="flex-1 flex flex-col h-full ml-[240px] relative">
+<header class="fixed top-0 right-0 border-b border-slate-200 dark:border-slate-800 w-[calc(100%-240px)] bg-white dark:bg-slate-900 shadow-sm dark:shadow-none flex justify-between items-center h-16 px-8 z-40">
+<div class="flex items-center">
+<span class="hidden">CodeNext</span>
+<div class="relative flex items-center text-slate-500 dark:text-slate-400 focus-within:text-cyan-600">
+<span class="material-symbols-outlined absolute left-3 pointer-events-none">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant rounded-full text-body-md font-body-md focus:outline-none focus:border-cyan-600 focus:ring-1 focus:ring-cyan-600 w-[300px] transition-colors" placeholder="Search cases, patients..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-500 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-300 cursor-pointer active:opacity-70 transition-opacity p-2 rounded-full hover:bg-surface-container-highest">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-slate-500 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-300 cursor-pointer active:opacity-70 transition-opacity p-2 rounded-full hover:bg-surface-container-highest">
+<span class="material-symbols-outlined">chat_bubble</span>
+</button>
+<button class="text-slate-500 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-300 cursor-pointer active:opacity-70 transition-opacity p-1 rounded-full border-2 border-transparent hover:border-cyan-500">
+<img alt="User Profile" class="w-8 h-8 rounded-full object-cover" data-alt="close-up portrait of professional male dentist in clinical scrubs with soft lighting and neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCS5VThyEz0aNxQgBu4yv2aiFUWEU9a0chlmAfHtVvUp16KRzqgTDovv3SLt4n9JoBgOqkniQnTsTL8kt-iy6OQwl_jRan1hXCQiIokcRoydSbVQInH9dYDyjHCcBbsby36Eo__jRp4SinyEzQsjkYrhHYs1T8W3qs-MQfHhwLESCKDe-7bjobSKu5uKSyIgx5RkIdOYTeSPaT2-Pd6ZiH3pskEa-w12wc-vwRIMSwLffXcViyQ9KjGnmISBQhfm3CiqUAWnEns_7c"/>
+</button>
+</div>
+</header>
+<main class="flex-1 overflow-x-auto overflow-y-hidden pt-[88px] px-8 pb-8 flex flex-col bg-surface">
+<div class="flex justify-between items-center mb-6 shrink-0">
+<div>
+<h2 class="font-h2 text-h2 text-on-surface">Lab Dashboard</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Manage active cases and track production stages.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 bg-surface-container border border-outline-variant text-on-surface font-label-sm text-label-sm px-4 py-2 rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                        Filter
+                    </button>
+<button class="flex items-center gap-2 bg-primary text-on-primary font-label-sm text-label-sm px-5 py-2 rounded-full hover:bg-primary/90 transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                        New Case
+                    </button>
+</div>
+</div>
+<div class="flex gap-6 h-full overflow-x-auto pb-4 items-start">
+<div class="flex-1 min-w-[320px] max-w-[400px] flex flex-col bg-surface-container-low rounded-xl border border-outline-variant p-4 h-full">
+<div class="flex justify-between items-center mb-4 px-2">
+<h3 class="font-h3 text-h3 text-on-surface flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+                            Received
+                        </h3>
+<span class="bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm px-2 py-1 rounded-md">4</span>
+</div>
+<div class="flex flex-col gap-3 overflow-y-auto pr-2 pb-2">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<span class="font-code text-code text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">#ORD-9021</span>
+<span class="font-label-sm text-label-sm bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded-full border border-secondary/20">Crown</span>
+</div>
+<h4 class="font-h3 text-h3 text-on-surface mb-1">Martinez, Elena</h4>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1.5 mb-3">
+<span class="material-symbols-outlined text-[16px]">dentistry</span> 
+                                Dr. Chen • Tooth 14, 15
+                            </p>
+<div class="pt-3 border-t border-surface-variant flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">calendar_today</span> Oct 28
+                                </span>
+<div class="flex -space-x-2">
+<img alt="Doctor" class="w-6 h-6 rounded-full border-2 border-surface-container-lowest" data-alt="professional headshot of female doctor in lab coat" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2OBjoax7_AM5FKoJFQyzBcR-zoeUvdQi22mosgldeZJqoNEO0jvVeHqWNniYrFsJVO6DI74RSCetW7AwaehdrPUYwYn-Ss8MIawCW-fjbfNlexaui02Siyt031UIYn_0BvSAuuL9YVuj6JrwpUWscotiMxg448F3qN4bXvm4TKBAbMe8-_K3LRNu0ACLLb0o1qKFjOO6Z8K2ks6jjmDSKHxreur4HRb33QluwaftgIe9tlmF3m4PVzV_lqQlH32PVsTjUiuRWu1g"/>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<span class="font-code text-code text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">#ORD-9024</span>
+<span class="font-label-sm text-label-sm bg-tertiary-container text-on-tertiary-container px-2 py-0.5 rounded-full border border-tertiary/20">Bridge</span>
+</div>
+<h4 class="font-h3 text-h3 text-on-surface mb-1">Johnson, Robert</h4>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1.5 mb-3">
+<span class="material-symbols-outlined text-[16px]">dentistry</span> 
+                                Dr. Smith • Tooth 3-5
+                            </p>
+<div class="pt-3 border-t border-surface-variant flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">calendar_today</span> Oct 29
+                                </span>
+<div class="flex -space-x-2">
+<img alt="Doctor" class="w-6 h-6 rounded-full border-2 border-surface-container-lowest" data-alt="professional headshot of male doctor in scrubs" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYvEvWPH7EWB8jJ2JDQRVS65X11b7ZUnF2ysDK8ZzSjakoc6jWN86Tq--BnQVU7FgJtU5DRvHyPulJpFfQ5n06IudM_3SX9gMXejxeUNXFFv9nO7lWngZFU76YHI6TrS-e0qybvJMjAYOONoI4Z-o5Q_zf86cmPQ5yEos9p-C2BsFYkX4tM82PS0v-8y32XiCiZHnK9v83WB2YxhzQUQanZenkbTNGt0gvLqXJ5j3jFMhaxaDFTEDoeMfSgTndysPHQw_lyHf2KJw"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex-1 min-w-[320px] max-w-[400px] flex flex-col bg-surface-container-low rounded-xl border border-outline-variant p-4 h-full">
+<div class="flex justify-between items-center mb-4 px-2">
+<h3 class="font-h3 text-h3 text-on-surface flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+                            In Design
+                        </h3>
+<span class="bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm px-2 py-1 rounded-md">2</span>
+</div>
+<div class="flex flex-col gap-3 overflow-y-auto pr-2 pb-2">
+<div class="bg-surface-container-lowest border-l-4 border-l-tertiary border border-outline-variant rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<span class="font-code text-code text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">#ORD-8992</span>
+<span class="font-label-sm text-label-sm bg-primary-container text-on-primary-container px-2 py-0.5 rounded-full border border-primary/20">Implant</span>
+</div>
+<h4 class="font-h3 text-h3 text-on-surface mb-1">Davis, Sarah</h4>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1.5 mb-3">
+<span class="material-symbols-outlined text-[16px]">dentistry</span> 
+                                Dr. Lee • Tooth 19
+                            </p>
+<div class="pt-3 border-t border-surface-variant flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-error flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">warning</span> Due Today
+                                </span>
+<div class="flex -space-x-2">
+<img alt="Technician" class="w-6 h-6 rounded-full border-2 border-surface-container-lowest" data-alt="professional headshot of female dental technician" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnTsXPgfpU7UrjsuAlp8waYoH3QNYkt0DV4SNKhWiXS6TjJ42cMHmrUtOG0UgKIwG0igGIWcqWV4Y7kSxSnJP41h3505pbQde4urQtGH8XqkPI6TfIrbfcuhHiZiAjQ_i0LUzHOg796CTaE-8Q5ojtwAlvLHAOKiFOhE3yeoco3B0JzN9OPZ02tzA6KNnim6Rd27hz8y0Hp-r_6oD6RfOvSsgo3jNOgqIrt7zBfxGrZuZzZnsv8XKE0v2s1y6XkYJvhyZxDytpmVA"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex-1 min-w-[320px] max-w-[400px] flex flex-col bg-surface-container-low rounded-xl border border-outline-variant p-4 h-full">
+<div class="flex justify-between items-center mb-4 px-2">
+<h3 class="font-h3 text-h3 text-on-surface flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                            Production
+                        </h3>
+<span class="bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm px-2 py-1 rounded-md">3</span>
+</div>
+<div class="flex flex-col gap-3 overflow-y-auto pr-2 pb-2">
+<div class="bg-surface-container-lowest border-l-4 border-l-primary border border-outline-variant rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+<div class="flex justify-between items-start mb-2">
+<span class="font-code text-code text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">#ORD-8945</span>
+<span class="font-label-sm text-label-sm bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded-full border border-secondary/20">Crown</span>
+</div>
+<h4 class="font-h3 text-h3 text-on-surface mb-1">Wilson, James</h4>
+<p class="font-body-md text-body-md text-on-surface-variant flex items-center gap-1.5 mb-2">
+<span class="material-symbols-outlined text-[16px]">dentistry</span> 
+                                Dr. Chen • Tooth 8
+                            </p>
+<div class="w-full bg-surface-variant rounded-full h-1.5 mb-3">
+<div class="bg-primary h-1.5 rounded-full" style="width: 70%"></div>
+</div>
+<div class="pt-2 border-t border-surface-variant flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">precision_manufacturing</span> Milling
+                                </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">calendar_today</span> Oct 25
+                                </span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

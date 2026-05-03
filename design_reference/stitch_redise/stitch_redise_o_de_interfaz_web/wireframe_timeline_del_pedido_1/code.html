@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Historial del Pedido - DentaLink</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#315ca9",
+                        "surface-variant": "#dce3ec",
+                        "primary-fixed": "#b3ebff",
+                        "on-primary-container": "#00414f",
+                        "on-surface": "#151c22",
+                        "surface-container-low": "#eef4fd",
+                        "surface": "#f6f9ff",
+                        "inverse-on-surface": "#ebf1fa",
+                        "on-surface-variant": "#3d494d",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#001d32",
+                        "surface-container-highest": "#dce3ec",
+                        "surface-container": "#e8eef7",
+                        "primary-fixed-dim": "#4cd6fb",
+                        "inverse-primary": "#4cd6fb",
+                        "on-background": "#151c22",
+                        "tertiary-fixed": "#cde5ff",
+                        "inverse-surface": "#2a3138",
+                        "on-primary-fixed-variant": "#004e5f",
+                        "outline": "#6d797e",
+                        "surface-dim": "#d4dbe3",
+                        "outline-variant": "#bcc9ce",
+                        "on-primary-fixed": "#001f27",
+                        "tertiary": "#006399",
+                        "on-secondary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-container": "#58acee",
+                        "background": "#f6f9ff",
+                        "primary": "#00677d",
+                        "on-error": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed": "#d8e2ff",
+                        "surface-bright": "#f6f9ff",
+                        "primary-container": "#00b4d8",
+                        "surface-tint": "#00677d",
+                        "on-tertiary-container": "#003e62",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#0f4490",
+                        "secondary-fixed-dim": "#aec6ff",
+                        "on-secondary-fixed": "#001a42",
+                        "on-tertiary-fixed-variant": "#004b74",
+                        "error": "#ba1a1a",
+                        "on-secondary-container": "#033e8a",
+                        "surface-container-high": "#e2e9f1",
+                        "tertiary-fixed-dim": "#94ccff",
+                        "secondary-container": "#86adff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sm": "0.5rem",
+                        "xs": "0.25rem",
+                        "xl": "2rem",
+                        "md": "1rem",
+                        "container-max": "1440px",
+                        "lg": "1.5rem",
+                        "2xl": "3rem",
+                        "gutter": "1rem"
+                    },
+                    "fontFamily": {
+                        "h3": ["Manrope"],
+                        "label-sm": ["Inter"],
+                        "h2": ["Manrope"],
+                        "h1": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "code": ["Inter"]
+                    },
+                    "fontSize": {
+                        "h3": ["20px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600" }],
+                        "label-sm": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "h2": ["24px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "h1": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["16px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "code": ["13px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Wireframe specific utilities */
+        .wf-border { border: 1px solid #151c22; }
+        .wf-border-b { border-bottom: 1px solid #151c22; }
+        .wf-border-l { border-left: 1px solid #151c22; }
+        .wf-bg-fill { background-color: #ffffff; }
+        .wf-text { color: #151c22; }
+        .wf-text-muted { color: #6d797e; }
+        .wf-placeholder {
+            background-color: #e2e9f1;
+            position: relative;
+            overflow: hidden;
+        }
+        .wf-placeholder::before,
+        .wf-placeholder::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border: 1px solid #bcc9ce;
+        }
+        .wf-placeholder::before {
+            background: linear-gradient(to bottom right, transparent 49%, #bcc9ce 49%, #bcc9ce 51%, transparent 51%);
+        }
+        .wf-placeholder::after {
+            background: linear-gradient(to top right, transparent 49%, #bcc9ce 49%, #bcc9ce 51%, transparent 51%);
+        }
+    </style>
+</head>
+<body class="bg-surface-container-lowest text-on-surface font-body-md antialiased min-h-screen">
+<!-- JSON Component: SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-[240px] border-r border-slate-800 bg-slate-900 dark:bg-black font-manrope text-sm antialiased flex flex-col z-50">
+<div class="px-6 py-6 border-b border-slate-800 dark:border-slate-800 flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-cyan-500 flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="dentistry">dentistry</span>
+</div>
+<div>
+<h1 class="text-xl font-bold text-white tracking-tight">DentaLink</h1>
+<p class="text-slate-400 text-xs">Dental Management</p>
+</div>
+</div>
+<div class="flex-1 py-4 space-y-1">
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+                Patients
+            </a>
+<!-- Active State Navigation -->
+<a class="text-cyan-400 font-semibold border-r-4 border-cyan-500 flex items-center gap-3 px-6 py-3 bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2" data-weight="fill" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+                Orders
+            </a>
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80" href="#">
+<span class="material-symbols-outlined" data-icon="biotech">biotech</span>
+                Lab Finder
+            </a>
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                Settings
+            </a>
+</div>
+<div class="mt-auto border-t border-slate-800 dark:border-slate-800 py-4">
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80" href="#">
+<span class="material-symbols-outlined" data-icon="help_center">help_center</span>
+                Support
+            </a>
+</div>
+</nav>
+<!-- JSON Component: TopAppBar -->
+<header class="fixed top-0 right-0 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm dark:shadow-none flex justify-between items-center h-16 px-8 ml-[240px] w-[calc(100%-240px)] z-40 font-manrope text-base">
+<div class="flex-1 flex items-center">
+<!-- Search bar on left -->
+<div class="relative w-64 wf-border rounded flex items-center px-3 py-1.5 bg-surface-container-lowest">
+<span class="material-symbols-outlined wf-text-muted text-sm mr-2" data-icon="search">search</span>
+<span class="wf-text-muted text-sm font-body-md">Search...</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-500 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-300 cursor-pointer active:opacity-70 transition-opacity">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-slate-500 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-300 cursor-pointer active:opacity-70 transition-opacity">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+</button>
+<button class="text-slate-500 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-300 cursor-pointer active:opacity-70 transition-opacity">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas (Wireframe Style) -->
+<main class="ml-[240px] pt-[64px] min-h-screen bg-surface-container-lowest p-xl">
+<div class="max-w-container-max mx-auto">
+<!-- Page Header -->
+<div class="mb-xl flex justify-between items-end wf-border-b pb-md">
+<div>
+<span class="font-label-sm text-label-sm wf-text-muted uppercase tracking-wider block mb-sm">Detalles del Pedido</span>
+<h1 class="font-h1 text-h1 wf-text">ORD-8472-MX</h1>
+</div>
+<div class="flex gap-sm">
+<button class="wf-border wf-bg-fill px-md py-sm font-label-sm text-label-sm uppercase flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="print">print</span>
+                        Imprimir
+                    </button>
+<button class="wf-border wf-bg-fill px-md py-sm font-label-sm text-label-sm uppercase flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="edit">edit</span>
+                        Modificar
+                    </button>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-xl">
+<!-- Left Column: Timeline -->
+<div class="lg:col-span-2 space-y-md">
+<div class="wf-border wf-bg-fill p-lg">
+<h2 class="font-h2 text-h2 wf-text mb-xl">Línea de Tiempo del Pedido</h2>
+<div class="relative ml-4 pl-8 wf-border-l space-y-xl pb-md">
+<!-- State 1: Prescripción Enviada (Completed) -->
+<div class="relative">
+<!-- Grayscale Circle -->
+<div class="absolute -left-[41px] top-1 w-5 h-5 bg-on-surface rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-surface-container-lowest text-[12px]" data-icon="check" data-weight="fill">check</span>
+</div>
+<div class="flex flex-col">
+<h3 class="font-h3 text-h3 wf-text">Prescripción Enviada</h3>
+<p class="font-body-md text-body-md wf-text-muted mt-xs">12 Oct 2023 • 09:15 AM</p>
+<div class="mt-sm p-sm wf-border bg-surface-container-low text-sm">
+                                        Dr. Silva envió los escaneos intraorales y las notas clínicas al laboratorio central.
+                                    </div>
+</div>
+</div>
+<!-- State 2: Recibido por Laboratorio (Completed) -->
+<div class="relative">
+<div class="absolute -left-[41px] top-1 w-5 h-5 bg-on-surface rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-surface-container-lowest text-[12px]" data-icon="check" data-weight="fill">check</span>
+</div>
+<div class="flex flex-col">
+<h3 class="font-h3 text-h3 wf-text">Recibido por Laboratorio</h3>
+<p class="font-body-md text-body-md wf-text-muted mt-xs">12 Oct 2023 • 14:30 PM</p>
+<div class="mt-sm flex gap-2 items-center text-sm wf-text-muted">
+<span class="material-symbols-outlined text-[16px]" data-icon="folder_zip">folder_zip</span>
+                                        Archivos STL verificados y sin errores.
+                                    </div>
+</div>
+</div>
+<!-- State 3: Diseño Aprobado (Current) -->
+<div class="relative">
+<!-- Current State Circle -->
+<div class="absolute -left-[41px] top-1 w-5 h-5 bg-surface-container-lowest rounded-full border-2 border-on-surface flex items-center justify-center">
+<div class="w-2 h-2 bg-on-surface rounded-full"></div>
+</div>
+<div class="flex flex-col">
+<h3 class="font-h3 text-h3 wf-text font-bold">Diseño Aprobado</h3>
+<p class="font-body-md text-body-md wf-text mt-xs">14 Oct 2023 • 11:05 AM</p>
+<div class="mt-sm p-sm wf-border bg-surface-container-low">
+<div class="flex items-start gap-md">
+<div class="w-16 h-16 wf-placeholder flex-shrink-0"></div>
+<div>
+<p class="font-body-md text-body-md wf-text">El diseño CAD de la corona de zirconio ha sido aprobado por el clínico. Preparando para fresado.</p>
+<button class="mt-2 text-sm wf-text underline decoration-outline underline-offset-2">Ver previsualización 3D</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- State 4: En Envío (Pending) -->
+<div class="relative">
+<!-- Pending State Circle -->
+<div class="absolute -left-[41px] top-1 w-5 h-5 bg-surface-container-lowest rounded-full border border-outline"></div>
+<div class="flex flex-col opacity-50">
+<h3 class="font-h3 text-h3 wf-text">En Envío</h3>
+<p class="font-body-md text-body-md wf-text-muted mt-xs">Pendiente</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Sidebar info blocks (Wireframe) -->
+<div class="space-y-md">
+<!-- Resumen -->
+<div class="wf-border wf-bg-fill p-md">
+<h3 class="font-label-sm text-label-sm uppercase tracking-widest wf-text-muted mb-md border-b border-outline pb-xs">Información General</h3>
+<div class="space-y-sm">
+<div class="flex justify-between">
+<span class="font-body-md text-body-md wf-text-muted">Paciente</span>
+<span class="font-body-md text-body-md wf-text font-medium">Ana Gómez</span>
+</div>
+<div class="flex justify-between">
+<span class="font-body-md text-body-md wf-text-muted">Tipo</span>
+<span class="font-body-md text-body-md wf-text font-medium">Corona Posterior</span>
+</div>
+<div class="flex justify-between">
+<span class="font-body-md text-body-md wf-text-muted">Material</span>
+<span class="font-body-md text-body-md wf-text font-medium">Zirconio Monolítico</span>
+</div>
+<div class="flex justify-between">
+<span class="font-body-md text-body-md wf-text-muted">Diente</span>
+<span class="font-body-md text-body-md wf-text font-medium">#46</span>
+</div>
+</div>
+</div>
+<!-- Laboratorio -->
+<div class="wf-border wf-bg-fill p-md">
+<h3 class="font-label-sm text-label-sm uppercase tracking-widest wf-text-muted mb-md border-b border-outline pb-xs">Laboratorio Asignado</h3>
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded wf-placeholder flex-shrink-0"></div>
+<div>
+<p class="font-h3 text-h3 wf-text text-sm">Lab Dental Precision</p>
+<p class="font-body-md text-body-md wf-text-muted text-xs">ID: LAB-902</p>
+</div>
+</div>
+<button class="w-full mt-md wf-border px-sm py-2 font-label-sm text-label-sm uppercase flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="mail">mail</span>
+                            Contactar Laboratorio
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

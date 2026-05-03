@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DentaLink - Order Chat</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#003e62",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#eef4fd",
+                        "secondary-fixed-dim": "#aec6ff",
+                        "secondary": "#315ca9",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#58acee",
+                        "primary": "#00677d",
+                        "tertiary": "#006399",
+                        "on-surface-variant": "#3d494d",
+                        "on-secondary-fixed": "#001a42",
+                        "on-primary-fixed-variant": "#004e5f",
+                        "on-error-container": "#93000a",
+                        "outline": "#6d797e",
+                        "surface-tint": "#00677d",
+                        "on-primary-fixed": "#001f27",
+                        "on-primary-container": "#00414f",
+                        "on-tertiary-fixed": "#001d32",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#94ccff",
+                        "primary-fixed": "#b3ebff",
+                        "on-secondary-fixed-variant": "#0f4490",
+                        "on-secondary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed": "#d8e2ff",
+                        "secondary-container": "#86adff",
+                        "surface-container-high": "#e2e9f1",
+                        "surface": "#f6f9ff",
+                        "inverse-surface": "#2a3138",
+                        "outline-variant": "#bcc9ce",
+                        "surface-container": "#e8eef7",
+                        "on-secondary-container": "#033e8a",
+                        "on-tertiary-fixed-variant": "#004b74",
+                        "surface-container-highest": "#dce3ec",
+                        "inverse-on-surface": "#ebf1fa",
+                        "primary-fixed-dim": "#4cd6fb",
+                        "surface-variant": "#dce3ec",
+                        "on-background": "#151c22",
+                        "primary-container": "#00b4d8",
+                        "on-tertiary": "#ffffff",
+                        "on-surface": "#151c22",
+                        "inverse-primary": "#4cd6fb",
+                        "surface-dim": "#d4dbe3",
+                        "surface-bright": "#f6f9ff",
+                        "error": "#ba1a1a",
+                        "background": "#f6f9ff",
+                        "tertiary-fixed": "#cde5ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "0.25rem",
+                        "xl": "2rem",
+                        "sm": "0.5rem",
+                        "md": "1rem",
+                        "container-max": "1440px",
+                        "lg": "1.5rem",
+                        "gutter": "1rem",
+                        "2xl": "3rem"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "h2": ["Manrope"],
+                        "h1": ["Manrope"],
+                        "code": ["Inter"],
+                        "h3": ["Manrope"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "h2": ["24px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "h1": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "code": ["13px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "500" }],
+                        "h3": ["20px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #bcc9ce;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background h-screen overflow-hidden flex font-body-md text-body-md">
+<nav class="fixed left-0 top-0 h-full w-[240px] border-r border-slate-800 bg-slate-900 dark:bg-black shadow-none flex flex-col z-50">
+<div class="p-6">
+<h1 class="text-xl font-bold text-white tracking-tight">DentaLink</h1>
+<p class="text-slate-400 font-label-sm text-label-sm mt-1 uppercase tracking-wider">Dental Management</p>
+</div>
+<div class="flex-1 overflow-y-auto py-4">
+<div class="flex flex-col gap-1 font-manrope text-sm antialiased transition-all duration-200 ease-in-out">
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80 hover:text-white" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80 hover:text-white" href="#">
+<span class="material-symbols-outlined">person</span>
+<span>Patients</span>
+</a>
+<a class="text-cyan-400 font-semibold border-r-4 border-cyan-500 flex items-center gap-3 px-6 py-3 bg-slate-800/50" href="#">
+<span class="material-symbols-outlined fill">inventory_2</span>
+<span>Orders</span>
+</a>
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80 hover:text-white" href="#">
+<span class="material-symbols-outlined">biotech</span>
+<span>Lab Finder</span>
+</a>
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80 hover:text-white" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</div>
+</div>
+<div class="p-4 mt-auto">
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80 hover:text-white font-manrope text-sm antialiased" href="#">
+<span class="material-symbols-outlined">help_center</span>
+<span>Support</span>
+</a>
+</div>
+</nav>
+<header class="fixed top-0 right-0 border-b w-[calc(100%-240px)] bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none flex justify-between items-center h-16 px-8 ml-[240px] z-40">
+<div class="flex items-center gap-4 w-1/3">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border-transparent focus:border-primary focus:ring-1 focus:ring-primary rounded-full font-body-md text-body-md text-on-surface placeholder:text-outline-variant transition-all" placeholder="Search orders..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4 text-cyan-600 dark:text-cyan-400 font-manrope text-base">
+<button class="text-slate-500 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-300 cursor-pointer active:opacity-70 transition-opacity p-2 rounded-full hover:bg-surface-container-low">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-slate-500 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-300 cursor-pointer active:opacity-70 transition-opacity p-2 rounded-full hover:bg-surface-container-low">
+<span class="material-symbols-outlined">chat_bubble</span>
+</button>
+<button class="text-slate-500 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-300 cursor-pointer active:opacity-70 transition-opacity p-2 rounded-full hover:bg-surface-container-low flex items-center">
+<img alt="User Profile photo of a clinical professional in a bright setting" class="w-8 h-8 rounded-full border border-outline-variant" data-alt="professional headshot of a dental clinician in scrubs, well-lit studio lighting, neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbVxq1nDF-E4qqzw8q-pdoZx_dStVNXYNeoX4rmzG-Wu_oVRn2GzkfpOB86TxIn_84m8C_jadqD-MKxUTPFEdh4nliWTrDUjT0YdWUyCseCDpW8-KHggm98NzPgQNJAMZ2zp8MLpDjGPDkUUVhGRVg__wJEMWR0LqzXeSU2xo3f27ZD7zJg14-Qd3Ym-WrlEYxJyEBoxhErgC1SDbnlV2me81hInuc9AnU366bVttUum1huXkV56FZgl8DkC8qbiGuu0YJ7MLsPF0"/>
+</button>
+</div>
+</header>
+<main class="ml-[240px] pt-16 flex-1 flex h-full bg-surface-container-lowest">
+<section class="flex-1 flex flex-col border-r border-outline-variant relative">
+<div class="h-16 border-b border-outline-variant flex items-center justify-between px-lg bg-surface-container-lowest shrink-0">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-h3 text-h3">
+                        L
+                    </div>
+<div>
+<h2 class="font-h3 text-h3 text-on-surface">Lumina Dental Lab</h2>
+<p class="font-label-sm text-label-sm text-outline flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-primary flex-shrink-0"></span> Online
+                        </p>
+</div>
+</div>
+<div class="flex gap-sm">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors">
+<span class="material-symbols-outlined">video_call</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container-low rounded-lg transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-lg flex flex-col gap-lg bg-surface-bright">
+<div class="flex justify-center">
+<span class="font-label-sm text-label-sm text-outline-variant bg-surface-container px-sm py-xs rounded-full">Today, 09:41 AM</span>
+</div>
+<div class="flex gap-md max-w-3xl">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center flex-shrink-0 mt-1">
+<span class="material-symbols-outlined text-outline text-[18px]">biotech</span>
+</div>
+<div class="flex flex-col gap-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Technician Mark</span>
+<div class="bg-surface-container text-on-surface p-md rounded-xl rounded-tl-none font-body-md text-body-md shadow-sm border border-surface-dim">
+                            Good morning Dr. Smith. We received the scans for Patient ORD-992. The margins on #14 look a bit ambiguous on the mesial side. Could you verify before we start designing?
+                        </div>
+<span class="font-label-sm text-label-sm text-outline-variant">09:42 AM</span>
+</div>
+</div>
+<div class="flex gap-md max-w-3xl self-end flex-row-reverse">
+<img alt="User Profile" class="w-8 h-8 rounded-full flex-shrink-0 mt-1 border border-outline-variant" data-alt="professional headshot of a dental clinician in scrubs, well-lit studio lighting, neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwF64o6wDBvP_TPKZVFvXNOQFRj1J3C9-9N-Vglg9FPvm6rGFhcbn9vIEBGxQFfWM_l4ACcWAIjxczYeITBbjiV00QdlOzJoJB5HNledXIh5Y6vU4mr4GheI9ApQgUyvCL7_v4Mj60uQHcet0XxDtKg-e_dDUDpEYLa4RYgdkg8xUHVV-krvPMnWF5QuTrbq7XE9DGEJX1Qk90O0s5lLgEeyX0LPl3DarRK83aCb41UkIRVOHHtc5ge_wwwpRk2LNR3AJCJHEF98k"/>
+<div class="flex flex-col gap-xs items-end">
+<span class="font-label-sm text-label-sm text-on-surface-variant">You</span>
+<div class="bg-primary text-on-primary p-md rounded-xl rounded-tr-none font-body-md text-body-md shadow-sm">
+                            Hi Mark. Let me review that now. I'll send an updated scan segment focusing on that margin.
+                        </div>
+<span class="font-label-sm text-label-sm text-outline-variant">09:55 AM</span>
+</div>
+</div>
+<div class="flex gap-md max-w-3xl self-end flex-row-reverse mt-2">
+<div class="w-8 h-8 flex-shrink-0"></div>
+<div class="flex flex-col gap-xs items-end w-full">
+<div class="bg-primary text-on-primary p-xs rounded-xl rounded-tr-none shadow-sm max-w-[320px] w-full">
+<div class="bg-surface-container-lowest text-on-surface p-sm rounded-lg flex items-start gap-md border border-primary-fixed">
+<div class="w-12 h-12 bg-surface-container rounded flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[28px] fill">view_in_ar</span>
+</div>
+<div class="flex-1 overflow-hidden">
+<p class="font-code text-code text-on-surface truncate font-semibold">ORD-992_T14_Margin_Update.stl</p>
+<p class="font-label-sm text-label-sm text-outline mt-1">12.4 MB • 3D Mesh</p>
+</div>
+</div>
+<div class="px-sm pb-xs pt-sm font-body-md text-body-md">
+                                Here is the requested update. Let me know if this clears it up.
+                            </div>
+</div>
+<span class="font-label-sm text-label-sm text-outline-variant flex items-center gap-xs">
+                            10:05 AM <span class="material-symbols-outlined text-[14px]">done_all</span>
+</span>
+</div>
+</div>
+<div class="flex gap-md max-w-3xl">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center flex-shrink-0 mt-1">
+<span class="material-symbols-outlined text-outline text-[18px]">biotech</span>
+</div>
+<div class="flex flex-col gap-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Technician Mark</span>
+<div class="bg-surface-container text-on-surface p-md rounded-xl rounded-tl-none font-body-md text-body-md shadow-sm border border-surface-dim">
+                            Perfect, that's crystal clear now. We will proceed with the Zirconia coping design. Estimated finish is Thursday.
+                        </div>
+<span class="font-label-sm text-label-sm text-outline-variant">10:12 AM</span>
+</div>
+</div>
+</div>
+<div class="p-md bg-surface-container-lowest border-t border-outline-variant shrink-0">
+<div class="flex items-end gap-sm bg-surface rounded-xl border border-outline-variant focus-within:border-primary focus-within:ring-1 focus-within:ring-primary p-sm transition-all">
+<button class="p-2 text-outline hover:text-primary hover:bg-surface-container rounded-full transition-colors shrink-0">
+<span class="material-symbols-outlined">attach_file</span>
+</button>
+<textarea class="flex-1 bg-transparent border-none focus:ring-0 resize-none font-body-md text-body-md text-on-surface placeholder:text-outline-variant py-2 max-h-32 overflow-y-auto" placeholder="Type a message..." rows="1"></textarea>
+<button class="p-2 bg-primary text-on-primary hover:bg-primary-container hover:text-on-primary-container rounded-full transition-colors shrink-0 shadow-sm">
+<span class="material-symbols-outlined fill">send</span>
+</button>
+</div>
+</div>
+</section>
+<aside class="w-[360px] bg-surface flex flex-col border-l border-outline-variant overflow-y-auto shrink-0 z-10">
+<div class="p-lg border-b border-outline-variant bg-surface-container-lowest sticky top-0 z-20">
+<div class="flex justify-between items-start mb-sm">
+<h3 class="font-h2 text-h2 text-on-surface">Order Details</h3>
+<span class="bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm px-2 py-1 rounded-full border border-primary-fixed-dim">
+                        In Production
+                    </span>
+</div>
+<p class="font-code text-code text-on-surface-variant">ID: #ORD-99245-A</p>
+</div>
+<div class="p-lg flex flex-col gap-lg">
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden shadow-sm">
+<div class="bg-surface-container-low px-md py-sm border-b border-outline-variant flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-[18px]">person</span>
+<h4 class="font-h3 text-h3 text-on-surface text-[16px]">Patient Info</h4>
+</div>
+<div class="p-md grid grid-cols-2 gap-y-md gap-x-sm">
+<div>
+<p class="font-label-sm text-label-sm text-outline-variant mb-1">Name</p>
+<p class="font-body-md text-body-md text-on-surface font-medium">Eleanor Vance</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-outline-variant mb-1">DOB</p>
+<p class="font-body-md text-body-md text-on-surface">14/08/1982</p>
+</div>
+<div>
+<p class="font-label-sm text-label-sm text-outline-variant mb-1">Chart #</p>
+<p class="font-body-md text-body-md text-on-surface">CV-8821</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden shadow-sm">
+<div class="bg-surface-container-low px-md py-sm border-b border-outline-variant flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-[18px]">assignment</span>
+<h4 class="font-h3 text-h3 text-on-surface text-[16px]">Prescription</h4>
+</div>
+<div class="p-md flex flex-col gap-md">
+<div class="flex justify-between items-center border-b border-surface-dim pb-sm">
+<span class="font-label-sm text-label-sm text-outline-variant">Restoration Type</span>
+<span class="font-body-md text-body-md text-on-surface font-medium">Full Crown</span>
+</div>
+<div class="flex justify-between items-center border-b border-surface-dim pb-sm">
+<span class="font-label-sm text-label-sm text-outline-variant">Tooth Number</span>
+<span class="w-8 h-8 rounded bg-secondary-container text-on-secondary-container flex items-center justify-center font-code text-code font-bold">14</span>
+</div>
+<div class="flex justify-between items-center border-b border-surface-dim pb-sm">
+<span class="font-label-sm text-label-sm text-outline-variant">Material</span>
+<span class="font-body-md text-body-md text-on-surface">Layered Zirconia</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-label-sm text-outline-variant">Shade</span>
+<div class="flex items-center gap-xs">
+<div class="w-4 h-4 rounded-full border border-outline bg-[#eaddcf]"></div>
+<span class="font-body-md text-body-md text-on-surface font-medium">A2</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant overflow-hidden shadow-sm">
+<div class="bg-surface-container-low px-md py-sm border-b border-outline-variant flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary text-[18px]">deployed_code</span>
+<h4 class="font-h3 text-h3 text-on-surface text-[16px]">Digital Assets</h4>
+</div>
+<div class="p-sm flex flex-col gap-xs">
+<a class="flex items-center justify-between p-sm rounded-lg hover:bg-surface-container transition-colors group" href="#">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary">view_in_ar</span>
+<span class="font-code text-code text-on-surface">Upper_Arch_Scan.stl</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant text-[16px] group-hover:text-primary">download</span>
+</a>
+<a class="flex items-center justify-between p-sm rounded-lg hover:bg-surface-container transition-colors group" href="#">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary">view_in_ar</span>
+<span class="font-code text-code text-on-surface">Lower_Arch_Scan.stl</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant text-[16px] group-hover:text-primary">download</span>
+</a>
+<a class="flex items-center justify-between p-sm rounded-lg hover:bg-surface-container transition-colors group" href="#">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary">photo_camera</span>
+<span class="font-code text-code text-on-surface">Patient_Smile.jpg</span>
+</div>
+<span class="material-symbols-outlined text-outline-variant text-[16px] group-hover:text-primary">download</span>
+</a>
+</div>
+</div>
+</div>
+</aside>
+</main>
+</body></html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lab Dashboard - DentaLink</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#003e62",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#eef4fd",
+                        "secondary-fixed-dim": "#aec6ff",
+                        "secondary": "#315ca9",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#58acee",
+                        "primary": "#00677d",
+                        "tertiary": "#006399",
+                        "on-surface-variant": "#3d494d",
+                        "on-secondary-fixed": "#001a42",
+                        "on-primary-fixed-variant": "#004e5f",
+                        "on-error-container": "#93000a",
+                        "outline": "#6d797e",
+                        "surface-tint": "#00677d",
+                        "on-primary-fixed": "#001f27",
+                        "on-primary-container": "#00414f",
+                        "on-tertiary-fixed": "#001d32",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#94ccff",
+                        "primary-fixed": "#b3ebff",
+                        "on-secondary-fixed-variant": "#0f4490",
+                        "on-secondary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed": "#d8e2ff",
+                        "secondary-container": "#86adff",
+                        "surface-container-high": "#e2e9f1",
+                        "surface": "#f6f9ff",
+                        "inverse-surface": "#2a3138",
+                        "outline-variant": "#bcc9ce",
+                        "surface-container": "#e8eef7",
+                        "on-secondary-container": "#033e8a",
+                        "on-tertiary-fixed-variant": "#004b74",
+                        "surface-container-highest": "#dce3ec",
+                        "inverse-on-surface": "#ebf1fa",
+                        "primary-fixed-dim": "#4cd6fb",
+                        "surface-variant": "#dce3ec",
+                        "on-background": "#151c22",
+                        "primary-container": "#00b4d8",
+                        "on-tertiary": "#ffffff",
+                        "on-surface": "#151c22",
+                        "inverse-primary": "#4cd6fb",
+                        "surface-dim": "#d4dbe3",
+                        "surface-bright": "#f6f9ff",
+                        "error": "#ba1a1a",
+                        "background": "#f6f9ff",
+                        "tertiary-fixed": "#cde5ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "xs": "0.25rem",
+                        "xl": "2rem",
+                        "sm": "0.5rem",
+                        "md": "1rem",
+                        "container-max": "1440px",
+                        "lg": "1.5rem",
+                        "gutter": "1rem",
+                        "2xl": "3rem"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "h2": ["Manrope"],
+                        "h1": ["Manrope"],
+                        "code": ["Inter"],
+                        "h3": ["Manrope"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "h2": ["24px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "h1": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "code": ["13px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "500" }],
+                        "h3": ["20px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for Kanban board to keep it clean */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #bcc9ce; /* outline-variant */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6d797e; /* outline */
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased overflow-hidden">
+<!-- SideNavBar (From JSON) -->
+<nav class="fixed left-0 top-0 h-full w-[240px] border-r border-slate-800 bg-slate-900 shadow-none flex flex-col transition-all duration-200 ease-in-out z-50">
+<!-- Header -->
+<div class="px-6 py-8 border-b border-slate-800 flex items-center gap-4">
+<div aria-label="Clinic Logo" class="w-10 h-10 rounded bg-cyan-600 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">dentistry</span>
+</div>
+<div>
+<h1 class="text-xl font-bold text-white tracking-tight leading-tight">DentaLink</h1>
+<p class="text-slate-400 font-label-sm text-label-sm mt-1">Dental Management</p>
+</div>
+</div>
+<!-- Main Nav -->
+<div class="flex-1 overflow-y-auto py-4">
+<ul class="flex flex-col gap-1 font-manrope text-sm antialiased">
+<li>
+<a class="text-cyan-400 font-semibold border-r-4 border-cyan-500 flex items-center gap-3 px-6 py-3 bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+                        Dashboard
+                    </a>
+</li>
+<li>
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80" href="#">
+<span class="material-symbols-outlined">person</span>
+                        Patients
+                    </a>
+</li>
+<li>
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+                        Orders
+                    </a>
+</li>
+<li>
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80" href="#">
+<span class="material-symbols-outlined">biotech</span>
+                        Lab Finder
+                    </a>
+</li>
+<li>
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80" href="#">
+<span class="material-symbols-outlined">settings</span>
+                        Settings
+                    </a>
+</li>
+</ul>
+</div>
+<!-- Footer Nav -->
+<div class="p-4 border-t border-slate-800">
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80 font-manrope text-sm antialiased rounded" href="#">
+<span class="material-symbols-outlined">help_center</span>
+                Support
+            </a>
+</div>
+</nav>
+<!-- TopAppBar (From JSON) -->
+<header class="fixed top-0 right-0 border-b w-[calc(100%-240px)] bg-white border-slate-200 shadow-sm flex justify-between items-center h-16 px-8 ml-[240px] z-40">
+<!-- Search Bar (on_left) -->
+<div class="flex-1 max-w-md relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-surface-container-low border border-outline-variant/50 rounded-full font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="Search orders, patients..." type="text"/>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 text-cyan-600">
+<button class="material-symbols-outlined cursor-pointer active:opacity-70 transition-opacity hover:text-cyan-500 relative">
+                    notifications
+                    <span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="material-symbols-outlined cursor-pointer active:opacity-70 transition-opacity hover:text-cyan-500">
+                    chat_bubble
+                </button>
+<button class="material-symbols-outlined cursor-pointer active:opacity-70 transition-opacity hover:text-cyan-500">
+                    account_circle
+                </button>
+</div>
+<!-- User Profile Avatar Placeholder -->
+<img alt="User Profile" class="w-9 h-9 rounded-full object-cover border border-outline-variant cursor-pointer" data-alt="professional headshot of a doctor in scrubs against a clean clinical background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkNNTrq5RC2sH2atyrGoAvhnMnxGp6ZsBAm3CY8IdSiSuJ2RNCv0JjR4W9tbqv7FIspo53RrlqpnSlL7X0SrFIdHC1A8K9p8vKQnKk0pFyMAi41aH8qgpSsFJM9J1tsegIeZPO287Fu9vgGaFYnSN5cKiiFGulNBg_clUM9jv1RCYUUHK9QU1oeDp2UOmz78kjBX_iQWEPUCJDZGuQwaV1cqa9HQ7Bg_-srvlcwwztZDfsns4nz5ePIFv2CCk2UW-hZPp0z0wWUf4"/>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="ml-[240px] pt-[64px] h-screen bg-surface flex flex-col p-8 box-border">
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-6 shrink-0">
+<div>
+<h2 class="font-h1 text-h1 text-on-surface">Lab Dashboard</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Overview of active production cases.</p>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 border border-outline bg-surface-container-lowest text-on-surface font-label-sm text-label-sm rounded-lg hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                    Filter
+                </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary font-label-sm text-label-sm rounded-lg hover:bg-surface-tint transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    New Order
+                </button>
+</div>
+</div>
+<!-- Kanban Board Container -->
+<div class="flex gap-6 overflow-x-auto pb-4 flex-1 items-start">
+<!-- Column 1: Recibido -->
+<div class="flex-shrink-0 w-[320px] bg-surface-container rounded-xl flex flex-col max-h-full border border-outline-variant/30 shadow-sm">
+<!-- Column Header -->
+<div class="p-4 border-b border-outline-variant/40 flex justify-between items-center bg-surface-container-highest/30 rounded-t-xl sticky top-0 z-10">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+<h3 class="font-h3 text-h3 text-on-surface">Recibido</h3>
+</div>
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2.5 py-0.5 rounded-full border border-outline-variant/50">4</span>
+</div>
+<!-- Cards Container -->
+<div class="p-3 flex flex-col gap-3 overflow-y-auto">
+<!-- Card 1 (Normal Priority) -->
+<div class="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant/60 hover:border-primary/40 hover:shadow-sm transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<span class="font-code text-code text-on-surface-variant group-hover:text-primary transition-colors">#ORD-8821</span>
+<span class="bg-surface-variant text-on-surface font-label-sm text-[10px] px-2 py-0.5 rounded-sm uppercase tracking-wide">Normal</span>
+</div>
+<h4 class="font-body-md font-semibold text-on-surface leading-snug mb-1">Single Crown PFZ (#14)</h4>
+<p class="font-body-md text-[13px] text-on-surface-variant mb-4">Patient: Amanda Cole</p>
+<div class="flex justify-between items-center pt-3 border-t border-outline-variant/30">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+<span class="font-label-sm text-[11px]">Oct 28</span>
+</div>
+<img alt="Assignee" class="w-6 h-6 rounded-full object-cover border border-surface-container-lowest" data-alt="small circular portrait of female dental technician smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADMOyK_WMJrDGE5uC94pJIqY3W5TUNd6PRjrYgTfBLxuvROitkRYiZtUpSqUKc-nNwqHvHxgnR_y_IhYmd4_IoThjxHTxsIbvgZebhx425fZkHtNOIWpfOU68ogHpUo7vvy_WnME53-pXHV5bBlIJMwmgpFnHwtrlR0WLM44vJYQRz34_vymvjlwwWnKrRMqtij0MH96AmXneOu_cc6rIBvzWv1AwMnqjPqs8j-NjHfe0Bpy5DpkfWr4sfE2Mq0WHbL3sTZ4klqZc"/>
+</div>
+</div>
+<!-- Card 2 (High Priority) -->
+<div class="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant/60 hover:border-primary/40 hover:shadow-sm transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<span class="font-code text-code text-on-surface-variant group-hover:text-primary transition-colors">#ORD-8822</span>
+<span class="bg-error-container text-on-error-container font-label-sm text-[10px] px-2 py-0.5 rounded-sm uppercase tracking-wide">Urgent</span>
+</div>
+<h4 class="font-body-md font-semibold text-on-surface leading-snug mb-1">3-Unit Bridge Zirconia</h4>
+<p class="font-body-md text-[13px] text-on-surface-variant mb-4">Patient: Marcus Vance</p>
+<div class="flex justify-between items-center pt-3 border-t border-outline-variant/30">
+<div class="flex items-center gap-1.5 text-error">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+<span class="font-label-sm text-[11px] font-bold">Tomorrow</span>
+</div>
+<div class="w-6 h-6 rounded-full bg-secondary-container flex items-center justify-center border border-surface-container-lowest text-on-secondary-container font-label-sm text-[10px]">
+                                JD
+                            </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Column 2: Diseño -->
+<div class="flex-shrink-0 w-[320px] bg-surface-container rounded-xl flex flex-col max-h-full border border-outline-variant/30 shadow-sm">
+<!-- Column Header -->
+<div class="p-4 border-b border-outline-variant/40 flex justify-between items-center bg-surface-container-highest/30 rounded-t-xl sticky top-0 z-10">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<h3 class="font-h3 text-h3 text-on-surface">Diseño</h3>
+</div>
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2.5 py-0.5 rounded-full border border-outline-variant/50">2</span>
+</div>
+<!-- Cards Container -->
+<div class="p-3 flex flex-col gap-3 overflow-y-auto">
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant/60 hover:border-primary/40 hover:shadow-sm transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<span class="font-code text-code text-on-surface-variant group-hover:text-primary transition-colors">#ORD-8815</span>
+<span class="bg-surface-variant text-on-surface font-label-sm text-[10px] px-2 py-0.5 rounded-sm uppercase tracking-wide">Normal</span>
+</div>
+<h4 class="font-body-md font-semibold text-on-surface leading-snug mb-1">Nightguard (Hard/Soft)</h4>
+<p class="font-body-md text-[13px] text-on-surface-variant mb-4">Patient: Emily Chen</p>
+<div class="flex justify-between items-center pt-3 border-t border-outline-variant/30">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+<span class="font-label-sm text-[11px]">Oct 25</span>
+</div>
+<img alt="Assignee" class="w-6 h-6 rounded-full object-cover border border-surface-container-lowest" data-alt="small circular portrait of male CAD designer looking focused" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAP-lJLPlYmZer_Rti3Kj2Q9qvUyvGnpkaNzF3yKiAuSh2mdNfH1I8QHpyOxDJRic5yRY6MSThWPjy74-lEuAA6-v8u2SmSUeym5hxysYqi1kNydJbWAg8Klz20Wke_lKHcIV6S2uHhZP9W_5T7FIl6mRcO5PE7A3_nBDKhSa0Pc5IKy0NNpP0_HfjzB1_fpHE3K8gfwlsCIpaUgf2NA7RCm5XaAC0BbB8D1xhrxGPIoGEea-P-YhW-d4iIo_OaljK0hmPqeFrpkoU"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Column 3: Producción -->
+<div class="flex-shrink-0 w-[320px] bg-surface-container rounded-xl flex flex-col max-h-full border border-outline-variant/30 shadow-sm">
+<!-- Column Header -->
+<div class="p-4 border-b border-outline-variant/40 flex justify-between items-center bg-surface-container-highest/30 rounded-t-xl sticky top-0 z-10">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<h3 class="font-h3 text-h3 text-on-surface">Producción</h3>
+</div>
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2.5 py-0.5 rounded-full border border-outline-variant/50">1</span>
+</div>
+<!-- Cards Container -->
+<div class="p-3 flex flex-col gap-3 overflow-y-auto">
+<!-- Card 4 -->
+<div class="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant/60 hover:border-primary/40 hover:shadow-sm transition-all cursor-pointer group">
+<div class="flex justify-between items-start mb-2">
+<span class="font-code text-code text-on-surface-variant group-hover:text-primary transition-colors">#ORD-8809</span>
+<span class="bg-surface-variant text-on-surface font-label-sm text-[10px] px-2 py-0.5 rounded-sm uppercase tracking-wide">Normal</span>
+</div>
+<h4 class="font-body-md font-semibold text-on-surface leading-snug mb-1">Full Arch Implant Provisional</h4>
+<p class="font-body-md text-[13px] text-on-surface-variant mb-3">Patient: Robert King</p>
+<!-- Progress Bar for Production -->
+<div class="mb-3">
+<div class="flex justify-between mb-1">
+<span class="font-label-sm text-[10px] text-on-surface-variant">Milling</span>
+<span class="font-label-sm text-[10px] text-primary">60%</span>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5">
+<div class="bg-primary h-1.5 rounded-full" style="width: 60%"></div>
+</div>
+</div>
+<div class="flex justify-between items-center pt-3 border-t border-outline-variant/30">
+<div class="flex items-center gap-1.5 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+<span class="font-label-sm text-[11px]">Oct 24</span>
+</div>
+<div class="w-6 h-6 rounded-full bg-tertiary-container flex items-center justify-center border border-surface-container-lowest text-on-tertiary-container font-label-sm text-[10px]">
+                                MK
+                            </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Column 4: Terminado -->
+<div class="flex-shrink-0 w-[320px] bg-surface-container-low rounded-xl flex flex-col max-h-full border border-outline-variant/20">
+<!-- Column Header -->
+<div class="p-4 border-b border-outline-variant/20 flex justify-between items-center bg-surface-container/30 rounded-t-xl sticky top-0 z-10">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#166534]"></span> <!-- Specific hardcoded green for 'finished' state outside tight theme constraints to imply success cleanly -->
+<h3 class="font-h3 text-h3 text-on-surface">Terminado</h3>
+</div>
+<span class="bg-surface-container text-on-surface-variant font-label-sm text-label-sm px-2.5 py-0.5 rounded-full border border-outline-variant/30">5+</span>
+</div>
+<!-- Cards Container -->
+<div class="p-3 flex flex-col gap-3 overflow-y-auto opacity-80 hover:opacity-100 transition-opacity">
+<!-- Card 5 -->
+<div class="bg-surface-container-lowest/80 p-4 rounded-lg border border-outline-variant/30 group">
+<div class="flex justify-between items-start mb-2">
+<span class="font-code text-code text-outline line-through">#ORD-8790</span>
+<span class="text-[#166534] font-label-sm text-[10px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                                Shipped
+                            </span>
+</div>
+<h4 class="font-body-md font-semibold text-on-surface-variant leading-snug mb-1">E.max Inlay (#30)</h4>
+<p class="font-body-md text-[13px] text-outline mb-4">Patient: Linda Smith</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

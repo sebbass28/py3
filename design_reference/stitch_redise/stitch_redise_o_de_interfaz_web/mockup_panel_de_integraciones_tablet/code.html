@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DentaLink - Integrations</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS & Config -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-fixed": "#b3ebff",
+                        "on-tertiary-container": "#003e62",
+                        "surface-container-high": "#e2e9f1",
+                        "on-error-container": "#93000a",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#4cd6fb",
+                        "surface-tint": "#00677d",
+                        "on-tertiary-fixed-variant": "#004b74",
+                        "on-tertiary-fixed": "#001d32",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#001a42",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#58acee",
+                        "secondary": "#315ca9",
+                        "inverse-surface": "#2a3138",
+                        "surface-bright": "#f6f9ff",
+                        "on-secondary-container": "#033e8a",
+                        "primary-fixed-dim": "#4cd6fb",
+                        "on-primary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "background": "#f6f9ff",
+                        "tertiary-fixed-dim": "#94ccff",
+                        "surface-container": "#e8eef7",
+                        "inverse-on-surface": "#ebf1fa",
+                        "tertiary": "#006399",
+                        "surface-dim": "#d4dbe3",
+                        "secondary-container": "#86adff",
+                        "on-primary-container": "#00414f",
+                        "primary": "#00677d",
+                        "secondary-fixed": "#d8e2ff",
+                        "tertiary-fixed": "#cde5ff",
+                        "secondary-fixed-dim": "#aec6ff",
+                        "surface-variant": "#dce3ec",
+                        "outline": "#6d797e",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#bcc9ce",
+                        "primary-container": "#00b4d8",
+                        "surface": "#f6f9ff",
+                        "on-surface": "#151c22",
+                        "surface-container-highest": "#dce3ec",
+                        "on-primary-fixed": "#001f27",
+                        "on-primary-fixed-variant": "#004e5f",
+                        "on-secondary-fixed-variant": "#0f4490",
+                        "on-surface-variant": "#3d494d",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#eef4fd",
+                        "on-background": "#151c22"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    spacing: {
+                        "md": "1rem",
+                        "lg": "1.5rem",
+                        "gutter": "1rem",
+                        "2xl": "3rem",
+                        "xl": "2rem",
+                        "sm": "0.5rem",
+                        "container-max": "1440px",
+                        "xs": "0.25rem"
+                    },
+                    fontFamily: {
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "h3": ["Manrope"],
+                        "h1": ["Manrope"],
+                        "body-md": ["Inter"],
+                        "code": ["Inter"],
+                        "h2": ["Manrope"]
+                    },
+                    fontSize: {
+                        "body-lg": ["16px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "h3": ["20px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "600" }],
+                        "h1": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "code": ["13px", { "lineHeight": "1.4", "letterSpacing": "0", "fontWeight": "500" }],
+                        "h2": ["24px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased overflow-x-hidden">
+<!-- Shared Component: SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-[240px] border-r border-slate-800 bg-slate-900 dark:bg-black z-50">
+<div class="flex flex-col h-full">
+<!-- Header -->
+<div class="p-6 border-b border-slate-800 dark:border-slate-800 flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-cyan-500 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-white icon-fill" data-icon="medical_services">medical_services</span>
+</div>
+<div>
+<div class="text-xl font-bold text-white tracking-tight">CodeNext</div>
+<div class="font-manrope text-sm antialiased text-cyan-500 dark:text-cyan-400 font-medium">Dental Management</div>
+</div>
+</div>
+<!-- Tabs -->
+<div class="flex-1 py-4 space-y-1">
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-manrope text-sm antialiased">Dashboard</span>
+</a>
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-manrope text-sm antialiased">Patients</span>
+</a>
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-manrope text-sm antialiased">Orders</span>
+</a>
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="biotech">biotech</span>
+<span class="font-manrope text-sm antialiased">Lab Finder</span>
+</a>
+<!-- Active Tab -->
+<a class="text-cyan-400 font-semibold border-r-4 border-cyan-500 flex items-center gap-3 px-6 py-3 bg-slate-800/50 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined icon-fill" data-icon="settings">settings</span>
+<span class="font-manrope text-sm antialiased">Settings</span>
+</a>
+</div>
+<!-- Footer -->
+<div class="p-4 border-t border-slate-800 dark:border-slate-800">
+<a class="text-slate-400 hover:text-white flex items-center gap-3 px-6 py-3 transition-colors hover:bg-slate-800/80 transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined" data-icon="help_center">help_center</span>
+<span class="font-manrope text-sm antialiased">Support</span>
+</a>
+</div>
+</div>
+</nav>
+<!-- Shared Component: TopAppBar -->
+<header class="fixed top-0 right-0 border-b w-[calc(100%-240px)] border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm dark:shadow-none z-40">
+<div class="flex justify-between items-center h-16 px-8 ml-[240px] w-full">
+<div class="flex-1">
+<!-- Search could go here based on JSON "search_bar": "on_left", but structural guidance implies keeping it clean if not explicitly needed, adding minimal placeholder -->
+<div class="relative w-64">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-slate-400 text-sm" data-icon="search">search</span>
+<input class="w-full pl-8 pr-4 py-1.5 bg-slate-50 border border-slate-200 rounded text-sm focus:outline-none focus:border-cyan-500 font-manrope text-base" placeholder="Search..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-500 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-300 cursor-pointer active:opacity-70 transition-opacity">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="text-slate-500 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-300 cursor-pointer active:opacity-70 transition-opacity">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+</button>
+<button class="text-slate-500 dark:text-slate-400 hover:text-cyan-500 dark:hover:text-cyan-300 cursor-pointer active:opacity-70 transition-opacity ml-2">
+<img alt="User Profile" class="w-8 h-8 rounded-full border border-slate-200" data-alt="Professional headshot of a female dental administrator in a well-lit office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQ4YYJmVBbNyhskUwQBRqj_Neey1fmQJg6lZ7eHjOGig1Z6wtEtmqQ__Zy8bNU0BNp29OY3OXT3bORBXULdUkvqyaNShvGjcAQYOaTnhfzRhdVW-nVzCGACqkTCr6bAVKgMvOKiyFoMCm8-1_LWBXLJGBM3qabe3xNJsqXsAky4I2QAUXg4KAWtBpt5__qY2rusIxHgE6UKqM_KOXw2z2nTKShOu-jBPprhTI9EwS4llNXF9XJmdM5otDDnr4tqPkiwxC7ORUHj1s"/>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-[240px] mt-[64px] p-xl max-w-container-max mx-auto pb-2xl">
+<!-- Page Header -->
+<div class="flex items-end justify-between mb-xl border-b border-outline-variant pb-md">
+<div>
+<nav class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm mb-xs">
+<span>Settings</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary">Integrations</span>
+</nav>
+<h1 class="font-h1 text-h1 text-on-surface">System Integrations</h1>
+</div>
+<div>
+<button class="bg-primary text-on-primary px-md py-sm rounded hover:bg-on-primary-container transition-colors flex items-center gap-2 font-body-md text-body-md font-medium shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    Connect Device
+                </button>
+</div>
+</div>
+<!-- Section: Intraoral Scanners (Bento Grid Style) -->
+<section class="mb-2xl">
+<div class="flex items-center gap-2 mb-md">
+<span class="material-symbols-outlined text-tertiary">3d_rotation</span>
+<h2 class="font-h2 text-h2 text-on-surface">Intraoral Scanners</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md">
+<!-- Scanner Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md flex flex-col hover:border-primary-container transition-colors relative overflow-hidden group shadow-sm">
+<div class="absolute top-0 right-0 w-24 h-24 bg-primary-fixed-dim/10 rounded-bl-full -mr-8 -mt-8 z-0"></div>
+<div class="flex justify-between items-start mb-md relative z-10">
+<div class="w-12 h-12 bg-surface-container rounded flex items-center justify-center border border-outline-variant/50">
+<span class="material-symbols-outlined text-primary text-[28px]">scanner</span>
+</div>
+<span class="inline-flex items-center gap-1 bg-surface-container-low text-primary px-2 py-1 rounded-full font-label-sm text-label-sm border border-primary/20">
+<span class="w-2 h-2 rounded-full bg-primary block"></span> Active
+                        </span>
+</div>
+<div class="relative z-10 mb-lg flex-1">
+<h3 class="font-h3 text-h3 text-on-surface mb-xs">Trios 4 Wireless</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">Operatory 1 • 3Shape Integration</p>
+</div>
+<div class="flex items-center justify-between border-t border-surface-variant pt-md relative z-10">
+<div class="flex items-center gap-1 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+                            2 mins ago
+                        </div>
+<button class="text-primary hover:text-on-primary-container font-label-sm text-label-sm flex items-center gap-1">
+                            Configure <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Scanner Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-md flex flex-col hover:border-primary-container transition-colors relative overflow-hidden group shadow-sm">
+<div class="flex justify-between items-start mb-md relative z-10">
+<div class="w-12 h-12 bg-surface-container rounded flex items-center justify-center border border-outline-variant/50">
+<span class="material-symbols-outlined text-on-surface-variant text-[28px]">scanner</span>
+</div>
+<span class="inline-flex items-center gap-1 bg-surface-container-highest text-on-surface-variant px-2 py-1 rounded-full font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-outline block"></span> Offline
+                        </span>
+</div>
+<div class="relative z-10 mb-lg flex-1">
+<h3 class="font-h3 text-h3 text-on-surface mb-xs">iTero Element 5D</h3>
+<p class="font-body-md text-body-md text-on-surface-variant line-clamp-2">Operatory 2 • Align Tech</p>
+</div>
+<div class="flex items-center justify-between border-t border-surface-variant pt-md relative z-10">
+<div class="flex items-center gap-1 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">sync_problem</span>
+                            Last seen yesterday
+                        </div>
+<button class="text-primary hover:text-on-primary-container font-label-sm text-label-sm flex items-center gap-1">
+                            Troubleshoot <span class="material-symbols-outlined text-[16px]">build</span>
+</button>
+</div>
+</div>
+<!-- Add New Scanner Card -->
+<div class="bg-surface-container border border-dashed border-outline-variant rounded-lg p-md flex flex-col items-center justify-center text-center hover:bg-surface-container-high hover:border-primary transition-colors cursor-pointer min-h-[220px]">
+<div class="w-12 h-12 rounded-full bg-surface-container-lowest flex items-center justify-center mb-sm shadow-sm">
+<span class="material-symbols-outlined text-primary">add</span>
+</div>
+<h3 class="font-h3 text-h3 text-on-surface mb-xs">Add Scanner</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-[200px]">Connect a new intraoral or lab scanner to the network.</p>
+</div>
+</div>
+</section>
+<!-- Section: API Keys (High Density Data Table) -->
+<section>
+<div class="flex items-center justify-between mb-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary">key</span>
+<h2 class="font-h2 text-h2 text-on-surface">API Credentials</h2>
+</div>
+<button class="text-primary border border-primary px-sm py-xs rounded hover:bg-primary/5 transition-colors font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">add_circle</span>
+                    Generate Key
+                </button>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container border-b border-outline-variant">
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant w-1/4">Key Name</th>
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant w-1/3">Token Fragment</th>
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant w-1/6">Created</th>
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant w-1/6">Last Used</th>
+<th class="py-sm px-md font-label-sm text-label-sm text-on-surface-variant text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface">
+<!-- Row 1 -->
+<tr class="border-b border-surface-variant hover:bg-surface-container-low transition-colors group">
+<td class="py-sm px-md font-medium text-on-primary-container">PMS Sync Service</td>
+<td class="py-sm px-md font-code text-code text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span>sk_live_...4f9a</span>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity text-outline hover:text-primary">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="py-sm px-md text-on-surface-variant">Oct 12, 2023</td>
+<td class="py-sm px-md text-on-surface-variant">Today, 09:41 AM</td>
+<td class="py-sm px-md text-right">
+<button class="text-on-surface-variant hover:text-error transition-colors p-1" title="Revoke Key">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-surface-variant hover:bg-surface-container-low transition-colors group">
+<td class="py-sm px-md font-medium text-on-primary-container">Patient Portal App</td>
+<td class="py-sm px-md font-code text-code text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span>sk_live_...8b2c</span>
+<button class="opacity-0 group-hover:opacity-100 transition-opacity text-outline hover:text-primary">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="py-sm px-md text-on-surface-variant">Nov 05, 2023</td>
+<td class="py-sm px-md text-on-surface-variant">Yesterday</td>
+<td class="py-sm px-md text-right">
+<button class="text-on-surface-variant hover:text-error transition-colors p-1" title="Revoke Key">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group opacity-60">
+<td class="py-sm px-md font-medium text-on-surface-variant flex items-center gap-2">
+                                Legacy Webhook <span class="bg-surface-variant text-on-surface-variant px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">Revoked</span>
+</td>
+<td class="py-sm px-md font-code text-code text-outline-variant">sk_live_...11x2</td>
+<td class="py-sm px-md text-on-surface-variant">Jan 15, 2022</td>
+<td class="py-sm px-md text-on-surface-variant">Aug 01, 2023</td>
+<td class="py-sm px-md text-right">
+<!-- No actions for revoked -->
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="mt-sm text-right">
+<p class="font-label-sm text-label-sm text-on-surface-variant inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">info</span>
+                     Revoked keys are kept for audit logging for 90 days.
+                 </p>
+</div>
+</section>
+</main>
+</body></html>

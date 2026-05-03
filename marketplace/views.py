@@ -235,14 +235,24 @@ class PatientViewSet(viewsets.ModelViewSet):
 
 # --- VISTAS PARA PRODUCTOS ---
 class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.filter(is_active=True)
     serializer_class = ProductSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['name', 'description', 'material']
     ordering_fields = ['price', 'delivery_days']
 
+    def get_queryset(self):
+        user = self.request.user
+        # Labs see all active products (marketplace) PLUS their own inactive ones (management).
+        if user.is_authenticated and user.role == 'lab':
+            from django.db.models import Q
+            return Product.objects.filter(Q(is_active=True) | Q(lab=user))
+        return Product.objects.filter(is_active=True)
+
     def perform_create(self, serializer):
+        serializer.save(lab=self.request.user)
+
+    def perform_update(self, serializer):
         serializer.save(lab=self.request.user)
 
 # --- VISTAS PARA PEDIDOS (EL CORAZÓN DEL SISTEMA) ---
