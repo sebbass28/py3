@@ -1,14 +1,4 @@
-# Build modern Vue frontend
-FROM node:22-alpine AS frontend_build
-WORKDIR /frontend-vue
-COPY frontend-vue/package*.json ./
-RUN npm install --no-audit --fund=false
-COPY frontend-vue/ ./
-ENV NODE_OPTIONS=--max-old-space-size=2048
-ENV GENERATE_SOURCEMAP=false
-ENV CI=false
-RUN npm run build
-
+# Build stage removed: using pre-built 'dist' folder for speed
 FROM python:3.12-slim
 WORKDIR /app
 
@@ -29,8 +19,8 @@ COPY . .
 # Ensure optional static dir exists (avoids warnings)
 RUN mkdir -p /app/static
 
-# Copy built frontend assets (Vite outputs to dist)
-COPY --from=frontend_build /frontend-vue/dist ./frontend-vue/dist
+# Copy pre-built frontend assets from local 'dist' folder
+COPY frontend-vue/dist ./frontend-vue/dist
 
 # Environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
