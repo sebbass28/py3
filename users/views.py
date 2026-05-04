@@ -42,17 +42,22 @@ class PasswordResetRequestView(generics.GenericAPIView):
             token = default_token_generator.make_token(user)
             frontend_base_url = getattr(settings, 'FRONTEND_BASE_URL', 'http://localhost:3000').rstrip('/')
             reset_link = f"{frontend_base_url}/reset-password?uid={uid}&token={token}"
-            send_mail(
-                subject='Recuperación de contraseña - DentalLinkLab',
-                message=(
-                    "Hemos recibido una solicitud para restablecer tu contraseña.\n\n"
-                    f"Abre este enlace para continuar:\n{reset_link}\n\n"
-                    "Si no solicitaste este cambio, ignora este mensaje."
-                ),
-                from_email=getattr(settings, 'DEFAULT_FROM_EMAIL', 'noreply@dentalinklab.local'),
-                recipient_list=[user.email],
-                fail_silently=True,
-            )
+            try:
+                send_mail(
+                    subject='Recuperación de contraseña - DentalLinkLab',
+                    message=(
+                        "Hemos recibido una solicitud para restablecer tu contraseña.\n\n"
+                        f"Abre este enlace para continuar:\n{reset_link}\n\n"
+                        "Si no solicitaste este cambio, ignora este mensaje."
+                    ),
+                    from_email=getattr(settings, 'DEFAULT_FROM_EMAIL', 'noreply@dentalinklab.local'),
+                    recipient_list=[user.email],
+                    fail_silently=False,
+                )
+            except Exception as e:
+                import logging
+                logger = logging.getLogger(__name__)
+                logger.error(f"[PasswordReset] Error enviando email a {user.email}: {e}")
 
         # Respuesta genérica para no filtrar si el email existe o no.
         return Response(
