@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from 'vue';
 import api from '../lib/api';
 import { useAuth } from '../stores/auth';
+import StlViewer from '../components/StlViewer.vue';
 import { 
   ClipboardList, 
   FileText, 
@@ -407,6 +408,15 @@ onMounted(fetchOrders);
                 <ExternalLink :size="16" />
                 Abrir Visor 3D / Descargar STL
               </a>
+
+              <!-- VISOR 3D INTEGRADO PARA LA DEMO -->
+              <div class="embedded-3d-viewer">
+                <StlViewer :src="selectedOrder.design_url" />
+                <div class="viewer-hint">
+                  <Activity :size="12" />
+                  Visualización en tiempo real (CAD/CAM)
+                </div>
+              </div>
               <div class="review-actions">
                 <button class="approve-btn" @click="approveDesign">
                   <CheckCircle2 :size="16" />
@@ -461,6 +471,32 @@ onMounted(fetchOrders);
 </template>
 
 <style scoped>
+.embedded-3d-viewer {
+  margin: 1.5rem 0;
+  height: 300px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  position: relative;
+}
+
+.viewer-hint {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  pointer-events: none;
+}
+
 .orders-view {
   height: calc(100vh - 120px);
 }
