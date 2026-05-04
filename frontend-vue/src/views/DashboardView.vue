@@ -391,6 +391,28 @@ onMounted(async () => {
   align-items: center;
   justify-content: space-between;
   padding: 1rem 0;
+  gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .pipeline-visual {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  .pipeline-divider {
+    display: none;
+  }
+  .pipeline-step {
+    flex: 0 1 calc(33% - 1.5rem);
+    min-width: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pipeline-step {
+    flex: 0 1 calc(50% - 1.5rem);
+  }
 }
 
 .pipeline-step {

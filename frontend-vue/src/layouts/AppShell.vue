@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router';
 import { logout, useAuth } from '../stores/auth';
 import { 
@@ -13,12 +13,15 @@ import {
   Settings, 
   LogOut,
   Factory,
-  Package
+  Package,
+  Menu,
+  X
 } from 'lucide-vue-next';
 
 const route = useRoute();
 const router = useRouter();
 const auth = useAuth();
+const mobileMenuOpen = ref(false);
 
 const isLab = computed(() => auth.user?.role === 'lab');
 
@@ -55,13 +58,30 @@ function handleLogout() {
   logout();
   router.push('/login');
 }
+
+function toggleMenu() {
+  mobileMenuOpen.value = !mobileMenuOpen.value;
+}
+
+// Cerrar menú al cambiar de ruta
+router.afterEach(() => {
+  mobileMenuOpen.value = false;
+});
 </script>
 
 <template>
-  <div class="shell shell-polished">
-    <aside class="sidebar sidebar-polished">
+  <div class="shell shell-polished" :class="{ 'mobile-menu-open': mobileMenuOpen }">
+    <!-- Overlay for mobile -->
+    <div v-if="mobileMenuOpen" class="sidebar-overlay" @click="toggleMenu"></div>
+
+    <aside class="sidebar sidebar-polished" :class="{ 'sidebar-visible': mobileMenuOpen }">
       <div class="sidebar-header">
-        <h1 class="sidebar-brand">DentalLink</h1>
+        <div class="sidebar-brand-row">
+          <h1 class="sidebar-brand">DentalLink</h1>
+          <button class="menu-close-btn" @click="toggleMenu">
+            <X :size="24" />
+          </button>
+        </div>
         <div class="sidebar-role-badge" :class="isLab ? 'badge-lab' : 'badge-clinic'">
           <component :is="isLab ? Factory : Hospital" :size="12" class="role-icon" />
           {{ isLab ? 'Laboratorio' : 'Clínica' }}
@@ -89,9 +109,14 @@ function handleLogout() {
 
     <section class="content content-polished">
       <header class="topbar topbar-polished">
-        <div class="topbar-title-block">
-          <p class="eyebrow topbar-context">DentalLink</p>
-          <h2 class="topbar-heading">{{ pageTitle }}</h2>
+        <div class="topbar-left">
+          <button class="mobile-toggle-btn" @click="toggleMenu">
+            <Menu :size="24" />
+          </button>
+          <div class="topbar-title-block">
+            <p class="eyebrow topbar-context">DentalLink</p>
+            <h2 class="topbar-heading">{{ pageTitle }}</h2>
+          </div>
         </div>
         <div class="user-block user-chip">
           <div class="user-info">
@@ -99,9 +124,9 @@ function handleLogout() {
             <p class="user-role-text">
               {{
                 auth.user?.role === 'clinic'
-                  ? 'Clínica Dental'
+                  ? 'Clínica'
                   : auth.user?.role === 'lab'
-                    ? 'Laboratorio Dental'
+                    ? 'Lab'
                     : 'Usuario'
               }}
             </p>
@@ -221,6 +246,70 @@ function handleLogout() {
 }
 
 /* Topbar enhancements */
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.mobile-toggle-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: #0f172a;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin-left: -0.5rem;
+}
+
+.sidebar-brand-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-close-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 40;
+}
+
+@media (max-width: 1024px) {
+  .mobile-toggle-btn {
+    display: flex;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 280px;
+    z-index: 50;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar.sidebar-visible {
+    transform: translateX(0);
+  }
+
+  .menu-close-btn {
+    display: block;
+  }
+}
+
 .user-block {
   display: flex;
   align-items: center;
