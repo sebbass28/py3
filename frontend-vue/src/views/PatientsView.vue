@@ -19,11 +19,7 @@ import {
   X,
   ClipboardList,
   Fingerprint,
-  Info,
-  History,
-  QrCode,
-  Edit3,
-  UserMinus
+  Info
 } from 'lucide-vue-next';
 
 const auth = useAuth();
