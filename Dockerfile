@@ -1,26 +1,43 @@
-# Build stage removed: using pre-built 'dist' folder for speed
+# Build Vue SPA (Vite)
+FROM node:22-alpine AS vue_build
+WORKDIR /frontend-vue
+
+COPY frontend-vue/package.json frontend-vue/package-lock.json ./
+RUN npm install --no-audit --fund=false
+
+COPY frontend-vue/ ./
+ENV NODE_OPTIONS=--max-old-space-size=2048
+ENV GENERATE_SOURCEMAP=false
+ENV CI=false
+RUN npm run build
+
+# Python Backend
 FROM python:3.12-slim
 WORKDIR /app
 
-# Install system dependencies (minimal for Django + PostgreSQL)
+# Install system dependencies (including libraries for PDF/Logo generation)
 RUN apt-get update && apt-get install -y \
     postgresql-client \
     gcc \
     libpq-dev \
+    libcairo2-dev \
+    pkg-config \
+    python3-dev \
+    libpango1.0-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy project files (backend)
+# Copy project files
 COPY . .
 
-# Ensure optional static dir exists (avoids warnings)
+# Ensure static dir exists
 RUN mkdir -p /app/static
 
-# Copy pre-built frontend assets from local 'dist' folder
-COPY frontend-vue/dist ./frontend-vue/dist
+# Copy built assets from the frontend stage
+COPY --from=vue_build /frontend-vue/dist ./frontend-vue/dist
 
 # Environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
