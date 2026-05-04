@@ -215,11 +215,11 @@ onMounted(fetchOrders);
             <h3>{{ isLab ? 'Cola de Producción' : 'Historial de Pedidos' }}</h3>
           </div>
           <div class="list-actions">
-            <button class="icon-btn" @click="exportCsv" title="Exportar Registro">
-              <Download :size="16" />
+            <button class="text-btn" @click="exportCsv" title="Exportar Registro">
+              <FileText :size="16" />
             </button>
-            <button class="icon-btn" @click="fetchOrders" title="Refrescar">
-              <RefreshCcw :size="16" :class="{ 'spinning': loading }" />
+            <button class="text-btn" @click="fetchOrders" title="Refrescar">
+              <Activity :size="16" :class="{ 'spinning': loading }" />
             </button>
           </div>
         </header>
