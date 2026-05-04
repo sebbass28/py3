@@ -113,6 +113,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # WhiteNoise storage
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# Serve Vite-built assets at the root URL (e.g. /assets/index-XXX.css)
+WHITENOISE_ROOT = os.path.join(BASE_DIR, 'frontend-vue', 'dist')
+
 if USE_S3_MEDIA:
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID', '')
