@@ -27,7 +27,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     
     # React Catch-all
-    re_path(r'^(?!api/|admin/|static/|assets/|media/|favicon\.ico|manifest\.json).*$', TemplateView.as_view(template_name='index.html')),
+    re_path(r'^(?!(api|admin|static|assets|media)(/|$)|favicon\.ico|manifest\.json).*$', TemplateView.as_view(template_name='index.html')),
 ]
 
 if settings.DEBUG:
