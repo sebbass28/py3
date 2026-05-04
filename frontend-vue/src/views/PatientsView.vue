@@ -19,7 +19,9 @@ import {
   X,
   ClipboardList,
   Fingerprint,
-  Info
+  Info,
+  Clock,
+  Scan
 } from 'lucide-vue-next';
 
 const auth = useAuth();
@@ -303,10 +305,10 @@ onMounted(async () => {
                 </div>
                 <div class="p-actions">
                   <button class="icon-action-btn" title="Historial" @click="openPatientOrders(patient)">
-                    <History :size="16" />
+                    <Clock :size="16" />
                   </button>
                   <button v-if="auth.user?.role === 'clinic'" class="icon-action-btn" title="QR" @click="openShareQr(patient)">
-                    <QrCode :size="16" />
+                    <Scan :size="16" />
                   </button>
                 </div>
               </div>
