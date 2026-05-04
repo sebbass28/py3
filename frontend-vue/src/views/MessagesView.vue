@@ -161,7 +161,7 @@ onMounted(async () => {
             Elige un pedido en la columna izquierda para ver el historial de mensajes.
           </div>
           <template v-else>
-            <div v-if="!messages.length" class="empty-hint centered-chat">Aún no hay mensajes. Escribí algo abajo.</div>
+            <div v-if="!messages.length" class="empty-hint centered-chat">Aún no hay mensajes. Escribe algo abajo.</div>
             <article
               v-for="msg in messages"
               :key="msg.id"
