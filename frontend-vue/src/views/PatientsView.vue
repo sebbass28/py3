@@ -304,11 +304,13 @@ onMounted(async () => {
                   </div>
                 </div>
                 <div class="p-actions">
-                  <button class="icon-action-btn" title="Historial" @click="openPatientOrders(patient)">
-                    <Clock :size="16" />
+                  <button class="text-btn" title="Historial" @click="openPatientOrders(patient)">
+                    <Search :size="16" />
+                    Historial
                   </button>
-                  <button v-if="auth.user?.role === 'clinic'" class="icon-action-btn" title="QR" @click="openShareQr(patient)">
-                    <Scan :size="16" />
+                  <button v-if="auth.user?.role === 'clinic'" class="text-btn" title="QR" @click="openShareQr(patient)">
+                    <Info :size="16" />
+                    QR
                   </button>
                 </div>
               </div>
