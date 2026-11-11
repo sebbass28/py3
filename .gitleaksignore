@@ -1,0 +1,3 @@
+# Falsos positivos revisados: tokens de ejemplo/truncados en documentación (no son secretos reales)
+a0c17bef921b36ed0d94552416c3e3ae95d43a97:docs/api_integraciones_mvp.md:curl-auth-header:41
+a0c17bef921b36ed0d94552416c3e3ae95d43a97:docs/api_integraciones_mvp.md:curl-auth-header:76

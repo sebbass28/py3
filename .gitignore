@@ -45,3 +45,13 @@ copia/
 # Local Word generation scripts (kept outside git)
 generar_word_tfg.py
 scripts/md_to_docx_ies.py
+
+# --- Seguridad: nunca versionar secretos ni artefactos ---
+.env*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+*.sqlite3
+node_modules/
+*.zip
